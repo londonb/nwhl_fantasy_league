@@ -12,9 +12,11 @@ public class DatabaseRule extends ExternalResource {
       String deleteGmsQuery = "DELETE FROM gms *;";
       String deleteLeaguesQuery = "DELETE FROM leagues *;";
       String deleteTeamsQuery = "DELETE FROM teams *;";
+      String deleteLeagues_TeamsQuery = "DELETE FROM leagues_teams *;";
       con.createQuery(deleteGmsQuery).executeUpdate();
       con.createQuery(deleteLeaguesQuery).executeUpdate();
       con.createQuery(deleteTeamsQuery).executeUpdate();
+      con.createQuery(deleteLeagues_TeamsQuery).executeUpdate();
     }
   }
 }

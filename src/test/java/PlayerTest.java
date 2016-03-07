@@ -26,24 +26,5 @@ public class PlayerTest {
     Player player2 = Player.find(5);
     assertEquals(player1, player2);
   }
-  //
-  // @Test
-  // public void update_updatesAllGmsVariables_true() {
-  //   Gm newGm = new Gm("Masters of Luck");
-  //   newGm.save();
-  //   newGm.updateName("Cheryl");
-  //   Gm otherGm = Gm.find(newGm.getId());
-  //   assertEquals(newGm, otherGm);
-  // }
-  //
-  // @Test
-  // public void delete_deletesASpecificLeague() {
-  //   Gm newGm = new Gm("Cheryl");
-  //   Gm newGm2 = new Gm("Beryl");
-  //   newGm.save();
-  //   newGm2.save();
-  //   newGm.delete();
-  //   assertFalse(Gm.all().contains(newGm));
-  // }
-
+  
 }

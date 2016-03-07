@@ -6,10 +6,12 @@ public class Team {
   private String team_name;
   private final int MAX_PLAYERS;
   private int current_players;
+  private int gm_id;
 
 
-  public Team(String name) {
+  public Team(String name, int gmId) {
     team_name = name;
+    gm_id = gmId;
     MAX_PLAYERS = 8;
     current_players = 0;
   }
@@ -20,6 +22,10 @@ public class Team {
 
   public int getId() {
     return id;
+  }
+
+  public int getGmId() {
+    return gm_id;
   }
 
   public int getCurrentPlayers() {
@@ -33,6 +39,7 @@ public class Team {
     } else {
       Team newTeam = (Team) otherTeam;
       return this.getId() == newTeam.getId() &&
+        this.getGmId() == newTeam.getGmId() &&
         this.getCurrentPlayers() == newTeam.getCurrentPlayers() &&
         this.getName().equals(newTeam.getName());
     }
@@ -42,11 +49,12 @@ public class Team {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO teams (team_name, current_players, max_players) VALUES (:name, :current_players, :max_players)";
+      String sql = "INSERT INTO teams (team_name, current_players, max_players, gm_id) VALUES (:name, :current_players, :max_players, :gm_id)";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", team_name)
         .addParameter("current_players", current_players)
         .addParameter("max_players", MAX_PLAYERS)
+        .addParameter("gm_id", gm_id)
         .executeUpdate()
         .getKey();
     }

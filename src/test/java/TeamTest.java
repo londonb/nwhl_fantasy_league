@@ -8,7 +8,7 @@ public class TeamTest {
 
   @Test
   public void team_instantiatesCorrectly_true() {
-    Team newTeam = new Team("Cheryl");
+    Team newTeam = new Team("Cheryl", 1);
     assertTrue(newTeam instanceof Team);
   }
 
@@ -19,14 +19,14 @@ public class TeamTest {
 
   @Test
   public void equals_returnsTrueIfNamesAreTheSame() {
-    Team newTeam = new Team("Cheryl");
-    Team newTeam2 = new Team("Cheryl");
+    Team newTeam = new Team("Cheryl", 1);
+    Team newTeam2 = new Team("Cheryl", 1);
     assertTrue(newTeam.equals(newTeam2));
   }
 
   @Test
   public void save_savesObjectIntoDBWithID_true() {
-    Team newTeam = new Team("Cheryl");
+    Team newTeam = new Team("Cheryl", 1);
     newTeam.save();
     Team savedTeam = Team.all().get(0);
     assertEquals(savedTeam, newTeam);
@@ -34,7 +34,7 @@ public class TeamTest {
 
   @Test
   public void find_returnsTeamObjectFromId_true() {
-    Team newTeam = new Team("Cheryl");
+    Team newTeam = new Team("Cheryl", 1);
     newTeam.save();
     Team otherTeam = Team.find(newTeam.getId());
     assertEquals(newTeam, otherTeam);
@@ -42,7 +42,7 @@ public class TeamTest {
 
   @Test
   public void update_updatesAllTeamsVariables_true() {
-    Team newTeam = new Team("Masters of Luck");
+    Team newTeam = new Team("Masters of Luck", 1);
     newTeam.save();
     newTeam.updateName("Cheryl");
     Team otherTeam = Team.find(newTeam.getId());
@@ -51,8 +51,8 @@ public class TeamTest {
 
   @Test
   public void delete_deletesASpecificLeague() {
-    Team newTeam = new Team("Cheryl");
-    Team newTeam2 = new Team("Beryl");
+    Team newTeam = new Team("Cheryl", 1);
+    Team newTeam2 = new Team("Beryl", 1);
     newTeam.save();
     newTeam2.save();
     newTeam.delete();

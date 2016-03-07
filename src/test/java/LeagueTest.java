@@ -52,10 +52,26 @@ public class LeagueTest {
   @Test
   public void delete_deletesASpecificLeague() {
     League newLeague = new League("Masters of Puck");
-    League newLeague2 = new League("PowderPuck Girlds");
+    League newLeague2 = new League("PowderPuck Girls");
     newLeague.save();
     newLeague2.save();
     newLeague.delete();
     assertFalse(League.all().contains(newLeague));
+  }
+
+  @Test
+  public void addTeam_AddsATeamAndItsGMToLeague() {
+    League newLeague = new League("Masters of Puck");
+    League newLeague2 = new League("PowderPuck Girls");
+    newLeague.save();
+    newLeague2.save();
+    Gm newGm = new Gm("Cheryl");
+    Gm newGm2 = new Gm("Beryl");
+    newGm.save();
+    newGm2.save();
+    Team newTeam = new Team("Cheryl's Team", newGm.getId());
+    newTeam.save();
+    newLeague.addTeam(newTeam);
+    assertTrue(newLeague.allTeams().contains(newTeam));
   }
 }

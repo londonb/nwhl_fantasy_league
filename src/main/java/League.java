@@ -92,4 +92,24 @@ public class League {
     }
   } // add deletion from join tables here!!!
 
+
+  //JOIN TABLE INTERACTION
+  public void addTeam(Team newTeam) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO leagues_teams (league_id, team_id) VALUES (:league_id, :team_id)";
+      con.createQuery(sql)
+        .addParameter("league_id", id)
+        .addParameter("team_id", newTeam.getId())
+        .executeUpdate();
+    }
+  }
+
+  public List<Team> allTeams() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT teams.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN teams ON (leagues_teams.team_id = teams.id) WHERE leagues.id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(Team.class);
+    }
+  }
 }
