@@ -31,4 +31,12 @@ public class LeagueTest {
     League savedLeague = League.all().get(0);
     assertEquals(savedLeague, newLeague);
   }
+
+  @Test
+  public void find_returnsLeagueObjectFromId_true() {
+    League newLeague = new League("Masters of Puck");
+    newLeague.save();
+    League otherLeague = League.find(newLeague.getId());
+    assertEquals(newLeague, otherLeague);
+  }
 }

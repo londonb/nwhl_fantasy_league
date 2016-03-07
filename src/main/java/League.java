@@ -60,6 +60,15 @@ public class League {
         .executeAndFetch(League.class);
     }
   }
+
+  public static League find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM leagues WHERE id=:id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(League.class);
+    }
+  }
   //UPDATE
 
   //DELETE
