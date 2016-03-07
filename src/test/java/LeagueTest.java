@@ -17,10 +17,18 @@ public class LeagueTest {
     assertEquals(League.all().size(), 0);
   }
 
-  // @Test
-  // public void equals_returnsTrueIfRestaurantNamesAreTheSame() {
-  //   Restaurant newResty = new Restaurant("Bobby", 1);
-  //   Restaurant newRestyToo = new Restaurant("Bobby", 1);
-  //   assertTrue(newResty.equals(newRestyToo));
-  // }
+  @Test
+  public void equals_returnsTrueIfAllDataAreTheSame() {
+    League newLeague = new League("Masters of Puck");
+    League newLeague2 = new League("Masters of Puck");
+    assertTrue(newLeague.equals(newLeague2));
+  }
+
+  @Test
+  public void save_savesObjectIntoDBWithID_true() {
+    League newLeague = new League("Masters of Puck");
+    newLeague.save();
+    League savedLeague = League.all().get(0);
+    assertEquals(savedLeague, newLeague);
+  }
 }

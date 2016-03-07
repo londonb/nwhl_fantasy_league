@@ -10,6 +10,7 @@ public class League {
   public League(String name) {
     league_name = name;
     MAX_GMS = 10;
+    current_gms = 0;
   }
 
   public String getName() {
@@ -20,7 +21,36 @@ public class League {
     return id;
   }
 
+  public int getCurrentGms() {
+    return current_gms;
+  }
+
+  @Override
+  public boolean equals(Object otherLeague) {
+    if(!(otherLeague instanceof League)) {
+      return false;
+    } else {
+      League newLeague = (League) otherLeague;
+      return this.getId() == newLeague.getId() &&
+        this.getName().equals(newLeague.getName()) &&
+        this.getCurrentGms() == newLeague.getCurrentGms();
+
+    }
+  }
+
   //CREATE
+
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO leagues (league_name, current_gms, MAX_GMS) VALUES (:name, :current_gms, :MAX_GMS)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", league_name)
+        .addParameter("current_gms", current_gms)
+        .addParameter("MAX_GMS", MAX_GMS)
+        .executeUpdate()
+        .getKey();
+    }
+  }
 
   //READ
   public static List<League> all() {
