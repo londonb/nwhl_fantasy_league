@@ -5,6 +5,7 @@ public class Gm {
   private int id;
   private String user_name;
 
+
   public Gm(String name) {
     user_name = name;
   }

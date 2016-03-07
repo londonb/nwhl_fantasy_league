@@ -12,11 +12,11 @@ public class LeagueTest {
     assertTrue(newLeague instanceof League);
   }
 
-  // @Test
-  // public void all_emptyAtFirst() {
-  //   assertEquals(Restaurant.all().size(), 0);
-  // }
-  //
+  @Test
+  public void all_emptyAtFirst() {
+    assertEquals(League.all().size(), 0);
+  }
+
   // @Test
   // public void equals_returnsTrueIfRestaurantNamesAreTheSame() {
   //   Restaurant newResty = new Restaurant("Bobby", 1);
