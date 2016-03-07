@@ -73,7 +73,14 @@ public class Gm {
   }
 
   //DELETE
-
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM gms WHERE id=:id";
+      con.createQuery(sql)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  } // add deletion from join tables AND LEAGUES here!!!
 
 
 }

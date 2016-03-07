@@ -48,4 +48,14 @@ public class LeagueTest {
     League otherLeague = League.find(newLeague.getId());
     assertEquals(newLeague, otherLeague);
   }
+
+  @Test
+  public void delete_deletesASpecificLeague() {
+    League newLeague = new League("Masters of Puck");
+    League newLeague2 = new League("PowderPuck Girlds");
+    newLeague.save();
+    newLeague2.save();
+    newLeague.delete();
+    assertFalse(League.all().contains(newLeague));
+  }
 }

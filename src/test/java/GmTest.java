@@ -49,4 +49,14 @@ public class GmTest {
     assertEquals(newGm, otherGm);
   }
 
+  @Test
+  public void delete_deletesASpecificLeague() {
+    Gm newGm = new Gm("Cheryl");
+    Gm newGm2 = new Gm("Beryl");
+    newGm.save();
+    newGm2.save();
+    newGm.delete();
+    assertFalse(Gm.all().contains(newGm));
+  }
+
 }
