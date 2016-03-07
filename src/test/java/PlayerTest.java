@@ -24,7 +24,14 @@ public class PlayerTest {
   public void find_returnsGmObjectFromId_true() {
     Player player1 = Player.find(5);
     Player player2 = Player.find(5);
+    assertTrue(player1 instanceof Player);
     assertEquals(player1, player2);
   }
-  
+
+  @Test
+  public void getId_retrievesId_true() {
+    Player player1 = Player.find(5);
+    assertEquals(player1.getId(), 5);
+    assertEquals(player1.getName(), "Amber Moore");
+  }
 }

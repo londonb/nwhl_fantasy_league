@@ -95,11 +95,17 @@ public class League {
 
   //JOIN TABLE INTERACTION
   public void addTeam(Team newTeam) {
+    current_gms++;
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO leagues_teams (league_id, team_id) VALUES (:league_id, :team_id)";
+      String gmSql = "UPDATE leagues SET current_gms=:current_gms WHERE id=:id";
       con.createQuery(sql)
         .addParameter("league_id", id)
         .addParameter("team_id", newTeam.getId())
+        .executeUpdate();
+      con.createQuery(gmSql)
+        .addParameter("id", this.id)
+        .addParameter("current_gms", current_gms)
         .executeUpdate();
     }
   }

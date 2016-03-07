@@ -59,4 +59,14 @@ public class TeamTest {
     assertFalse(Team.all().contains(newTeam));
   }
 
+  @Test
+  public void addPlayer_AddsAPlayerToTeam() {
+    Team newTeam = new Team("Cheryl", 1);
+    Team newTeam2 = new Team("Beryl", 1);
+    Player newPlayer = Player.find(5);
+    newTeam.save();
+    newTeam2.save();
+    newTeam.addPlayer(newPlayer);
+    assertTrue(newTeam.allPlayers().contains(newPlayer));
+  }
 }

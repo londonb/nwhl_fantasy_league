@@ -101,4 +101,29 @@ public class Team {
   } // add deletion from join tables AND LEAGUES here!!!
 
 
+  //JOIN TABLE INTERACTION
+  public void addPlayer(Player newPlayer) {
+    current_players++;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO players_teams (team_id, player_id) VALUES (:team_id, :player_id)";
+      String playerSql = "UPDATE teams SET current_players=:current_players WHERE id=:id";
+      con.createQuery(sql)
+        .addParameter("team_id", this.id)
+        .addParameter("player_id", newPlayer.getId())
+        .executeUpdate();
+      con.createQuery(playerSql)
+        .addParameter("id", this.id)
+        .addParameter("current_players", current_players)
+        .executeUpdate();
+    }
+  }
+
+  public List<Player> allPlayers() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(Player.class);
+    }
+  }
 }
