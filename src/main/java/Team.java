@@ -42,10 +42,11 @@ public class Team {
 
   public void save() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO teams (team_name, current_players) VALUES (:name, :current_players)";
+      String sql = "INSERT INTO teams (team_name, current_players, max_players) VALUES (:name, :current_players, :max_players)";
       this.id = (int) con.createQuery(sql, true)
         .addParameter("name", team_name)
         .addParameter("current_players", current_players)
+        .addParameter("max_players", MAX_PLAYERS)
         .executeUpdate()
         .getKey();
     }
