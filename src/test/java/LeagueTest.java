@@ -1,7 +1,7 @@
 import org.junit.*;
 import static org.junit.Assert.*;
 
-public class GmTest {
+public class LeagueTest {
 
   @Rule
   public DatabaseRule database = new DatabaseRule();

@@ -3,14 +3,14 @@ import java.util.List;
 
 public class League {
   private int id;
-  private String leagueName;
+  private String league_name;
 
   public League(String name) {
-    leagueName = name;
+    league_name = name;
   }
 
   public String getName() {
-    return leagueName;
+    return league_name;
   }
 
   public int getId() {
