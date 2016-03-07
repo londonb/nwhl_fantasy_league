@@ -71,6 +71,17 @@ public class League {
   }
   //UPDATE
 
+  public void updateName(String name) {
+    league_name=name;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE leagues SET league_name=:league_name WHERE id=:id";
+      con.createQuery(sql)
+        .addParameter("league_name", league_name)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  }
+
   //DELETE
 
 

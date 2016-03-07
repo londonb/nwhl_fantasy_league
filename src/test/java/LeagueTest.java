@@ -39,4 +39,13 @@ public class LeagueTest {
     League otherLeague = League.find(newLeague.getId());
     assertEquals(newLeague, otherLeague);
   }
+
+  @Test
+  public void update_updatesAllLeaguesVariables_true() {
+    League newLeague = new League("Masters of Luck");
+    newLeague.save();
+    newLeague.updateName("Masters of Puck");
+    League otherLeague = League.find(newLeague.getId());
+    assertEquals(newLeague, otherLeague);
+  }
 }
