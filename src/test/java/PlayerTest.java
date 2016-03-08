@@ -40,7 +40,10 @@ public class PlayerTest {
   public void getStats_getsOneGamesStats() {
     Player player1 = Player.find(53);
     List<Map<String, Object>> stats = player1.getStats(1);
+    Player player2 = Player.find(76);
+    List<Map<String, Object>> goalieStats = player2.getStats(6);
     assertEquals("F ", stats.get(0).get("pos"));
     assertEquals(18.6, stats.get(0).get("fantasy_points"));
+    assertEquals("NYR33", goalieStats.get(0).get("pt_number"));
   }
 }
