@@ -170,4 +170,7 @@ public class Team {
       }
     }
   }
+
+  // ROSTER MANIPULATION
+  // FANTASY POINT HANDLING
 }

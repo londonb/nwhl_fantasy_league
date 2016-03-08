@@ -84,13 +84,17 @@ public class League {
 
   //DELETE
   public void delete() {
+    List<Team> myTeams = this.allTeams();
+    for (Team team : myTeams) {
+      team.delete();
+    }
     try(Connection con = DB.sql2o.open()) {
       String sql = "DELETE FROM leagues WHERE id=:id";
       con.createQuery(sql)
         .addParameter("id", id)
         .executeUpdate();
     }
-  } // add deletion from join tables here!!!
+  }
 
 
   //JOIN TABLE INTERACTION
@@ -120,4 +124,15 @@ public class League {
   }
 
   //ADD LEAGUEOBJECT.ALLPLAYERS FOR A LIST OF ALL DRAFTED PLAYERS
+
+  public List<Player> allDrafted() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT players.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN players_teams ON (leagues_teams.team_id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE leagues.id = :id";
+      return con.createQuery(sql)
+      .addParameter("id", id)
+      .executeAndFetch(Player.class);
+    }
+  }
+
+  // ESTABLISH DRAFT ORDER
 }

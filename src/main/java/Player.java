@@ -69,8 +69,7 @@ public class Player {
         .executeAndFetchFirst(Player.class);
     }
   }
-  //UPDATE
 
-  //DELETE
+  // PLAYER PER WEEK AND CUMULATIVE STAT LINE INCLUDING FANTASY POINTS
 
 }
