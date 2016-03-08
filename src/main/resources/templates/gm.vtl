@@ -2,13 +2,16 @@
 <h2>$gm.getName()</h2>
 
 #if ($leagueId == 0)
-  <form class="form-inline" action="/gm/$gm.getId()" method="post">
+  <form class="form-inline" action="/new-league/$gm.getId()" method="post">
     <div class="form-group">
-      <label for="LeagueName" class="control-label">League Name</label>
+      <label for="leagueName" class="control-label">League Name</label>
       <input class="form-control" type="text" name="leagueName" required autofocus="autofocus">
     </div>
     <button type="submit" name="button" class="btn btn-primary">Submit</button>
   </form>
+#elseif
+
+
 #else
 <h3>League: $league.getName()</h3>
  <h1>gm page</h1>

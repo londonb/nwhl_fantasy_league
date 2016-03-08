@@ -50,5 +50,32 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/new-league/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      String leagueName = request.queryParams("leagueName");
+      League newLeague = new League(leagueName);
+      newLeague.save();
+      int gmId = Integer.parseInt(request.params("id"));
+      Gm gm = Gm.find(gmId);
+      model.put("gm", gm);
+      model.put("league", newLeague);
+      model.put("leagueId", newLeague.getId());
+      model.put("template", "templates/gm.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/gm/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int gmId = Integer.parseInt(request.queryParams("gmId"));
+      Gm gm = Gm.find(gmId);
+      model.put("gm", gm);
+      model.put("league", newLeague);
+      model.put("leagueId", newLeague.getId());
+      model.put("template", "templates/gm.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
+
   }
 }
