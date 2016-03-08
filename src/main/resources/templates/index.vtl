@@ -1,0 +1,29 @@
+index.vtl
+
+<div class="row">
+  <div class="col col-sm-6">
+    <h2>Create a new General Manager</h2>
+    <form class="form-inline" action="/create-team" method="post">
+      <div class="form-group">
+        <label for="userName" class="control-label">User Name</label>
+        <input class="form-control" type="text" name="userName" required autofocus="autofocus">
+      </div>
+      <button type="submit" name="button" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  <div class="col col-sm-6">
+    <h2>General Manager Login</h2>
+    <form class="form-inline" action="/gm/$gm.getId()" method="post">
+      <div class="form-group">
+        <label for="leagueName" class="control-label">User Name</label>
+        <select class="form-control" name="leagueName">
+          <option value=""></option>
+        #foreach($gm in $allGms)
+          <option value="$gm.getId()">$gm.getName()</option>
+        #end
+      </select>
+      </div>
+      <button type="submit" name="button" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+</div>

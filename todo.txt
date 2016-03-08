@@ -3,7 +3,7 @@
   b) User stories
     i) New GM creates a user name and a new league
     ii) GM joins a league by creating a new team in that league
-    iii) Other gms create teams within new league
+    iii) Other gms create teams within league
     iv) teams start draft process by selecting start now
     ******METHOD TO CHECK IF SEASON/DRAFT STARTED YET??*****
     v) DRAFT PROCESS -is this all on front end side?

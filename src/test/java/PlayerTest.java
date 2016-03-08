@@ -8,7 +8,7 @@ public class PlayerTest {
 
   @Test
   public void all_alwaysSameSize() {
-    assertEquals(Player.all().size(), 92);
+    assertEquals(Player.all().size(), 91);
   }
 
   @Test
