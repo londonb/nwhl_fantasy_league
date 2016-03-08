@@ -1,5 +1,6 @@
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.util.*;
 
 public class PlayerTest {
 
@@ -33,5 +34,12 @@ public class PlayerTest {
     Player player1 = Player.find(5);
     assertEquals(player1.getId(), 5);
     assertEquals(player1.getName(), "Amber Moore");
+  }
+
+  @Test
+  public void getStats_getsOneGamesStats() {
+    Player player1 = Player.find(53);
+    List<Map<String, Object>> stats = player1.getStats(1);
+    assertEquals("F ", stats.get(0).get("pos"));
   }
 }

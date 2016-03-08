@@ -1,5 +1,6 @@
 import org.sql2o.*;
-import java.util.List;
+
+import java.util.*;
 
 public class Player {
   private int id;
@@ -72,4 +73,13 @@ public class Player {
 
   // PLAYER PER WEEK AND CUMULATIVE STAT LINE INCLUDING FANTASY POINTS
 
+  public List<Map<String, Object>> getStats(int gameId) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT pos, team FROM skaters_stats WHERE player_id = :id AND game = :game";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .addParameter("game", gameId)
+        .executeAndFetchTable().asList();
+    }
+  }
 }

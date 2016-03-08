@@ -123,8 +123,6 @@ public class League {
     }
   }
 
-  //ADD LEAGUEOBJECT.ALLPLAYERS FOR A LIST OF ALL DRAFTED PLAYERS
-
   public List<Player> allDrafted() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT players.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN players_teams ON (leagues_teams.team_id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE leagues.id = :id";
