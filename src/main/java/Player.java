@@ -6,6 +6,8 @@ public class Player {
   private String player_name;
   private String pos; //position
   private int salary;
+  private String url;
+  private String profile_pic;
 
 
   public Player(String name) {
