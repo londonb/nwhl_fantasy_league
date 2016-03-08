@@ -63,7 +63,7 @@ public class Team {
   //READ
   public static List<Team> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM teams";
+      String sql = "SELECT * FROM teams ORDER BY team_name";
       return con.createQuery(sql)
         .executeAndFetch(Team.class);
     }
@@ -93,12 +93,31 @@ public class Team {
   //DELETE
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
+      String league = "SELECT league_id FROM leagues_teams WHERE team_id = :id";
+      Integer league_id = (Integer) con.createQuery(league)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Integer.class);
+      League newLeague = League.find(league_id);
+      int currentTeams = newLeague.getCurrentGms() -1;
       String sql = "DELETE FROM teams WHERE id=:id";
+      String leagueJoinSql = "DELETE FROM leagues_teams WHERE team_id = :id";
+      String playersJoinSql = "DELETE FROM players_teams WHERE team_id = :id";
+      String gmSql = "UPDATE leagues SET current_gms=:new_current_gms WHERE id=:league_id";
       con.createQuery(sql)
         .addParameter("id", id)
         .executeUpdate();
+      con.createQuery(leagueJoinSql)
+        .addParameter("id", id)
+        .executeUpdate();
+      con.createQuery(playersJoinSql)
+        .addParameter("id", id)
+        .executeUpdate();
+      con.createQuery(gmSql)
+        .addParameter("league_id", league_id)
+        .addParameter("new_current_gms", currentTeams)
+        .executeUpdate();
     }
-  } // add deletion from join tables AND LEAGUES here!!!
+  } // add deletion from ROSTER join tables here!!!
 
 
   //JOIN TABLE INTERACTION
@@ -134,7 +153,7 @@ public class Team {
       this.addPlayer(newPlayer);
       return newPlayer.getName() + " has been successfully added to " + this.getName();
     }
-    Integer salaryCap = 40000;
+    Integer salaryCap = 104000;
     String sqlSalary = "SELECT SUM(players.salary) AS total_sum FROM teams JOIN players_teams ON teams.id = players_teams.team_id JOIN players ON players_teams.player_id = players.id WHERE teams.id = :id";
     try(Connection con = DB.sql2o.open()) {
       Integer salary = (Integer) con.createQuery(sqlSalary)
@@ -145,8 +164,13 @@ public class Team {
         this.addPlayer(newPlayer);
         return newPlayer.getName() + " has been successfully added to " + this.getName();
       } else {
-        return this.getName() + " does not have the available cap space to draft " + newPlayer.getName();
+        String capOverage = team_name + " does not have the available cap space to draft " + newPlayer.getName();
+        capOverage += ". There is currently " + (salaryCap - salary) + " in cap space remaining.";
+        return capOverage;
       }
     }
   }
+
+  // ROSTER MANIPULATION
+  // FANTASY POINT HANDLING
 }

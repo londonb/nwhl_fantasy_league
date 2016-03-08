@@ -55,6 +55,15 @@ public class GmTest {
     Gm newGm2 = new Gm("Beryl");
     newGm.save();
     newGm2.save();
+    Team newTeam = new Team("Cheryl", newGm.getId());
+    newTeam.save();
+    League newLeague = new League("Masters of Puck");
+    newLeague.save();
+    newLeague.addTeam(newTeam);
+    Player player1 = Player.find(5);
+    Player player2 = Player.find(55);
+    newTeam.evaluatePlayer(player1);
+    newTeam.evaluatePlayer(player2);
     newGm.delete();
     assertFalse(Gm.all().contains(newGm));
   }

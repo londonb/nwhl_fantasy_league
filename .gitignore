@@ -37,6 +37,7 @@ Thumbs.db
 
 .gradle
 build/
+.pairs
 
 # Ignore Gradle GUI config
 gradle-app.setting
