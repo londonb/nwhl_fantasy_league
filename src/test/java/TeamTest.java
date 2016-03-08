@@ -80,15 +80,20 @@ public class TeamTest {
 
   @Test
   public void evaluatePlayer_ChecksValidityOfPlayerChoice_false() {
-    Player player1 = Player.find(5);
+    Player player1 = Player.find(12);
     Player player2 = Player.find(55);
-    Player player3 = Player.find(6);
-    Player player4 = Player.find(45);
+    Player player3 = Player.find(30);
+    Player player4 = Player.find(89);
+    Player player5 = Player.find(71);
+    Player player6 = Player.find(39);
+
     Team newTeam = new Team("Cheryl", 1);
     newTeam.save();
     newTeam.evaluatePlayer(player1);
     newTeam.evaluatePlayer(player2);
     newTeam.evaluatePlayer(player3);
+    newTeam.evaluatePlayer(player5);
+    newTeam.evaluatePlayer(player6);
     newTeam.evaluatePlayer(player4);
     assertTrue(newTeam.allPlayers().contains(player3));
     assertFalse(newTeam.allPlayers().contains(player4));

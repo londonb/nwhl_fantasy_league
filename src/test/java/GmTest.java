@@ -56,9 +56,7 @@ public class GmTest {
     newGm.save();
     newGm2.save();
     Team newTeam = new Team("Cheryl", newGm.getId());
-    Team newTeam2 = new Team("Beryl", newGm.getId());
     newTeam.save();
-    newTeam2.save();
     League newLeague = new League("Masters of Puck");
     newLeague.save();
     newLeague.addTeam(newTeam);
