@@ -50,13 +50,21 @@ public class TeamTest {
   }
 
   @Test
-  public void delete_deletesASpecificLeague() {
+  public void delete_deletesASpecificTeam() {
     Team newTeam = new Team("Cheryl", 1);
     Team newTeam2 = new Team("Beryl", 1);
     newTeam.save();
     newTeam2.save();
+    League newLeague = new League("Masters of Puck");
+    newLeague.save();
+    newLeague.addTeam(newTeam);
+    Player player1 = Player.find(5);
+    Player player2 = Player.find(55);
+    newTeam.evaluatePlayer(player1);
+    newTeam.evaluatePlayer(player2);
     newTeam.delete();
     assertFalse(Team.all().contains(newTeam));
+    assertEquals(newLeague.allTeams().size(), 0);
   }
 
   @Test

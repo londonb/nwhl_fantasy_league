@@ -94,11 +94,19 @@ public class Team {
   public void delete() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "DELETE FROM teams WHERE id=:id";
+      String leagueJoinSql = "DELETE FROM leagues_teams WHERE team_id = :id";
+      String playersJoinSql = "DELETE FROM players_teams WHERE team_id = :id";
       con.createQuery(sql)
         .addParameter("id", id)
         .executeUpdate();
+      con.createQuery(leagueJoinSql)
+        .addParameter("id", id)
+        .executeUpdate();
+      con.createQuery(playersJoinSql)
+        .addParameter("id", id)
+        .executeUpdate();
     }
-  } // add deletion from join tables AND LEAGUES here!!!
+  } // add deletion from roster join tables here!!!
 
 
   //JOIN TABLE INTERACTION

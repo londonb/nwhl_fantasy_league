@@ -6,7 +6,8 @@ public class Player {
   private String player_name;
   private String pos; //position
   private int salary;
-
+  private String url;
+  private String profile_pic;
 
   public Player(String name) {
     player_name = name;
@@ -26,6 +27,14 @@ public class Player {
 
   public String getPos() {
     return pos;
+  }
+
+  public String getUrl() {
+    return url;
+  }
+
+  public String getPic() {
+    return profile_pic;
   }
 
   @Override
