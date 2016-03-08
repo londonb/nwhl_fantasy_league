@@ -9,7 +9,8 @@ public class League {
 
   public League(String name) {
     league_name = name;
-    MAX_GMS = 10;
+    MAX_GMS = 8;
+    current_gms = 0;
   }
 
   public String getName() {
@@ -20,7 +21,36 @@ public class League {
     return id;
   }
 
+  public int getCurrentGms() {
+    return current_gms;
+  }
+
+  @Override
+  public boolean equals(Object otherLeague) {
+    if(!(otherLeague instanceof League)) {
+      return false;
+    } else {
+      League newLeague = (League) otherLeague;
+      return this.getId() == newLeague.getId() &&
+        this.getName().equals(newLeague.getName()) &&
+        this.getCurrentGms() == newLeague.getCurrentGms();
+
+    }
+  }
+
   //CREATE
+
+  public void save() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO leagues (league_name, current_gms, MAX_GMS) VALUES (:name, :current_gms, :MAX_GMS)";
+      this.id = (int) con.createQuery(sql, true)
+        .addParameter("name", league_name)
+        .addParameter("current_gms", current_gms)
+        .addParameter("MAX_GMS", MAX_GMS)
+        .executeUpdate()
+        .getKey();
+    }
+  }
 
   //READ
   public static List<League> all() {
@@ -30,9 +60,64 @@ public class League {
         .executeAndFetch(League.class);
     }
   }
+
+  public static League find(int id) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM leagues WHERE id=:id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(League.class);
+    }
+  }
   //UPDATE
 
+  public void updateName(String name) {
+    league_name=name;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE leagues SET league_name=:league_name WHERE id=:id";
+      con.createQuery(sql)
+        .addParameter("league_name", league_name)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  }
+
   //DELETE
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM leagues WHERE id=:id";
+      con.createQuery(sql)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  } // add deletion from join tables here!!!
 
 
+  //JOIN TABLE INTERACTION
+  public void addTeam(Team newTeam) {
+    current_gms++;
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "INSERT INTO leagues_teams (league_id, team_id) VALUES (:league_id, :team_id)";
+      String gmSql = "UPDATE leagues SET current_gms=:current_gms WHERE id=:id";
+      con.createQuery(sql)
+        .addParameter("league_id", id)
+        .addParameter("team_id", newTeam.getId())
+        .executeUpdate();
+      con.createQuery(gmSql)
+        .addParameter("id", this.id)
+        .addParameter("current_gms", current_gms)
+        .executeUpdate();
+    }
+  }
+
+  public List<Team> allTeams() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT teams.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN teams ON (leagues_teams.team_id = teams.id) WHERE leagues.id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(Team.class);
+    }
+  }
+
+  //ADD LEAGUEOBJECT.ALLPLAYERS FOR A LIST OF ALL DRAFTED PLAYERS
 }
