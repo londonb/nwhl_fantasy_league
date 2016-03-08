@@ -126,4 +126,27 @@ public class Team {
         .executeAndFetch(Player.class);
     }
   }
+
+  public String evaluatePlayer(Player newPlayer) {
+    if(current_players + 1 > MAX_PLAYERS) {
+      return "You have already selected the maximum number of players";
+    } else if (current_players == 0) {
+      this.addPlayer(newPlayer);
+      return newPlayer.getName() + " has been successfully added to " + this.getName();
+    }
+    Integer salaryCap = 40000;
+    String sqlSalary = "SELECT SUM(players.salary) AS total_sum FROM teams JOIN players_teams ON teams.id = players_teams.team_id JOIN players ON players_teams.player_id = players.id WHERE teams.id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      Integer salary = (Integer) con.createQuery(sqlSalary)
+        .addParameter("id", this.id)
+        .executeAndFetchFirst(Integer.class);
+
+      if (salary + newPlayer.getSalary() < salaryCap) {
+        this.addPlayer(newPlayer);
+        return newPlayer.getName() + " has been successfully added to " + this.getName();
+      } else {
+        return this.getName() + " does not have the available cap space to draft " + newPlayer.getName();
+      }
+    }
+  }
 }

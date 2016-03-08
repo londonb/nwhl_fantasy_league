@@ -9,7 +9,7 @@ public class League {
 
   public League(String name) {
     league_name = name;
-    MAX_GMS = 10;
+    MAX_GMS = 8;
     current_gms = 0;
   }
 

@@ -82,5 +82,15 @@ public class Gm {
     }
   } // add deletion from join tables AND LEAGUES here!!!
 
+  // JOIN TABLE INTERACTION
+
+  public List<Team> allTeams() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM teams WHERE gm_id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(Team.class);
+    }
+  }
 
 }

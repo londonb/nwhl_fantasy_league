@@ -59,4 +59,18 @@ public class GmTest {
     assertFalse(Gm.all().contains(newGm));
   }
 
+  @Test
+  public void allTeams_retrievesAllTeamsOwnedByGm() {
+    Gm newGm = new Gm("Cheryl");
+    Gm newGm2 = new Gm("Beryl");
+    newGm.save();
+    newGm2.save();
+    Team newTeam = new Team("Cheryl's Team", newGm.getId());
+    newTeam.save();
+    Team newTeam2 = new Team("Beryl", newGm2.getId());
+    newTeam2.save();
+    assertFalse(newGm.allTeams().contains(newTeam2));
+    assertTrue(newGm2.allTeams().contains(newTeam2));
+  }
+
 }
