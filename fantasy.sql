@@ -63,6 +63,40 @@ ALTER SEQUENCE gms_id_seq OWNED BY gms.id;
 
 
 --
+-- Name: gms_leagues_teams; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+--
+
+CREATE TABLE gms_leagues_teams (
+    id integer NOT NULL,
+    league_id integer,
+    team_id integer
+);
+
+
+ALTER TABLE gms_leagues_teams OWNER TO "Guest";
+
+--
+-- Name: gms_leagues_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE gms_leagues_teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE gms_leagues_teams_id_seq OWNER TO "Guest";
+
+--
+-- Name: gms_leagues_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE gms_leagues_teams_id_seq OWNED BY gms_leagues_teams.id;
+
+
+--
 -- Name: goalies_stats; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
 --
 
@@ -156,7 +190,9 @@ CREATE TABLE players (
     id integer NOT NULL,
     player character varying,
     pos character varying,
-    salary integer
+    salary integer,
+    url character varying,
+    profile_pic character varying
 );
 
 
@@ -184,26 +220,23 @@ ALTER SEQUENCE players_id_seq OWNED BY players.id;
 
 
 --
--- Name: players_two; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+-- Name: players_teams; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
 --
 
-CREATE TABLE players_two (
+CREATE TABLE players_teams (
     id integer NOT NULL,
-    player character varying,
-    team character varying,
-    pt_number character varying,
-    pos character varying,
-    salary integer
+    team_id integer,
+    player_id integer
 );
 
 
-ALTER TABLE players_two OWNER TO "Guest";
+ALTER TABLE players_teams OWNER TO "Guest";
 
 --
--- Name: players_two_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+-- Name: players_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
 --
 
-CREATE SEQUENCE players_two_id_seq
+CREATE SEQUENCE players_teams_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -211,13 +244,48 @@ CREATE SEQUENCE players_two_id_seq
     CACHE 1;
 
 
-ALTER TABLE players_two_id_seq OWNER TO "Guest";
+ALTER TABLE players_teams_id_seq OWNER TO "Guest";
 
 --
--- Name: players_two_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+-- Name: players_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
 --
 
-ALTER SEQUENCE players_two_id_seq OWNED BY players_two.id;
+ALTER SEQUENCE players_teams_id_seq OWNED BY players_teams.id;
+
+
+--
+-- Name: rosters; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+--
+
+CREATE TABLE rosters (
+    id integer NOT NULL,
+    team_id integer,
+    player_id integer,
+    week integer
+);
+
+
+ALTER TABLE rosters OWNER TO "Guest";
+
+--
+-- Name: rosters_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE rosters_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE rosters_id_seq OWNER TO "Guest";
+
+--
+-- Name: rosters_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE rosters_id_seq OWNED BY rosters.id;
 
 
 --
@@ -277,10 +345,53 @@ ALTER SEQUENCE skaters_stats_id_seq OWNED BY skaters_stats.id;
 
 
 --
+-- Name: teams; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+--
+
+CREATE TABLE teams (
+    id integer NOT NULL,
+    team_name character varying,
+    max_players integer,
+    current_players integer,
+    gm_id integer
+);
+
+
+ALTER TABLE teams OWNER TO "Guest";
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE teams_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE teams_id_seq OWNER TO "Guest";
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE teams_id_seq OWNED BY teams.id;
+
+
+--
 -- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
 --
 
 ALTER TABLE ONLY gms ALTER COLUMN id SET DEFAULT nextval('gms_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY gms_leagues_teams ALTER COLUMN id SET DEFAULT nextval('gms_leagues_teams_id_seq'::regclass);
 
 
 --
@@ -308,7 +419,14 @@ ALTER TABLE ONLY players ALTER COLUMN id SET DEFAULT nextval('players_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY players_two ALTER COLUMN id SET DEFAULT nextval('players_two_id_seq'::regclass);
+ALTER TABLE ONLY players_teams ALTER COLUMN id SET DEFAULT nextval('players_teams_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY rosters ALTER COLUMN id SET DEFAULT nextval('rosters_id_seq'::regclass);
 
 
 --
@@ -316,6 +434,13 @@ ALTER TABLE ONLY players_two ALTER COLUMN id SET DEFAULT nextval('players_two_id
 --
 
 ALTER TABLE ONLY skaters_stats ALTER COLUMN id SET DEFAULT nextval('skaters_stats_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regclass);
 
 
 --
@@ -331,6 +456,21 @@ COPY gms (id, user_name) FROM stdin;
 --
 
 SELECT pg_catalog.setval('gms_id_seq', 1, false);
+
+
+--
+-- Data for Name: gms_leagues_teams; Type: TABLE DATA; Schema: public; Owner: Guest
+--
+
+COPY gms_leagues_teams (id, league_id, team_id) FROM stdin;
+\.
+
+
+--
+-- Name: gms_leagues_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+--
+
+SELECT pg_catalog.setval('gms_leagues_teams_id_seq', 1, false);
 
 
 --
@@ -575,98 +715,98 @@ SELECT pg_catalog.setval('leagues_id_seq', 1, false);
 -- Data for Name: players; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY players (id, player, pos, salary) FROM stdin;
-1	Alyssa Gagliardi 	D	16000
-2	Alyssa Wohlfeiler 	F	10000
-3	Amanda Makela 	G	15000
-4	Amanda Pelkey 	F	13500
-5	Amber Moore 	D	10000
-6	Annemarie Cellino 	F	10000
-7	Anya Battaglino 	D	10000
-8	Ashley Johnston 	D	14000
-9	Beth Hanrahan 	F	10500
-10	Blake Bolden 	D	15000
-11	Bray Ketchum 	F	14000
-12	Brianna Decker 	F	22000
-13	Brianne Mclaughlin 	G	22000
-14	Brittany Dougherty 	F	10000
-15	Brittany Ott 	G	17000
-16	Brooke Ammerman 	F	16500
-17	Casey Pickett 	F	10000
-18	Celeste Brown 	F	15000
-19	Chelsea Laden 	G	14000
-20	Cherie Hendrickson 	D	10000
-21	Cherie Stewart 	F	10000
-22	Corinne Boyles 	G	10000
-23	Corinne Buie 	F	12000
-24	Courtney Carnes 	F	10000
-25	Danielle Ward 	F	10000
-26	Denna Laing 	F	10000
-27	Devon Skeats 	F	15000
-28	Elena Orlando 	D	10000
-29	Emily Field 	F	13500
-30	Emily Pfalzer 	D	21000
-31	Erin Barley-Maloney 	F	14000
-32	Erin Zach 	F	13000
-33	Gabie Figueroa 	D	10000
-34	Gigi Marvin 	D	20000
-35	Hailey Browne 	F	15000
-36	Hannah McGowan 	F	10000
-37	Hayley Moore 	F	10000
-38	Hayley Williams 	F	13000
-39	Hilary Knight 	F	22000
-40	Jaimie Leonoff 	G	10000
-41	Janine Weber 	F	19500
-42	Jenny Scrivens 	G	10000
-43	Jessica Fickel 	F	15000
-44	Jessica Koizumi 	F	20500
-45	Jillian Dempsey 	F	10500
-46	Jordan Brickner 	D	10000
-47	Jordan Smelker 	F	16000
-48	Kacey Bellamy 	D	22000
-49	Kaleigh Fratkin 	D	20000
-50	Kate Buesser 	F	10000
-51	Katia Pashkevitch 	D	10000
-52	Kelley Steadman 	F	10000
-53	Kelli Stack 	F	25000
-54	Kelly Babstock 	F	18000
-55	Kelly Cooke 	F	10500
-56	Kelly Mcdonald 	D	13000
-57	Kelsie Fralick 	G	10000
-58	Kimberly Sass 	G	10000
-59	Kira Dosdall 	D	13500
-60	Kourtney Kunichika 	F	10000
-61	Lauren Slebodnick 	G	12500
-62	Lindsay Berman 	D	15000
-63	Lindsay Grigg 	D	13000
-64	Liudmila Belyakova 	F	20000
-65	Madison Packer 	F	15000
-66	Maggie Giamo 	F	10000
-67	Margot Scharfe 	F	10000
-68	Marissa Gedman 	D	10000
-69	Meagan Mangene 	D	22500
-70	Megan Bozek 	D	10000
-71	Meghan Duggan 	F	22500
-72	Meghan Fardelmann 	F	20000
-73	Micaela Long 	F	10000
-74	Molly Engstrom 	D	12000
-75	Morgan Fritz-Ward 	F	12500
-76	Nana Fujimoto 	G	21000
-77	Nicole Stock 	G	10000
-78	Paige Harrington 	D	10000
-79	Rachel Llanes 	F	10500
-80	Sam Faber 	F	13500
-81	Shannon Doyle 	D	15000
-82	Shelby Bram 	F	15000
-83	Shenae Lundberg 	G	15000
-84	Shiann Darkangelo 	F	17000
-85	Sydney Kidd 	D	15000
-86	Tara Tomimoto 	D	10000
-87	Tatiana Rafter 	F	15000
-88	Taylor Holze 	F	10000
-89	Yekaterina Smolentseva 	F	22000
-90	Zoe Hickel 	F	16000
-91	Breann Frykas	F	10000
+COPY players (id, player, pos, salary, url, profile_pic) FROM stdin;
+1	Alyssa Gagliardi 	D	16000	\N	\N
+2	Alyssa Wohlfeiler 	F	10000	\N	\N
+3	Amanda Makela 	G	15000	\N	\N
+4	Amanda Pelkey 	F	13500	\N	\N
+5	Amber Moore 	D	10000	\N	\N
+6	Annemarie Cellino 	F	10000	\N	\N
+7	Anya Battaglino 	D	10000	\N	\N
+8	Ashley Johnston 	D	14000	\N	\N
+9	Beth Hanrahan 	F	10500	\N	\N
+10	Blake Bolden 	D	15000	\N	\N
+11	Bray Ketchum 	F	14000	\N	\N
+12	Brianna Decker 	F	22000	\N	\N
+13	Brianne Mclaughlin 	G	22000	\N	\N
+14	Brittany Dougherty 	F	10000	\N	\N
+15	Brittany Ott 	G	17000	\N	\N
+16	Brooke Ammerman 	F	16500	\N	\N
+17	Casey Pickett 	F	10000	\N	\N
+18	Celeste Brown 	F	15000	\N	\N
+19	Chelsea Laden 	G	14000	\N	\N
+20	Cherie Hendrickson 	D	10000	\N	\N
+21	Cherie Stewart 	F	10000	\N	\N
+22	Corinne Boyles 	G	10000	\N	\N
+23	Corinne Buie 	F	12000	\N	\N
+24	Courtney Carnes 	F	10000	\N	\N
+25	Danielle Ward 	F	10000	\N	\N
+26	Denna Laing 	F	10000	\N	\N
+27	Devon Skeats 	F	15000	\N	\N
+28	Elena Orlando 	D	10000	\N	\N
+29	Emily Field 	F	13500	\N	\N
+30	Emily Pfalzer 	D	21000	\N	\N
+31	Erin Barley-Maloney 	F	14000	\N	\N
+32	Erin Zach 	F	13000	\N	\N
+33	Gabie Figueroa 	D	10000	\N	\N
+34	Gigi Marvin 	D	20000	\N	\N
+35	Hailey Browne 	F	15000	\N	\N
+36	Hannah McGowan 	F	10000	\N	\N
+37	Hayley Moore 	F	10000	\N	\N
+38	Hayley Williams 	F	13000	\N	\N
+39	Hilary Knight 	F	22000	\N	\N
+40	Jaimie Leonoff 	G	10000	\N	\N
+41	Janine Weber 	F	19500	\N	\N
+42	Jenny Scrivens 	G	10000	\N	\N
+43	Jessica Fickel 	F	15000	\N	\N
+44	Jessica Koizumi 	F	20500	\N	\N
+45	Jillian Dempsey 	F	10500	\N	\N
+46	Jordan Brickner 	D	10000	\N	\N
+47	Jordan Smelker 	F	16000	\N	\N
+48	Kacey Bellamy 	D	22000	\N	\N
+49	Kaleigh Fratkin 	D	20000	\N	\N
+50	Kate Buesser 	F	10000	\N	\N
+51	Katia Pashkevitch 	D	10000	\N	\N
+52	Kelley Steadman 	F	10000	\N	\N
+53	Kelli Stack 	F	25000	\N	\N
+54	Kelly Babstock 	F	18000	\N	\N
+55	Kelly Cooke 	F	10500	\N	\N
+56	Kelly Mcdonald 	D	13000	\N	\N
+57	Kelsie Fralick 	G	10000	\N	\N
+58	Kimberly Sass 	G	10000	\N	\N
+59	Kira Dosdall 	D	13500	\N	\N
+60	Kourtney Kunichika 	F	10000	\N	\N
+61	Lauren Slebodnick 	G	12500	\N	\N
+62	Lindsay Berman 	D	15000	\N	\N
+63	Lindsay Grigg 	D	13000	\N	\N
+64	Liudmila Belyakova 	F	20000	\N	\N
+65	Madison Packer 	F	15000	\N	\N
+66	Maggie Giamo 	F	10000	\N	\N
+67	Margot Scharfe 	F	10000	\N	\N
+68	Marissa Gedman 	D	10000	\N	\N
+69	Meagan Mangene 	D	22500	\N	\N
+70	Megan Bozek 	D	10000	\N	\N
+71	Meghan Duggan 	F	22500	\N	\N
+72	Meghan Fardelmann 	F	20000	\N	\N
+73	Micaela Long 	F	10000	\N	\N
+74	Molly Engstrom 	D	12000	\N	\N
+75	Morgan Fritz-Ward 	F	12500	\N	\N
+76	Nana Fujimoto 	G	21000	\N	\N
+77	Nicole Stock 	G	10000	\N	\N
+78	Paige Harrington 	D	10000	\N	\N
+79	Rachel Llanes 	F	10500	\N	\N
+80	Sam Faber 	F	13500	\N	\N
+81	Shannon Doyle 	D	15000	\N	\N
+82	Shelby Bram 	F	15000	\N	\N
+83	Shenae Lundberg 	G	15000	\N	\N
+84	Shiann Darkangelo 	F	17000	\N	\N
+85	Sydney Kidd 	D	15000	\N	\N
+86	Tara Tomimoto 	D	10000	\N	\N
+87	Tatiana Rafter 	F	15000	\N	\N
+88	Taylor Holze 	F	10000	\N	\N
+89	Yekaterina Smolentseva 	F	22000	\N	\N
+90	Zoe Hickel 	F	16000	\N	\N
+91	Breann Frykas	F	10000	\N	\N
 \.
 
 
@@ -678,110 +818,33 @@ SELECT pg_catalog.setval('players_id_seq', 1, false);
 
 
 --
--- Data for Name: players_two; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Data for Name: players_teams; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY players_two (id, player, team, pt_number, pos, salary) FROM stdin;
-1	Alyssa Gagliardi 	Boston Pride	BOS02	D	16000
-2	Alyssa Wohlfeiler 	Connecticut Whale	CON88	F	10000
-3	Amanda Makela 	Buffalo Beauts	BUF34	G	15000
-4	Amanda Pelkey 	Boston Pride	BOS16	F	13500
-5	Amber Moore 	New York Riveters	NYR02	D	10000
-6	Annemarie Cellino 	Buffalo Beauts	BUF15	F	10000
-7	Anya Battaglino 	Connecticut Whale	CON04	D	10000
-8	Ashley Johnston 	New York Riveters	NYR10	D	14000
-9	Beth Hanrahan 	New York Riveters	NYR28	F	10500
-10	Blake Bolden 	Boston Pride	BOS10	D	15000
-11	Bray Ketchum 	New York Riveters	NYR10	F	14000
-12	Brianna Decker 	Boston Pride	BOS14	F	22000
-13	Brianne Mclaughlin 	Buffalo Beauts	BUF29	G	22000
-14	Brittany Dougherty 	Connecticut Whale	CON19	F	10000
-15	Brittany Ott 	Boston Pride	BOS29	G	17000
-16	Brooke Ammerman 	New York Riveters	NYR20	F	16500
-17	Casey Pickett 	Boston Pride	BOS07	F	10000
-18	Celeste Brown 	New York Riveters	NYR24	F	15000
-19	Chelsea Laden 	Connecticut Whale	CON78	G	14000
-20	Chelsea Laden 	New York Riveters	NYR01	G	14000
-21	Cherie Hendrickson 	Boston Pride	BOS18	D	10000
-22	Cherie Stewart 	New York Riveters	NYR13	F	10000
-23	Corinne Boyles 	New York Riveters	NYR31	G	10000
-24	Corinne Buie 	Boston Pride	BOS23	F	12000
-25	Courtney Carnes 	Buffalo Beauts	BUF05	F	10000
-26	Danielle Ward 	Connecticut Whale	CON22	F	10000
-27	Denna Laing 	Boston Pride	BOS24	F	10000
-28	Devon Skeats 	Buffalo Beauts	BUF21	F	15000
-29	Elena Orlando 	New York Riveters	NYR04	D	10000
-30	Emily Field 	Boston Pride	BOS15	F	13500
-31	Emily Pfalzer 	Buffalo Beauts	BUF07	D	21000
-32	Erin Barley-Maloney 	New York Riveters	NYR22	F	14000
-33	Erin Zach 	Buffalo Beauts	BUF20	F	13000
-34	Gabie Figueroa 	New York Riveters	NYR21	D	10000
-35	Gigi Marvin 	Boston Pride	BOS19	D	20000
-36	Hailey Browne 	Buffalo Beauts	BUF24	F	15000
-37	Hannah McGowan 	Buffalo Beauts	BUF2	F	10000
-38	Hayley Moore 	Boston Pride	BOS00	F	10000
-39	Hayley Williams 	Buffalo Beauts	BUF77	F	13000
-40	Hilary Knight 	Boston Pride	BOS21	F	22000
-41	Jaimie Leonoff 	Connecticut Whale	CON32	G	10000
-42	Janine Weber 	New York Riveters	NYR12	F	19500
-43	Jenny Scrivens 	New York Riveters	NYR30	G	10000
-44	Jessica Fickel 	Buffalo Beauts	BUF06	F	15000
-45	Jessica Koizumi 	Connecticut Whale	CON56	F	20500
-46	Jillian Dempsey 	Boston Pride	BOS03	F	10500
-47	Jordan Brickner 	Connecticut Whale	CON26	D	10000
-48	Jordan Smelker 	Boston Pride	BOS11	F	16000
-49	Kacey Bellamy 	Boston Pride	BOS22	D	22000
-50	Kaleigh Fratkin 	Connecticut Whale	CON13	D	20000
-51	Kate Buesser 	Connecticut Whale	CON05	F	10000
-52	Katia Pashkevitch 	Connecticut Whale	CON44	D	10000
-53	Kelley Steadman 	Buffalo Beauts	BUF03	F	10000
-54	Kelli Stack 	Connecticut Whale	CON61	F	25000
-55	Kelly Babstock 	Connecticut Whale	CON08	F	18000
-56	Kelly Cooke 	Boston Pride	BOS05	F	10500
-57	Kelly Mcdonald 	Buffalo Beauts	BUF14	D	13000
-58	Kelsie Fralick 	Boston Pride	BOS01	G	10000
-59	Kimberly Sass 	Buffalo Beauts	BUF01	G	10000
-60	Kira Dosdall 	New York Riveters	NYR26	D	13500
-61	Kourtney Kunichika 	Buffalo Beauts	BUF36	F	10000
-62	Lauren Slebodnick 	Boston Pride	BOS30	G	12500
-63	Lindsay Berman 	Connecticut Whale	CON10	D	15000
-64	Lindsay Grigg 	Buffalo Beauts	BUF23	D	13000
-65	Liudmila Belyakova 	New York Riveters	NYR09	F	20000
-66	Madison Packer 	New York Riveters	NYR14	F	15000
-67	Maggie Giamo 	Buffalo Beauts	BUF26	F	10000
-68	Margot Scharfe 	New York Riveters	NYR19	F	10000
-69	Marissa Gedman 	Boston Pride	BOS12	D	10000
-70	Meagan Mangene 	Boston Pride	BOS57	D	22500
-71	Megan Bozek 	Buffalo Beauts	BUF09	D	10000
-72	Meghan Duggan 	Buffalo Beauts	BUF10	F	22500
-73	Meghan Fardelmann 	New York Riveters	NYR18	F	20000
-74	Micaela Long 	Connecticut Whale	CON16	F	10000
-75	Molly Engstrom 	Connecticut Whale	CON09	D	12000
-76	Morgan Fritz-Ward 	New York Riveters	NYR11	F	12500
-77	Nana Fujimoto 	New York Riveters	NYR33	G	21000
-78	Nicole Stock 	Connecticut Whale	CON24	G	10000
-79	Paige Harrington 	Buffalo Beauts	BUF02	D	10000
-80	Rachel Llanes 	Boston Pride	BOS91	F	10500
-81	Sam Faber 	Connecticut Whale	CON28	F	13500
-82	Shannon Doyle 	Connecticut Whale	CON06	D	15000
-83	Shelby Bram 	Buffalo Beauts	BUF13	F	15000
-84	Shenae Lundberg 	Connecticut Whale	CON78	G	15000
-85	Shenae Lundberg 	New York Riveters	NYR01	G	15000
-86	Shiann Darkangelo 	Connecticut Whale	CON27	F	17000
-87	Sydney Kidd 	New York Riveters	NYR08	D	15000
-88	Tara Tomimoto 	Connecticut Whale	CON44	D	10000
-89	Tatiana Rafter 	Buffalo Beauts	BUF43	F	15000
-90	Taylor Holze 	New York Riveters	NYR91	F	10000
-91	Yekaterina Smolentseva 	Connecticut Whale	CON17	F	22000
-92	Zoe Hickel 	Boston Pride	BOS44	F	16000
+COPY players_teams (id, team_id, player_id) FROM stdin;
 \.
 
 
 --
--- Name: players_two_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+-- Name: players_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('players_two_id_seq', 1, false);
+SELECT pg_catalog.setval('players_teams_id_seq', 1, false);
+
+
+--
+-- Data for Name: rosters; Type: TABLE DATA; Schema: public; Owner: Guest
+--
+
+COPY rosters (id, team_id, player_id, week) FROM stdin;
+\.
+
+
+--
+-- Name: rosters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+--
+
+SELECT pg_catalog.setval('rosters_id_seq', 1, false);
 
 
 --
@@ -2010,6 +2073,29 @@ SELECT pg_catalog.setval('skaters_stats_id_seq', 1, false);
 
 
 --
+-- Data for Name: teams; Type: TABLE DATA; Schema: public; Owner: Guest
+--
+
+COPY teams (id, team_name, max_players, current_players, gm_id) FROM stdin;
+\.
+
+
+--
+-- Name: teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+--
+
+SELECT pg_catalog.setval('teams_id_seq', 1, false);
+
+
+--
+-- Name: gms_leagues_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+--
+
+ALTER TABLE ONLY gms_leagues_teams
+    ADD CONSTRAINT gms_leagues_teams_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: gms_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
 --
 
@@ -2042,11 +2128,19 @@ ALTER TABLE ONLY players
 
 
 --
--- Name: players_two_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+-- Name: players_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
 --
 
-ALTER TABLE ONLY players_two
-    ADD CONSTRAINT players_two_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY players_teams
+    ADD CONSTRAINT players_teams_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rosters_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+--
+
+ALTER TABLE ONLY rosters
+    ADD CONSTRAINT rosters_pkey PRIMARY KEY (id);
 
 
 --
@@ -2055,6 +2149,14 @@ ALTER TABLE ONLY players_two
 
 ALTER TABLE ONLY skaters_stats
     ADD CONSTRAINT skaters_stats_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: teams_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+--
+
+ALTER TABLE ONLY teams
+    ADD CONSTRAINT teams_pkey PRIMARY KEY (id);
 
 
 --
