@@ -118,4 +118,6 @@ public class League {
         .executeAndFetch(Team.class);
     }
   }
+
+  //ADD LEAGUEOBJECT.ALLPLAYERS FOR A LIST OF ALL DRAFTED PLAYERS
 }
