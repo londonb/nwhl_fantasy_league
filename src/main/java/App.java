@@ -69,8 +69,6 @@ public class App {
       int gmId = Integer.parseInt(request.queryParams("gmId"));
       Gm gm = Gm.find(gmId);
       model.put("gm", gm);
-      model.put("league", newLeague);
-      model.put("leagueId", newLeague.getId());
       model.put("template", "templates/gm.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());

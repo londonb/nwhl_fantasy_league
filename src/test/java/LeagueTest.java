@@ -1,5 +1,6 @@
 import org.junit.*;
 import static org.junit.Assert.*;
+import java.util.List;
 
 public class LeagueTest {
 
@@ -100,4 +101,28 @@ public class LeagueTest {
     newTeam2.evaluatePlayer(player4);
     assertEquals(6, newLeague.allDrafted().size());
   }
+
+  @Test
+  public void draftOrder_returnsTeamsInDraftOrder() {
+    Team newTeam = new Team("Cheryl", 1);
+    newTeam.save();
+    Team newTeam2 = new Team("Beryl", 2);
+    newTeam2.save();
+    Team newTeam3 = new Team("Maisie", 3);
+    newTeam3.save();
+    Team newTeam4 = new Team("Killler", 4);
+    newTeam4.save();
+    League newLeague = new League("Masters of Puck");
+    newLeague.save();
+    newLeague.addTeam(newTeam);
+    newLeague.addTeam(newTeam2);
+    newLeague.addTeam(newTeam3);
+    newLeague.addTeam(newTeam4);
+    List<Team> testTeams = newLeague.allTeams();
+    //assertEquals(testTeams.get(1).getName(), newLeague.draftOrder().get(1).getName());
+    //assertEquals(testTeams, newLeague.draftOrder());
+    assertFalse(testTeams.equals(newLeague.draftOrder()));
+    assertTrue(newLeague.draftOrder().contains(newTeam3));
+  }
+
 }

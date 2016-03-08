@@ -1,5 +1,5 @@
 import org.sql2o.*;
-import java.util.List;
+import java.util.*;
 
 public class League {
   private int id;
@@ -133,4 +133,14 @@ public class League {
   }
 
   // ESTABLISH DRAFT ORDER
+
+  public List<Team> draftOrder() {
+    List<Team> teams = this.allTeams();
+    Random drafter = new Random();
+    Collections.shuffle(teams, drafter);
+    return teams;
+  }
+  // MAKE THIS A SESSION ATTRIBUTE AT THE BEGINNING OF THE DRAFTING PROCESS, REFER TO IT WITH CODE BELOW??!??
+
+  
 }
