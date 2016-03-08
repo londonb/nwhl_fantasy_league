@@ -1,0 +1,11 @@
+SUM skaters_stats total ordered by total_points
+
+SELECT players.player, SUM(skaters_stats.fantasy_points) AS total_points FROM players JOIN skaters_stats ON players.player = skaters_stats.player GROUP BY players.player ORDER BY total_points DESC;
+
+SUM skaters_stats total ordered by total_points with date constraints
+SELECT players.player, SUM(skaters_stats.fantasy_points) AS total_points FROM players JOIN skaters_stats ON players.player = skaters_stats.player WHERE skaters_stats.game_date < ':dateUpper' AND skaters_stats.game_date > ':dateLower' GROUP BY players.player ORDER BY total_points;
+
+
+
+
+\COPY players FROM '~/Desktop/players.csv' DELIMITER ',' CSV;
