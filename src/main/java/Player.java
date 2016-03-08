@@ -56,7 +56,7 @@ public class Player {
   //READ
   public static List<Player> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM players";
+      String sql = "SELECT * FROM players ORDER BY player_name";
       return con.createQuery(sql)
         .executeAndFetch(Player.class);
     }
@@ -75,7 +75,7 @@ public class Player {
 
   public List<Map<String, Object>> getStats(int gameId) {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT pos, team FROM skaters_stats WHERE player_id = :id AND game = :game";
+      String sql = "SELECT * FROM skaters_stats WHERE player_id = :id AND game = :game";
       return con.createQuery(sql)
         .addParameter("id", id)
         .addParameter("game", gameId)

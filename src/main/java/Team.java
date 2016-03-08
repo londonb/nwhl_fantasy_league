@@ -63,7 +63,7 @@ public class Team {
   //READ
   public static List<Team> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM teams";
+      String sql = "SELECT * FROM teams ORDER BY team_name";
       return con.createQuery(sql)
         .executeAndFetch(Team.class);
     }

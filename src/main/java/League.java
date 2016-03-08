@@ -55,7 +55,7 @@ public class League {
   //READ
   public static List<League> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM leagues";
+      String sql = "SELECT * FROM leagues ORDER BY league_name";
       return con.createQuery(sql)
         .executeAndFetch(League.class);
     }

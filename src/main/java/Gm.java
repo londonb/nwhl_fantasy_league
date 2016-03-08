@@ -45,7 +45,7 @@ public class Gm {
   //READ
   public static List<Gm> all() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT * FROM gms";
+      String sql = "SELECT * FROM gms ORDER BY user_name";
       return con.createQuery(sql)
         .executeAndFetch(Gm.class);
     }
@@ -84,7 +84,7 @@ public class Gm {
         .addParameter("id", id)
         .executeUpdate();
     }
-  } 
+  }
 
   // JOIN TABLE INTERACTION
 

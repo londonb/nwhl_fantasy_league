@@ -41,5 +41,6 @@ public class PlayerTest {
     Player player1 = Player.find(53);
     List<Map<String, Object>> stats = player1.getStats(1);
     assertEquals("F ", stats.get(0).get("pos"));
+    assertEquals(18.6, stats.get(0).get("fantasy_points"));
   }
 }
