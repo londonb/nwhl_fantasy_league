@@ -238,4 +238,12 @@ public class Team {
     }
     return points;
   }
+
+  public double getTotalPoints(int week) {
+    double total = 0;
+    for(int i=1 ; i <= week ; i++ ) {
+      total += this.getWeeklyPoints(i);
+    }
+    return total;
+  }
 }
