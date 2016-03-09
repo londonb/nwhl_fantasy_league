@@ -128,6 +128,10 @@ public class League {
     }
   }
 
+  public boolean draftNotStarted() {
+    return (this.allDrafted().size() == 0);
+  }
+
   public List<Player> allDrafted() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT players.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN players_teams ON (leagues_teams.team_id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE leagues.id = :id";
@@ -153,8 +157,17 @@ public class League {
     Collections.shuffle(teams, drafter);
     return teams;
   }
+  
+  // List<Team> drafting = testTeam.draftOrder();
+  // int leagueSize = drafting.size();
+  // int draftPosition = 0;
+  // if (draftPosition < leagueSize * 8) {
+  //   Team currentTeam = drafting.get(draftPosition % leagueSize);
+  //   //add player logic - use evaluateplayer() not addplayer()
+  //   draftPosition++; // pass this around via hidden form fields or cookies
+  // }
 
-  //RANK TEAMS
+//RANK TEAMS
 
   public List<Team> rankTeams(int week) { //cumulative through specified week
     List<Team> teams = this.allTeams();

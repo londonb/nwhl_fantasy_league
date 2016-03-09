@@ -3,7 +3,7 @@ create-team.vtl
 <h1>Create a Team</h1>
 <h2>$gm.getName()</h2>
 
-<form class="form-inline" action="/gm/$gm.getId()" method="post">
+<form class="form-inline" action="/team/$gm.getId()" method="post">
   <div class="form-group">
     <label for="teamName" class="control-label">Team Name</label>
     <input class="form-control" type="text" name="teamName" required autofocus="autofocus">
