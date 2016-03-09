@@ -14,7 +14,7 @@
   a) Java methods
   b) Player stat line handling for gm display
 3) Player info links
-  a) url for eliteprospects.com page for each player
+  ##a) url for eliteprospects.com page for each player
   b) photo for each player (url or image file location in project folder)
   c) special page for d laing with links to donation pages
 4) Integration!!!!!!!

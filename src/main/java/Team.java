@@ -170,7 +170,7 @@ public class Team {
 
   public List<Player> allPlayers() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id";
+      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id ORDER BY players.player_name";
       return con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetch(Player.class);
@@ -196,7 +196,7 @@ public class Team {
 
   public List<Player> allStarters() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id AND players_teams.starter = TRUE";
+      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id AND players_teams.starter = TRUE ORDER BY players.player_name";
       return con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetch(Player.class);
@@ -204,6 +204,28 @@ public class Team {
   }
   //add to roster table
 
+  public void setWeeklyRoster(int week) {
+    try(Connection con= DB.sql2o.open()) {
+      for (Player player : this.allStarters()) {
+        String sql = "INSERT INTO rosters (team_id, player_id, week) VALUES (:team_id, :player_id, :week)";
+        con.createQuery(sql)
+          .addParameter("team_id", id)
+          .addParameter("player_id", player.getId())
+          .addParameter("week", week)
+          .executeUpdate();
+      }
+    }
+  }
+
+  public List<Player> getWeeklyRoster(int week) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT players.* FROM teams JOIN rosters ON (teams.id = rosters.team_id) JOIN players ON (rosters.player_id = players.id) WHERE teams.id = :id AND rosters.week = :week ORDER BY players.player_name";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .addParameter("week", week)
+        .executeAndFetch(Player.class);
+    }
+  }
 
   // FANTASY POINT HANDLING
 }
