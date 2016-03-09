@@ -27,4 +27,10 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("NWHL Fantasy Hockey");
   }
 
+  // @Test
+  // public void saveTeamToLeague() {
+  //   goTo("http://localhost:4567/");
+  //   fill("#userName")with
+  // }
+
 }

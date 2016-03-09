@@ -1,3 +1,5 @@
+create-team.vtl
+
 <h1>Create a Team</h1>
 <h2>$gm.getName()</h2>
 
@@ -10,8 +12,8 @@
     <label for="leagueId" class="control-label">Select A League</label>
     <select class="form-control" name="leagueId">
       <option value="0">Create New League</option>
-      #foreach($league in $leagues)
-      <option value="$gm.getId()">$league.getName()</option>
+      #foreach($league in $availableLeagues)
+        <option value="$league.getId()">$league.getName()</option>
       #end
     </select>
   </div>
