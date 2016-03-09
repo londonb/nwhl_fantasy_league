@@ -82,4 +82,17 @@ public class GmTest {
     assertTrue(newGm2.allTeams().contains(newTeam2));
   }
 
+  // @Test
+  // public void availableLeagues_returnsListOfLeaguesAvailableToGm_true() {
+  //   Gm newGm = new Gm("Cheryl");
+  //   Team newTeam = new Team("Cheryl's Team", newGm.getId());
+  //   newGm.save();
+  //   newTeam.save();
+  //   League newLeague = new League("Masters of Puck");
+  //   League newLeague2 = new League("PowderPuck Girls");
+  //   newLeague2.addTeam(newTeam);
+  //   assertEquals(1, newGm.availableLeagues().size());
+  //   // assertFalse(newGm.availableLeagues().contains(newLeague2));
+  // }
+
 }
