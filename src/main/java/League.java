@@ -157,7 +157,7 @@ public class League {
     Collections.shuffle(teams, drafter);
     return teams;
   }
-  
+
   // List<Team> drafting = testTeam.draftOrder();
   // int leagueSize = drafting.size();
   // int draftPosition = 0;
@@ -179,6 +179,18 @@ public class League {
     Collections.reverse(teams);
     return teams;
   }
+
+  public List<Team> rankWeeklyTeams(int week) { //cumulative through specified week
+    List<Team> teams = this.allTeams();
+
+    for (Team team : teams) {
+      team.getWeeklyPoints(week);
+    }
+    Collections.sort(teams);
+    Collections.reverse(teams);
+    return teams;
+  }
+
 
 
 }
