@@ -3,12 +3,20 @@ draft.vtl
 <h1>Draft for $league.getName()</h1>
 <h3>Round: $round</h3>
 <h3>Turn: $currentTeam.getName()</h3>
-
+<hr>
+<button class="btn btn-success" id="all" type="button" name="button">All</button>
+<button class="btn btn-success" id="f" type="button" name="button">Forward</button>
+<button class="btn btn-success" id="d" type="button" name="button">Defense</button>
+<button class="btn btn-success" id="g" type="button" name="button">Goalie</button>
+<hr>
 <div class="">
   <div class="">
     <form action="/draft/$league.getId" method="post">
-      #for ($player in $players)
-        <option>
+      <button class="btn btn-warning" type="submit" name="draft">Draft Player</button>
+      #foreach ($player in $players)
+      <div class="radio $player.getPos()">
+        <label><input type="radio" name="player" value="$player">$player.getName()</label><a class= "btn btn-xs btn-info" href="/player-info/$player.getId()" target = "none">Player Info</a>
+      </div>
       #end
     </form>
   </div>

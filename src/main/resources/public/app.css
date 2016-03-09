@@ -1,3 +1,7 @@
 .jumbotron {
   text-align: center;
 }
+
+radio.hidden {
+  display: none;
+}
