@@ -64,7 +64,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/gm/:id", (request, response) -> {
+    post("/hello", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       int gmId = Integer.parseInt(request.queryParams("gmId"));
       Gm gm = Gm.find(gmId);
