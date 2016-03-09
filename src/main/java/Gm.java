@@ -97,4 +97,22 @@ public class Gm {
     }
   }
 
+  public List<League> allGmsLeagues() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT leagues.* FROM leagues JOIN gms_leagues ON leagues.id = gms_leagues.league_id WHERE gms_leagues.gm_id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(League.class);
+    }
+  }
+
+  // public List<League> availableLeagues() {
+  //   try(Connection con = DB.sql2o.open()) {
+  //     String sql = "SELECT leagues.* FROM leagues JOIN gms_leagues ON leagues.id = gms_leagues.league_id WHERE leagues.current_gms < leagues.max_gms AND gms_leagues.gm_id != :id";
+  //     return con.createQuery(sql)
+  //       .addParameter("id", id)
+  //       .executeAndFetch(League.class);
+  //   }
+  // }
+
 }

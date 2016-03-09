@@ -132,5 +132,13 @@ public class League {
     }
   }
 
+  public static List<League> availableLeagues() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT * FROM leagues WHERE current_gms < max_gms";
+      return con.createQuery(sql)
+      .executeAndFetch(League.class);
+    }
+  }
+
   // ESTABLISH DRAFT ORDER
 }
