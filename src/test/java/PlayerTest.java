@@ -37,13 +37,21 @@ public class PlayerTest {
   }
 
   @Test
-  public void getStats_getsOneGamesStats() {
+  public void getStats_getsOneWeeksStats() {
     Player player1 = Player.find(53);
     List<Map<String, Object>> stats = player1.getStats(1);
     Player player2 = Player.find(76);
-    List<Map<String, Object>> goalieStats = player2.getStats(6);
+    List<Map<String, Object>> goalieStats = player2.getStats(3);
     assertEquals("F ", stats.get(0).get("pos"));
     assertEquals(18.6, stats.get(0).get("fantasy_points"));
     assertEquals("NYR33", goalieStats.get(0).get("pt_number"));
+  }
+
+  @Test
+  public void getFantasyPoints_returnsCumulativePointTotal_week5() {
+    Player player1 = Player.find(53);
+    Player player2 = Player.find(76);
+    assertEquals(41.6, player1.getFantasyPoints(5), 0);
+    assertEquals(25.254150207, player2.getFantasyPoints(5), 0.1);
   }
 }

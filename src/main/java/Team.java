@@ -2,12 +2,13 @@ import org.sql2o.*;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 
-public class Team {
+public class Team implements Comparable<Team> {
   private int id;
   private String team_name;
   private final int MAX_PLAYERS;
   private int current_players;
   private int gm_id;
+  private double points;
 
 
   public Team(String name, int gmId) {
@@ -25,12 +26,21 @@ public class Team {
     return id;
   }
 
+  public double getPoints() {
+    return points;
+  }
+
   public int getGmId() {
     return gm_id;
   }
 
   public int getCurrentPlayers() {
     return current_players;
+  }
+
+  @Override
+  public int compareTo(Team other) {
+    return Double.compare(this.getPoints(), other.getPoints());
   }
 
   @Override
@@ -179,7 +189,7 @@ public class Team {
 
   public List<Player> allPlayers() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id";
+      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id ORDER BY players.player_name";
       return con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetch(Player.class);
@@ -205,7 +215,7 @@ public class Team {
 
   public List<Player> allStarters() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id AND players_teams.starter = TRUE";
+      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id AND players_teams.starter = TRUE ORDER BY players.player_name";
       return con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetch(Player.class);
@@ -213,6 +223,48 @@ public class Team {
   }
   //add to roster table
 
+  public void setWeeklyRoster(int week) {
+    try(Connection con= DB.sql2o.open()) {
+      for (Player player : this.allStarters()) {
+        String sql = "INSERT INTO rosters (team_id, player_id, week) VALUES (:team_id, :player_id, :week)";
+        con.createQuery(sql)
+          .addParameter("team_id", id)
+          .addParameter("player_id", player.getId())
+          .addParameter("week", week)
+          .executeUpdate();
+      }
+    }
+  }
+
+  public List<Player> getWeeklyRoster(int week) {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT players.* FROM teams JOIN rosters ON (teams.id = rosters.team_id) JOIN players ON (rosters.player_id = players.id) WHERE teams.id = :id AND rosters.week = :week ORDER BY players.player_name";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .addParameter("week", week)
+        .executeAndFetch(Player.class);
+    }
+  }
 
   // FANTASY POINT HANDLING
+  public double getWeeklyPoints(int week) {
+    List<Player> roster = this.getWeeklyRoster(week);
+    double score = 0;
+    for(Player starter : roster) {
+      for(Map<String, Object> stats : starter.getStats(week)) {
+        score += (double) stats.get("fantasy_points");
+      }
+    }
+    this.points = score;
+    return score;
+  }
+
+  public double getTotalPoints(int week) {
+    double total = 0;
+    for(int i=1 ; i <= week ; i++ ) {
+      total += this.getWeeklyPoints(i);
+    }
+    this.points = total;
+    return total;
+  }
 }
