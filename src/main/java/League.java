@@ -128,6 +128,10 @@ public class League {
     }
   }
 
+  public boolean draftNotStarted() {
+    return (this.allDrafted().size() == 0);
+  }
+
   public List<Player> allDrafted() {
     try(Connection con = DB.sql2o.open()) {
       String sql = "SELECT players.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN players_teams ON (leagues_teams.team_id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE leagues.id = :id";
@@ -160,7 +164,7 @@ public class League {
   // int draftPosition = 0;
   // if (draftPosition < leagueSize * 8) {
   //   Team currentTeam = drafting.get(draftPosition % leagueSize);
-  //   //add player logic
+  //   //add player logic - use evaluateplayer() not addplayer()
   //   draftPosition++; // pass this around via hidden form fields or cookies
   // }
 

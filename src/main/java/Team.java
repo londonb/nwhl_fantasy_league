@@ -122,6 +122,15 @@ public class Team {
 
 
   //JOIN TABLE INTERACTION
+  public League getLeague() {
+    String sql = "SELECT leagues.* FROM teams JOIN leagues_teams ON teams.id = leagues_teams.team_id JOIN leagues ON leagues_teams.league_id = leagues.id WHERE teams.id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(League.class);
+    }
+  }
+
   public void addPlayer(Player newPlayer) { //SHOULD BE ONLY CALLED FROM WITHIN evaluatePlayer
     current_players++;
     boolean starter = false;

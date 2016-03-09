@@ -3,14 +3,15 @@
   b) User stories
     i) New GM creates a user name and a new league
     ii) GM joins a league by creating a new team in that league
-    iii) Other gms create teams within league
-      and gms creates more than one team
+    iii) New gms create teams within an existing or new league
     iv) teams start draft process by selecting start now
     ******METHOD TO CHECK IF SEASON/DRAFT STARTED YET??*****
     v) DRAFT PROCESS -is this all on front end side?
     vi) GM tracks progress week by week.
     vii) Weekly league rankings page
     viii) Cumulative league rankings page
+    ix) Other gms create teams within league
+      and gms creates more than one team
 2) Fantasy point retrieval
   a) Java methods
   b) Player stat line handling for gm display

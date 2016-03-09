@@ -4,10 +4,18 @@ gm.vtl
 <hr>
 
 #if ($gm.allTeams().size() > 0)
-<h3>Teams</h3>
+<h3>Your Teams</h3>
 <ul>
+
   #foreach($team in $gmsTeams)
-  <li><a href="/team/$team.getId()">$team.getName()</a></li>
+    <li>$team.getLeague().getName()</li>
+    <ul>
+      <li><a href="/team/$team.getId()">$team.getName()</a>
+        #if ($team.getLeague().draftNotStarted())
+          <a href="/draft/$team.getLeague().getId()" class="btn btn-sm btn-danger">Start Draft</a>
+        #end
+      </li>
+    </ul>
   #end
 
 </ul>
