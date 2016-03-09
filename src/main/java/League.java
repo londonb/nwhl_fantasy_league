@@ -153,18 +153,18 @@ public class League {
     Collections.shuffle(teams, drafter);
     return teams;
   }
-  // MAKE THIS A SESSION ATTRIBUTE AT THE BEGINNING OF THE DRAFTING PROCESS, REFER TO IT WITH CODE BELOW??!?? -- NOT TESTED
 
-  // List<Team> drafting = testTeam.draftOrder();
-  // int leagueSize = drafting.size();
-  // int draftPosition = 0;
-  // if (draftPosition < leagueSize * 8) {
-  //   Team currentTeam = drafting.get(draftPosition % leagueSize);
-  //   //add player logic
-  //   draftPosition++; // pass this around via hidden form fields or cookies
-  // }
+  //RANK TEAMS
 
+  public List<Team> rankTeams(int week) { //cumulative through specified week
+    List<Team> teams = this.allTeams();
 
+    for (Team team : teams) {
+      team.getTotalPoints(week);
+    }
+    Collections.sort(teams);
+    return teams;
+  }
 
 
 }

@@ -2,12 +2,13 @@ import org.sql2o.*;
 import java.util.*;
 import org.apache.commons.lang.StringUtils;
 
-public class Team {
+public class Team implements Comparable<Team> {
   private int id;
   private String team_name;
   private final int MAX_PLAYERS;
   private int current_players;
   private int gm_id;
+  private double points;
 
 
   public Team(String name, int gmId) {
@@ -25,12 +26,21 @@ public class Team {
     return id;
   }
 
+  public double getPoints() {
+    return points;
+  }
+
   public int getGmId() {
     return gm_id;
   }
 
   public int getCurrentPlayers() {
     return current_players;
+  }
+
+  @Override
+  public int compareTo(Team other) {
+    return Double.compare(this.getPoints(), other.getPoints());
   }
 
   @Override
@@ -230,13 +240,14 @@ public class Team {
   // FANTASY POINT HANDLING
   public double getWeeklyPoints(int week) {
     List<Player> roster = this.getWeeklyRoster(week);
-    double points = 0;
+    double score = 0;
     for(Player starter : roster) {
       for(Map<String, Object> stats : starter.getStats(week)) {
-        points += (double) stats.get("fantasy_points");
+        score += (double) stats.get("fantasy_points");
       }
     }
-    return points;
+    this.points = score;
+    return score;
   }
 
   public double getTotalPoints(int week) {
@@ -244,6 +255,7 @@ public class Team {
     for(int i=1 ; i <= week ; i++ ) {
       total += this.getWeeklyPoints(i);
     }
+    this.points = total;
     return total;
   }
 }
