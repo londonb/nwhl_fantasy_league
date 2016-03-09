@@ -1,5 +1,5 @@
 import org.sql2o.*;
-import java.util.List;
+import java.util.*;
 
 public class League {
   private int id;
@@ -103,9 +103,14 @@ public class League {
     try(Connection con = DB.sql2o.open()) {
       String sql = "INSERT INTO leagues_teams (league_id, team_id) VALUES (:league_id, :team_id)";
       String gmSql = "UPDATE leagues SET current_gms=:current_gms WHERE id=:id";
+      String joinSql = "INSERT INTO gms_leagues (gm_id, league_id) VALUES (:gm_id, :league_id) ";
       con.createQuery(sql)
         .addParameter("league_id", id)
         .addParameter("team_id", newTeam.getId())
+        .executeUpdate();
+      con.createQuery(joinSql)
+        .addParameter("league_id", id)
+        .addParameter("gm_id", newTeam.getGmId())
         .executeUpdate();
       con.createQuery(gmSql)
         .addParameter("id", this.id)
@@ -141,4 +146,25 @@ public class League {
   }
 
   // ESTABLISH DRAFT ORDER
+
+  public List<Team> draftOrder() {
+    List<Team> teams = this.allTeams();
+    Random drafter = new Random();
+    Collections.shuffle(teams, drafter);
+    return teams;
+  }
+  // MAKE THIS A SESSION ATTRIBUTE AT THE BEGINNING OF THE DRAFTING PROCESS, REFER TO IT WITH CODE BELOW??!?? -- NOT TESTED
+
+  // List<Team> drafting = testTeam.draftOrder();
+  // int leagueSize = drafting.size();
+  // int draftPosition = 0;
+  // if (draftPosition < leagueSize * 8) {
+  //   Team currentTeam = drafting.get(draftPosition % leagueSize);
+  //   //add player logic
+  //   draftPosition++; // pass this around via hidden form fields or cookies
+  // }
+
+
+
+
 }

@@ -1,5 +1,6 @@
 import org.sql2o.*;
-import java.util.List;
+import java.util.*;
+import org.apache.commons.lang.StringUtils;
 
 public class Team {
   private int id;
@@ -121,14 +122,19 @@ public class Team {
 
 
   //JOIN TABLE INTERACTION
-  public void addPlayer(Player newPlayer) {
+  public void addPlayer(Player newPlayer) { //SHOULD BE ONLY CALLED FROM WITHIN evaluatePlayer
     current_players++;
+    boolean starter = false;
+    if (current_players < 6) {
+      starter = true;
+    }
     try(Connection con = DB.sql2o.open()) {
-      String sql = "INSERT INTO players_teams (team_id, player_id) VALUES (:team_id, :player_id)";
+      String sql = "INSERT INTO players_teams (team_id, player_id, starter) VALUES (:team_id, :player_id, :starter)";
       String playerSql = "UPDATE teams SET current_players=:current_players WHERE id=:id";
       con.createQuery(sql)
         .addParameter("team_id", this.id)
         .addParameter("player_id", newPlayer.getId())
+        .addParameter("starter", starter)
         .executeUpdate();
       con.createQuery(playerSql)
         .addParameter("id", this.id)
@@ -137,16 +143,7 @@ public class Team {
     }
   }
 
-  public List<Player> allPlayers() {
-    try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id";
-      return con.createQuery(sql)
-        .addParameter("id", id)
-        .executeAndFetch(Player.class);
-    }
-  }
-
-  public String evaluatePlayer(Player newPlayer) {
+  public String evaluatePlayer(Player newPlayer) { //THIS FN CALLS ADD PLAYER
     if(current_players + 1 > MAX_PLAYERS) {
       return "You have already selected the maximum number of players";
     } else if (current_players == 0) {
@@ -171,6 +168,42 @@ public class Team {
     }
   }
 
+  public List<Player> allPlayers() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(Player.class);
+    }
+  }
+
   // ROSTER MANIPULATION
+  //select starters
+  public void selectStarters(String[] players) {
+    String sqlRemove = "UPDATE players_teams SET starter = false WHERE team_id = :team_id";
+    String sqlAdd = "UPDATE players_teams SET starter = true WHERE player_id = ANY (string_to_array(:players, ',')::INT[]) AND team_id = :team_id";
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery(sqlRemove)
+        .addParameter("team_id", id)
+        .executeUpdate();
+      con.createQuery(sqlAdd)
+        .addParameter("team_id", id)
+        .addParameter("players", StringUtils.join(players, ","))
+        .executeUpdate();
+    }
+  }
+  //find all starters
+
+  public List<Player> allStarters() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "SELECT players.* FROM teams JOIN players_teams ON (teams.id = players_teams.team_id) JOIN players ON (players_teams.player_id = players.id) WHERE teams.id = :id AND players_teams.starter = TRUE";
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetch(Player.class);
+    }
+  }
+  //add to roster table
+
+
   // FANTASY POINT HANDLING
 }
