@@ -46,4 +46,12 @@ public class PlayerTest {
     assertEquals(18.6, stats.get(0).get("fantasy_points"));
     assertEquals("NYR33", goalieStats.get(0).get("pt_number"));
   }
+
+  @Test
+  public void getFantasyPoints_returnsCumulativePointTotal_week5() {
+    Player player1 = Player.find(53);
+    Player player2 = Player.find(76);
+    assertEquals(41.6, player1.getFantasyPoints(5), 0);
+    assertEquals(25.254150207, player2.getFantasyPoints(5), 0.1);
+  }
 }

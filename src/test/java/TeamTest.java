@@ -144,4 +144,6 @@ public class TeamTest {
     assertTrue(newTeam.getWeeklyRoster(3).contains(player3));
     assertEquals(newTeam.getWeeklyRoster(3), newTeam.allStarters());
   }
+
+  
 }

@@ -92,6 +92,27 @@ public class Player {
           .executeAndFetchTable().asList();
       }
     }
+  }
+
+  // CUMULATIVE FANTASY POINTS BY PLAYER
+  public double getFantasyPoints(int week) {
+    if(this.getPos().equals("G")){
+      try(Connection con = DB.sql2o.open()){
+        String sql = "SELECT SUM(goalies_stats.fantasy_points) FROM goalies_stats WHERE player_id = :id AND week <= :week";
+        return (double) con.createQuery(sql)
+          .addParameter("id", id)
+          .addParameter("week", week)
+          .executeAndFetchFirst(Double.class);
+      }
+    } else {
+      try(Connection con = DB.sql2o.open()){
+        String sql = "SELECT SUM(skaters_stats.fantasy_points) FROM skaters_stats WHERE player_id = :id AND week <= :week";
+        return (double) con.createQuery(sql)
+          .addParameter("id", id)
+          .addParameter("week", week)
+          .executeAndFetchFirst(Double.class);
+      }
+    }
 
   }
 }
