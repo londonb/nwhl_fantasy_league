@@ -145,5 +145,52 @@ public class TeamTest {
     assertEquals(newTeam.getWeeklyRoster(3), newTeam.allStarters());
   }
 
-  
+  @Test
+  public void getWeeklyPoints_sumsPointsForRosterFor_week5() {
+    Player player1 = Player.find(12);
+    Player player2 = Player.find(55);
+    Player player3 = Player.find(30);
+    Player player4 = Player.find(3);
+    Player player5 = Player.find(70);
+    Player player6 = Player.find(39);
+
+    Team newTeam = new Team("Cheryl", 1);
+    newTeam.save();
+    newTeam.evaluatePlayer(player1);
+    newTeam.evaluatePlayer(player2);
+    newTeam.evaluatePlayer(player3);
+    newTeam.evaluatePlayer(player4);
+    newTeam.evaluatePlayer(player5);
+    newTeam.evaluatePlayer(player6);
+    newTeam.setWeeklyRoster(1);
+    newTeam.setWeeklyRoster(2);
+    newTeam.setWeeklyRoster(3);
+    newTeam.setWeeklyRoster(4);
+    newTeam.setWeeklyRoster(5);
+    assertEquals(newTeam.getWeeklyPoints(5), 23.91, 0.01);
+  }
+
+  // @Test
+  // public void getTotalPoints_sumsPointsForRosterUpTo_week5() {
+  // Player player1 = Player.find(12);
+  // Player player2 = Player.find(55);
+  // Player player3 = Player.find(30);
+  // Player player4 = Player.find(3);
+  // Player player5 = Player.find(70);
+  // Player player6 = Player.find(39);
+  //
+  // Team newTeam = new Team("Cheryl", 1);
+  // newTeam.save();
+  // newTeam.evaluatePlayer(player1);
+  // newTeam.evaluatePlayer(player2);
+  // newTeam.evaluatePlayer(player3);
+  // newTeam.evaluatePlayer(player4);
+  // newTeam.evaluatePlayer(player5);
+  // newTeam.evaluatePlayer(player6);
+  // newTeam.setWeeklyRoster(1);
+  // newTeam.setWeeklyRoster(2);
+  // newTeam.setWeeklyRoster(3);
+  // newTeam.setWeeklyRoster(4);
+  // newTeam.setWeeklyRoster(5);
+  // }
 }

@@ -228,5 +228,14 @@ public class Team {
   }
 
   // FANTASY POINT HANDLING
-  
+  public double getWeeklyPoints(int week) {
+    List<Player> roster = this.getWeeklyRoster(week);
+    double points = 0;
+    for(Player starter : roster) {
+      for(Map<String, Object> stats : starter.getStats(week)) {
+        points += (double) stats.get("fantasy_points");
+      }
+    }
+    return points;
+  }
 }

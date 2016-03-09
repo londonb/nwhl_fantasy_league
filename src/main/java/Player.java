@@ -73,22 +73,22 @@ public class Player {
 
   // PLAYER PER WEEK AND CUMULATIVE STAT LINE INCLUDING FANTASY POINTS
 
-  public List<Map<String, Object>> getStats(int gameId) {
+  public List<Map<String, Object>> getStats(int week) {
 
     if(this.getPos().equals("G")) {
       try(Connection con = DB.sql2o.open()) {
-        String sql = "SELECT * FROM goalies_stats WHERE player_id = :id AND game = :game";
+        String sql = "SELECT * FROM goalies_stats WHERE player_id = :id AND week = :week";
         return con.createQuery(sql)
           .addParameter("id", id)
-          .addParameter("game", gameId)
+          .addParameter("week", week)
           .executeAndFetchTable().asList();
       }
     } else {
       try(Connection con = DB.sql2o.open()) {
-        String sql = "SELECT * FROM skaters_stats WHERE player_id = :id AND game = :game";
+        String sql = "SELECT * FROM skaters_stats WHERE player_id = :id AND week = :week";
         return con.createQuery(sql)
           .addParameter("id", id)
-          .addParameter("game", gameId)
+          .addParameter("week", week)
           .executeAndFetchTable().asList();
       }
     }
