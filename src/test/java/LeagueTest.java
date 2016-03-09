@@ -198,8 +198,8 @@ public class LeagueTest {
 
     assertEquals(newLeague.rankTeams(10).get(0).getPoints(), original[0], 0);
     assertEquals(newLeague.rankTeams(10).get(1).getPoints(), original[1], 0);
-    assertEquals(newLeague.rankTeams(10).get(2).getPoints(), original[2], 0);
-    assertEquals(newLeague.rankTeams(10).get(3).getPoints(), original[3], 0);
+    assertEquals(newLeague.rankTeams(10).get(2).getPoints(), original[3], 0);
+    assertEquals(newLeague.rankTeams(10).get(3).getPoints(), original[2], 0);
     //assertEquals(newLeague.rankTeams(10).get(0).getPoints(), newTeam2.getPoints(), 0);
   }
 

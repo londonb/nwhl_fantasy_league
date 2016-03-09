@@ -163,6 +163,7 @@ public class League {
       team.getTotalPoints(week);
     }
     Collections.sort(teams);
+    Collections.reverse(teams);
     return teams;
   }
 
