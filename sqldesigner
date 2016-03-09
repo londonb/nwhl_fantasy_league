@@ -48,7 +48,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="637" y="83" name="leagues">
+<table x="688" y="35" name="leagues">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -65,7 +65,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="527" y="385" name="players">
+<table x="897" y="544" name="players">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -85,7 +85,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="224" y="239" name="teams">
+<table x="200" y="254" name="teams">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -106,7 +106,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="320" y="52" name="gms_leagues_teams">
+<table x="388" y="133" name="leagues_teams">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -122,7 +122,7 @@
 <part>id</part>
 </key>
 </table>
-<table x="469" y="219" name="players_teams">
+<table x="685" y="315" name="players_teams">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -134,11 +134,14 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="players" row="id" />
 </row>
+<row name="starter" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="252" y="416" name="skaters_stats">
+<table x="27" y="536" name="skaters_stats">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -209,11 +212,14 @@
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="players" row="id" />
 </row>
+<row name="week" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
 </table>
-<table x="788" y="422" name="goalies_stats">
+<table x="288" y="697" name="goalies_stats">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default></row>
@@ -271,6 +277,49 @@
 <row name="player_id" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="players" row="id" />
+</row>
+<row name="week" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+</table>
+<table x="531" y="449" name="rosters">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="team_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="teams" row="id" />
+</row>
+<row name="player_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="players" row="id" />
+</row>
+<row name="week" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="skaters_stats" row="id" />
+<relation table="goalies_stats" row="id" />
+</row>
+<key type="PRIMARY" name="">
+<part>id</part>
+</key>
+<key type="INDEX" name="week">
+<part>week</part>
+</key>
+</table>
+<table x="238" y="0" name="gms_leagues">
+<row name="id" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="gm_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="gms" row="id" />
+</row>
+<row name="league_id" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="leagues" row="id" />
 </row>
 <key type="PRIMARY" name="">
 <part>id</part>

@@ -63,17 +63,51 @@ ALTER SEQUENCE gms_id_seq OWNED BY gms.id;
 
 
 --
--- Name: gms_leagues_teams; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+-- Name: gms_leagues; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
 --
 
-CREATE TABLE gms_leagues_teams (
+CREATE TABLE gms_leagues (
+    id integer NOT NULL,
+    gm_id integer,
+    league_id integer
+);
+
+
+ALTER TABLE gms_leagues OWNER TO "Guest";
+
+--
+-- Name: gms_leagues_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
+--
+
+CREATE SEQUENCE gms_leagues_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE gms_leagues_id_seq OWNER TO "Guest";
+
+--
+-- Name: gms_leagues_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
+--
+
+ALTER SEQUENCE gms_leagues_id_seq OWNED BY gms_leagues.id;
+
+
+--
+-- Name: leagues_teams; Type: TABLE; Schema: public; Owner: Guest; Tablespace: 
+--
+
+CREATE TABLE leagues_teams (
     id integer NOT NULL,
     league_id integer,
     team_id integer
 );
 
 
-ALTER TABLE gms_leagues_teams OWNER TO "Guest";
+ALTER TABLE leagues_teams OWNER TO "Guest";
 
 --
 -- Name: gms_leagues_teams_id_seq; Type: SEQUENCE; Schema: public; Owner: Guest
@@ -93,7 +127,7 @@ ALTER TABLE gms_leagues_teams_id_seq OWNER TO "Guest";
 -- Name: gms_leagues_teams_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: Guest
 --
 
-ALTER SEQUENCE gms_leagues_teams_id_seq OWNED BY gms_leagues_teams.id;
+ALTER SEQUENCE gms_leagues_teams_id_seq OWNED BY leagues_teams.id;
 
 
 --
@@ -188,7 +222,7 @@ ALTER SEQUENCE leagues_id_seq OWNED BY leagues.id;
 
 CREATE TABLE players (
     id integer NOT NULL,
-    player character varying,
+    player_name character varying,
     pos character varying,
     salary integer,
     url character varying,
@@ -226,7 +260,8 @@ ALTER SEQUENCE players_id_seq OWNED BY players.id;
 CREATE TABLE players_teams (
     id integer NOT NULL,
     team_id integer,
-    player_id integer
+    player_id integer,
+    starter boolean
 );
 
 
@@ -391,7 +426,7 @@ ALTER TABLE ONLY gms ALTER COLUMN id SET DEFAULT nextval('gms_id_seq'::regclass)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
 --
 
-ALTER TABLE ONLY gms_leagues_teams ALTER COLUMN id SET DEFAULT nextval('gms_leagues_teams_id_seq'::regclass);
+ALTER TABLE ONLY gms_leagues ALTER COLUMN id SET DEFAULT nextval('gms_leagues_id_seq'::regclass);
 
 
 --
@@ -406,6 +441,13 @@ ALTER TABLE ONLY goalies_stats ALTER COLUMN id SET DEFAULT nextval('goalies_stat
 --
 
 ALTER TABLE ONLY leagues ALTER COLUMN id SET DEFAULT nextval('leagues_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: Guest
+--
+
+ALTER TABLE ONLY leagues_teams ALTER COLUMN id SET DEFAULT nextval('gms_leagues_teams_id_seq'::regclass);
 
 
 --
@@ -459,11 +501,18 @@ SELECT pg_catalog.setval('gms_id_seq', 1, false);
 
 
 --
--- Data for Name: gms_leagues_teams; Type: TABLE DATA; Schema: public; Owner: Guest
+-- Data for Name: gms_leagues; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY gms_leagues_teams (id, league_id, team_id) FROM stdin;
+COPY gms_leagues (id, gm_id, league_id) FROM stdin;
 \.
+
+
+--
+-- Name: gms_leagues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
+--
+
+SELECT pg_catalog.setval('gms_leagues_id_seq', 1, false);
 
 
 --
@@ -712,10 +761,18 @@ SELECT pg_catalog.setval('leagues_id_seq', 1, false);
 
 
 --
+-- Data for Name: leagues_teams; Type: TABLE DATA; Schema: public; Owner: Guest
+--
+
+COPY leagues_teams (id, league_id, team_id) FROM stdin;
+\.
+
+
+--
 -- Data for Name: players; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY players (id, player, pos, salary, url, profile_pic) FROM stdin;
+COPY players (id, player_name, pos, salary, url, profile_pic) FROM stdin;
 1	Alyssa Gagliardi 	D	16000	\N	\N
 2	Alyssa Wohlfeiler 	F	10000	\N	\N
 3	Amanda Makela 	G	15000	\N	\N
@@ -821,7 +878,7 @@ SELECT pg_catalog.setval('players_id_seq', 1, false);
 -- Data for Name: players_teams; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY players_teams (id, team_id, player_id) FROM stdin;
+COPY players_teams (id, team_id, player_id, starter) FROM stdin;
 \.
 
 
@@ -2088,10 +2145,18 @@ SELECT pg_catalog.setval('teams_id_seq', 1, false);
 
 
 --
+-- Name: gms_leagues_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
+--
+
+ALTER TABLE ONLY gms_leagues
+    ADD CONSTRAINT gms_leagues_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: gms_leagues_teams_pkey; Type: CONSTRAINT; Schema: public; Owner: Guest; Tablespace: 
 --
 
-ALTER TABLE ONLY gms_leagues_teams
+ALTER TABLE ONLY leagues_teams
     ADD CONSTRAINT gms_leagues_teams_pkey PRIMARY KEY (id);
 
 
