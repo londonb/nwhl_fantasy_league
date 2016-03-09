@@ -32,7 +32,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/gm/:id", (request, response) -> {
+    post("/team/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       int leagueId = Integer.parseInt(request.queryParams("leagueId"));
       String teamName = request.queryParams("teamName");
@@ -44,23 +44,28 @@ public class App {
         league.addTeam(newTeam);
         model.put("league", league);
       }
+      model.put("newTeam", newTeam);
       model.put("gm", gm);
       model.put("leagueId", leagueId);
-      model.put("template", "templates/gm.vtl");
+      model.put("template", "templates/team.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     post("/new-league/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String leagueName = request.queryParams("leagueName");
+      int newTeamId = Integer.parseInt(request.queryParams("newTeamId"));
+      Team newTeam = Team.find(newTeamId);
       League newLeague = new League(leagueName);
       newLeague.save();
+      newLeague.addTeam(newTeam);
       int gmId = Integer.parseInt(request.params("id"));
       Gm gm = Gm.find(gmId);
       model.put("gm", gm);
+      model.put("newTeam", newTeam);
       model.put("league", newLeague);
       model.put("leagueId", newLeague.getId());
-      model.put("template", "templates/gm.vtl");
+      model.put("template", "templates/team.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -68,6 +73,7 @@ public class App {
       HashMap<String, Object> model = new HashMap<String, Object>();
       int gmId = Integer.parseInt(request.queryParams("gmId"));
       Gm gm = Gm.find(gmId);
+      model.put("gmsTeams", gm.allTeams());
       model.put("gm", gm);
       model.put("template", "templates/gm.vtl");
       return new ModelAndView(model, layout);
