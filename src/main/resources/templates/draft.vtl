@@ -1,0 +1,15 @@
+draft.vtl
+
+<h1>Draft for $league.getName()</h1>
+<h3>Round: $round</h3>
+<h3>Turn: $currentTeam.getName()</h3>
+
+<div class="">
+  <div class="">
+    <form action="/draft/$league.getId" method="post">
+      #for ($player in $players)
+        <option>
+      #end
+    </form>
+  </div>
+</div>

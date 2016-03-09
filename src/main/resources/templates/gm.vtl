@@ -1,17 +1,22 @@
-<h1>Your Page</h1>
-<h2>$gm.getName()</h2>
+gm.vtl
 
-#if ($leagueId == 0)
-  <form class="form-inline" action="/new-league/$gm.getId()" method="post">
-    <div class="form-group">
-      <label for="leagueName" class="control-label">League Name</label>
-      <input class="form-control" type="text" name="leagueName" required autofocus="autofocus">
-    </div>
-    <button type="submit" name="button" class="btn btn-primary">Submit</button>
-  </form>
-#else
+<h1>$gm.getName()</h1>
+<hr>
 
-<h3>League: $league.getName()</h3>
- <h1>Team page</h1>
- <h5>You have not yet drafted players</h5>
+#if ($gm.allTeams().size() > 0)
+<h3>Your Teams</h3>
+<ul>
+
+  #foreach($team in $gmsTeams)
+    <li>$team.getLeague().getName()</li>
+    <ul>
+      <li><a href="/team/$team.getId()">$team.getName()</a>
+        #if ($team.getLeague().draftNotStarted())
+          <a href="/draft/$team.getLeague().getId()" class="btn btn-sm btn-danger">Start Draft</a>
+        #end
+      </li>
+    </ul>
+  #end
+
+</ul>
 #end
