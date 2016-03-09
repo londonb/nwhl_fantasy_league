@@ -98,4 +98,26 @@ public class TeamTest {
     assertTrue(newTeam.allPlayers().contains(player3));
     assertFalse(newTeam.allPlayers().contains(player4));
   }
+
+  @Test
+  public void selectStarter_SpecificPlayerNowStarter_true() {
+    Player player1 = Player.find(12);
+    Player player2 = Player.find(55);
+    Player player3 = Player.find(30);
+    Player player4 = Player.find(3);
+    Player player5 = Player.find(70);
+    Player player6 = Player.find(39);
+
+    Team newTeam = new Team("Cheryl", 1);
+    newTeam.save();
+    newTeam.evaluatePlayer(player1);
+    newTeam.evaluatePlayer(player2);
+    newTeam.evaluatePlayer(player3);
+    newTeam.evaluatePlayer(player4);
+    newTeam.evaluatePlayer(player5);
+    newTeam.evaluatePlayer(player6);
+    String[] starterIds = {"12", "55", "30", "3", "39"};
+    newTeam.selectStarters(starterIds);
+    assertTrue(newTeam.allStarters().contains(player6));
+  }
 }
