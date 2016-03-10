@@ -2,10 +2,10 @@ league.vtl
 <div class="row">
   <div class="col-md-6">
     <h1>$league.getName()</h1>
-    <h1 class="small">Week $league.getCurrentWeek()</h1>
+    <h4>Week $league.getCurrentWeek()</h4>
   </div>
   <div class="col-md-6">
-    <a href="/addweek/$league.getId()" type="button" class="btn btn-default">Move Forward 1 Week</a>
+    <a href="/advanceweek/$league.getId()" type="button" class="btn btn-default">Move Forward 1 Week</a>
   </div>
 </div>
 
@@ -17,31 +17,35 @@ league.vtl
     #foreach($team in $league.allTeams())
       <h4><a href="/team/$team.getId()">$team.getName()</a></h4>
       <h4 class="small">$GM.find($team.getGmId()).getName()</h4>
-      <dl>
-        <dt>Current Starters</dt>
-        #foreach($player in $team.allStarters())
-          <dd>$player.getName()</dd>
-          <dd>$player.getPos()</dd>
-        #end
-      </dl>
-
+      #if (!$league.draftNotStarted())
+        <dl class="dl-horizontal">
+          <dt>Current Starters</dt>
+          #foreach($player in $team.allStarters())
+            <dd>$player.getName() - $player.getPos()</dd>
+          #end
+        </dl>
+      #end
     #end
   </div>
   <div class="col-md-8">
     <h2>Current Standings</h2>
+    #set($rank = 1)
     <table class="table table-striped">
       <thead>
         <tr>
+          <th>Rank</th>
           <th>Team</th>
           <th>Fantasy Points</th>
         </tr>
       </thead>
       <tbody>
-        #foreach($team in $league.rankTeams($league.getCurrentWeek))
+        #foreach($team in $league.rankTeams($league.getCurrentWeek()))
           <tr>
+            <th scope="row">$rank</th>
             <td>$team.getName()</td>
             <td>$team.getTotalPoints($league.getCurrentWeek())</td>
           </tr>
+          #set ($rank = $rank + 1)
         #end
       </tbody>
     </table>
