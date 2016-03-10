@@ -1,7 +1,7 @@
 .jumbotron {
   text-align: center;
 }
-
+/******************************DRAFT PAGE*/
 radio.hidden {
   display: none;
 }
@@ -17,4 +17,12 @@ radio.hidden {
 
 .center {
   text-align: center;
+}
+
+#pick {
+  border-right: 2px solid #333;
+}
+
+hr.break {
+  border-top: 2px solid #333;
 }

@@ -261,6 +261,7 @@ public class App {
         }
       }
 
+      model.put("GM", Gm.class);
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);
       model.put("evaluation", evaluation);
@@ -292,6 +293,7 @@ public class App {
         request.session().attribute("draftPosition", draftPosition);
       }
 
+      model.put("GM", Gm.class);
       model.put("remainingSalary", remainingSalary);
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);

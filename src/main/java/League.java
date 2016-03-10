@@ -128,7 +128,7 @@ public class League {
 
   public List<Team> allTeams() {
     try(Connection con = DB.sql2o.open()) {
-      String sql = "SELECT teams.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN teams ON (leagues_teams.team_id = teams.id) WHERE leagues.id = :id";
+      String sql = "SELECT teams.* FROM leagues JOIN leagues_teams ON (leagues.id = leagues_teams.league_id) JOIN teams ON (leagues_teams.team_id = teams.id) WHERE leagues.id = :id ORDER BY teams.team_name";
       return con.createQuery(sql)
         .addParameter("id", id)
         .executeAndFetch(Team.class);
