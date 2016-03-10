@@ -189,7 +189,8 @@ CREATE TABLE leagues (
     id integer NOT NULL,
     league_name character varying,
     max_gms integer,
-    current_gms integer
+    current_gms integer,
+    current_week integer
 );
 
 
@@ -490,6 +491,8 @@ ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regcl
 --
 
 COPY gms (id, user_name) FROM stdin;
+1	Big Ben
+2	Scotland Forever
 \.
 
 
@@ -497,7 +500,7 @@ COPY gms (id, user_name) FROM stdin;
 -- Name: gms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('gms_id_seq', 1, false);
+SELECT pg_catalog.setval('gms_id_seq', 2, true);
 
 
 --
@@ -505,6 +508,8 @@ SELECT pg_catalog.setval('gms_id_seq', 1, false);
 --
 
 COPY gms_leagues (id, gm_id, league_id) FROM stdin;
+1	1	1
+2	2	1
 \.
 
 
@@ -512,14 +517,14 @@ COPY gms_leagues (id, gm_id, league_id) FROM stdin;
 -- Name: gms_leagues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('gms_leagues_id_seq', 1, false);
+SELECT pg_catalog.setval('gms_leagues_id_seq', 2, true);
 
 
 --
 -- Name: gms_leagues_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('gms_leagues_teams_id_seq', 1, false);
+SELECT pg_catalog.setval('gms_leagues_teams_id_seq', 2, true);
 
 
 --
@@ -749,7 +754,8 @@ SELECT pg_catalog.setval('goalies_stats_id_seq', 1, false);
 -- Data for Name: leagues; Type: TABLE DATA; Schema: public; Owner: Guest
 --
 
-COPY leagues (id, league_name, max_gms, current_gms) FROM stdin;
+COPY leagues (id, league_name, max_gms, current_gms, current_week) FROM stdin;
+1	UK Hockey	8	2	5
 \.
 
 
@@ -757,7 +763,7 @@ COPY leagues (id, league_name, max_gms, current_gms) FROM stdin;
 -- Name: leagues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('leagues_id_seq', 1, false);
+SELECT pg_catalog.setval('leagues_id_seq', 1, true);
 
 
 --
@@ -765,6 +771,8 @@ SELECT pg_catalog.setval('leagues_id_seq', 1, false);
 --
 
 COPY leagues_teams (id, league_id, team_id) FROM stdin;
+1	1	1
+2	1	2
 \.
 
 
@@ -773,97 +781,97 @@ COPY leagues_teams (id, league_id, team_id) FROM stdin;
 --
 
 COPY players (id, player_name, pos, salary, url, profile_pic) FROM stdin;
-1	Alyssa Gagliardi 	D	16000	\N	\N
-2	Alyssa Wohlfeiler 	F	10000	\N	\N
-3	Amanda Makela 	G	15000	\N	\N
-4	Amanda Pelkey 	F	13500	\N	\N
-5	Amber Moore 	D	10000	\N	\N
-6	Annemarie Cellino 	F	10000	\N	\N
-7	Anya Battaglino 	D	10000	\N	\N
-8	Ashley Johnston 	D	14000	\N	\N
-9	Beth Hanrahan 	F	10500	\N	\N
-10	Blake Bolden 	D	15000	\N	\N
-11	Bray Ketchum 	F	14000	\N	\N
-12	Brianna Decker 	F	22000	\N	\N
-13	Brianne Mclaughlin 	G	22000	\N	\N
-14	Brittany Dougherty 	F	10000	\N	\N
-15	Brittany Ott 	G	17000	\N	\N
-16	Brooke Ammerman 	F	16500	\N	\N
-17	Casey Pickett 	F	10000	\N	\N
-18	Celeste Brown 	F	15000	\N	\N
-19	Chelsea Laden 	G	14000	\N	\N
-20	Cherie Hendrickson 	D	10000	\N	\N
-21	Cherie Stewart 	F	10000	\N	\N
-22	Corinne Boyles 	G	10000	\N	\N
-23	Corinne Buie 	F	12000	\N	\N
-24	Courtney Carnes 	F	10000	\N	\N
-25	Danielle Ward 	F	10000	\N	\N
-26	Denna Laing 	F	10000	\N	\N
-27	Devon Skeats 	F	15000	\N	\N
-28	Elena Orlando 	D	10000	\N	\N
-29	Emily Field 	F	13500	\N	\N
-30	Emily Pfalzer 	D	21000	\N	\N
-31	Erin Barley-Maloney 	F	14000	\N	\N
-32	Erin Zach 	F	13000	\N	\N
-33	Gabie Figueroa 	D	10000	\N	\N
-34	Gigi Marvin 	D	20000	\N	\N
-35	Hailey Browne 	F	15000	\N	\N
-36	Hannah McGowan 	F	10000	\N	\N
-37	Hayley Moore 	F	10000	\N	\N
-38	Hayley Williams 	F	13000	\N	\N
-39	Hilary Knight 	F	22000	\N	\N
-40	Jaimie Leonoff 	G	10000	\N	\N
-41	Janine Weber 	F	19500	\N	\N
-42	Jenny Scrivens 	G	10000	\N	\N
-43	Jessica Fickel 	F	15000	\N	\N
-44	Jessica Koizumi 	F	20500	\N	\N
-45	Jillian Dempsey 	F	10500	\N	\N
-46	Jordan Brickner 	D	10000	\N	\N
-47	Jordan Smelker 	F	16000	\N	\N
-48	Kacey Bellamy 	D	22000	\N	\N
-49	Kaleigh Fratkin 	D	20000	\N	\N
-50	Kate Buesser 	F	10000	\N	\N
-51	Katia Pashkevitch 	D	10000	\N	\N
-52	Kelley Steadman 	F	10000	\N	\N
-53	Kelli Stack 	F	25000	\N	\N
-54	Kelly Babstock 	F	18000	\N	\N
-55	Kelly Cooke 	F	10500	\N	\N
-56	Kelly Mcdonald 	D	13000	\N	\N
-57	Kelsie Fralick 	G	10000	\N	\N
-58	Kimberly Sass 	G	10000	\N	\N
-59	Kira Dosdall 	D	13500	\N	\N
-60	Kourtney Kunichika 	F	10000	\N	\N
-61	Lauren Slebodnick 	G	12500	\N	\N
-62	Lindsay Berman 	D	15000	\N	\N
-63	Lindsay Grigg 	D	13000	\N	\N
-64	Liudmila Belyakova 	F	20000	\N	\N
-65	Madison Packer 	F	15000	\N	\N
-66	Maggie Giamo 	F	10000	\N	\N
-67	Margot Scharfe 	F	10000	\N	\N
-68	Marissa Gedman 	D	10000	\N	\N
-69	Meagan Mangene 	D	22500	\N	\N
-70	Megan Bozek 	D	10000	\N	\N
-71	Meghan Duggan 	F	22500	\N	\N
-72	Meghan Fardelmann 	F	20000	\N	\N
-73	Micaela Long 	F	10000	\N	\N
-74	Molly Engstrom 	D	12000	\N	\N
-75	Morgan Fritz-Ward 	F	12500	\N	\N
-76	Nana Fujimoto 	G	21000	\N	\N
-77	Nicole Stock 	G	10000	\N	\N
-78	Paige Harrington 	D	10000	\N	\N
-79	Rachel Llanes 	F	10500	\N	\N
-80	Sam Faber 	F	13500	\N	\N
-81	Shannon Doyle 	D	15000	\N	\N
-82	Shelby Bram 	F	15000	\N	\N
-83	Shenae Lundberg 	G	15000	\N	\N
-84	Shiann Darkangelo 	F	17000	\N	\N
-85	Sydney Kidd 	D	15000	\N	\N
-86	Tara Tomimoto 	D	10000	\N	\N
-87	Tatiana Rafter 	F	15000	\N	\N
-88	Taylor Holze 	F	10000	\N	\N
-89	Yekaterina Smolentseva 	F	22000	\N	\N
-90	Zoe Hickel 	F	16000	\N	\N
-91	Breann Frykas	F	10000	\N	\N
+1	Alyssa Gagliardi	D	16000	http://www.eliteprospects.com/player.php?player=367027	\N
+2	Alyssa Wohlfeiler	F	10000	http://www.eliteprospects.com/player.php?player=366443	\N
+3	Amanda Makela	G	15000	http://www.eliteprospects.com/player.php?player=368661	\N
+4	Amanda Pelkey	F	13500	http://www.eliteprospects.com/player.php?player=368807	\N
+5	Amber Moore	D	10000	http://www.eliteprospects.com/player.php?player=397229	\N
+6	Annemarie Cellino	F	10000	http://www.eliteprospects.com/player.php?player=397226	\N
+7	Anya Battaglino	D	10000	http://www.eliteprospects.com/player.php?player=368399	\N
+8	Ashley Johnston	D	14000	http://www.eliteprospects.com/player.php?player=389633	\N
+9	Beth Hanrahan	F	10500	http://www.eliteprospects.com/player.php?player=369326	\N
+10	Blake Bolden	D	15000	http://www.eliteprospects.com/player.php?player=367028	\N
+11	Bray Ketchum	F	14000	http://www.eliteprospects.com/player.php?player=367042	\N
+12	Brianna Decker	F	22000	http://www.eliteprospects.com/player.php?player=367034	\N
+13	Brianne Mclaughlin	G	22000	http://www.eliteprospects.com/player.php?player=369313	\N
+14	Brittany Dougherty	F	10000	http://www.eliteprospects.com/player.php?player=366331	\N
+15	Brittany Ott	G	17000	http://www.eliteprospects.com/player.php?player=367044	\N
+16	Brooke Ammerman	F	16500	http://www.eliteprospects.com/player.php?player=366877	\N
+17	Casey Pickett	F	10000	http://www.eliteprospects.com/player.php?player=367030	\N
+18	Celeste Brown	F	15000	http://www.eliteprospects.com/player.php?player=369324	\N
+19	Chelsea Laden	G	14000	http://www.eliteprospects.com/player.php?player=369320	\N
+20	Cherie Hendrickson	D	10000	http://www.eliteprospects.com/player.php?player=369187	\N
+21	Cherie Stewart	F	10000	http://www.eliteprospects.com/player.php?player=397231	\N
+22	Corinne Boyles	G	10000	http://www.eliteprospects.com/player.php?player=368801	\N
+23	Corinne Buie	F	12000	http://www.eliteprospects.com/player.php?player=367040	\N
+24	Courtney Carnes	F	10000	http://www.eliteprospects.com/player.php?player=397224	\N
+25	Danielle Ward	F	10000	http://www.eliteprospects.com/player.php?player=369321	\N
+26	Denna Laing	F	10000	http://www.eliteprospects.com/player.php?player=367041	\N
+27	Devon Skeats	F	15000	http://www.eliteprospects.com/player.php?player=369316	\N
+28	Elena Orlando	D	10000	http://www.eliteprospects.com/player.php?player=366330	\N
+29	Emily Field	F	13500	http://www.eliteprospects.com/player.php?player=368852	\N
+30	Emily Pfalzer	D	21000	http://www.eliteprospects.com/player.php?player=368821	\N
+31	Erin Barley-Maloney	F	14000	http://www.eliteprospects.com/player.php?player=389631	\N
+32	Erin Zach	F	13000	http://www.eliteprospects.com/player.php?player=369315	\N
+33	Gabie Figueroa	D	10000	http://www.eliteprospects.com/player.php?player=368822	\N
+34	Gigi Marvin	D	20000	http://www.eliteprospects.com/player.php?player=367047	\N
+35	Hailey Browne	F	15000	http://www.eliteprospects.com/player.php?player=368673	\N
+36	Hannah McGowan	F	10000	http://www.eliteprospects.com/player.php?player=389618	\N
+37	Hayley Moore	F	10000	http://www.eliteprospects.com/player.php?player=136230	\N
+38	Hayley Williams	F	13000	http://www.eliteprospects.com/player.php?player=389622	\N
+39	Hilary Knight	F	22000	http://www.eliteprospects.com/player.php?player=367043	\N
+40	Jaimie Leonoff	G	10000	http://www.eliteprospects.com/player.php?player=369323	\N
+41	Janine Weber	F	19500	http://www.eliteprospects.com/player.php?player=367029	\N
+42	Jenny Scrivens	G	10000	http://www.eliteprospects.com/player.php?player=376587	\N
+43	Jessica Fickel	F	15000	http://www.eliteprospects.com/player.php?player=375073	\N
+44	Jessica Koizumi	F	20500	http://www.eliteprospects.com/player.php?player=367045	\N
+45	Jillian Dempsey	F	10500	http://www.eliteprospects.com/player.php?player=367026	\N
+46	Jordan Brickner	D	10000	http://www.eliteprospects.com/player.php?player=366169	\N
+47	Jordan Smelker	F	16000	http://www.eliteprospects.com/player.php?player=367037	\N
+48	Kacey Bellamy	D	22000	http://www.eliteprospects.com/player.php?player=367054	\N
+49	Kaleigh Fratkin	D	20000	http://www.eliteprospects.com/player.php?player=59978	\N
+50	Kate Buesser	F	10000	http://www.eliteprospects.com/player.php?player=368393	\N
+51	Katia Pashkevitch	D	10000	http://www.eliteprospects.com/player.php?player=368065	\N
+52	Kelley Steadman	F	10000	http://www.eliteprospects.com/player.php?player=368790	\N
+53	Kelli Stack	F	25000	http://www.eliteprospects.com/player.php?player=367048	\N
+54	Kelly Babstock	F	18000	http://www.eliteprospects.com/player.php?player=389630	\N
+55	Kelly Cooke	F	10500	http://www.eliteprospects.com/player.php?player=367025	\N
+56	Kelly Mcdonald	D	13000	http://www.eliteprospects.com/player.php?player=369318	\N
+57	Kelsie Fralick	G	10000	http://www.eliteprospects.com/player.php?player=389602	\N
+58	Kimberly Sass	G	10000	http://www.eliteprospects.com/player.php?player=389621	\N
+59	Kira Dosdall	D	13500	http://www.eliteprospects.com/player.php?player=368400	\N
+60	Kourtney Kunichika	F	10000	http://www.eliteprospects.com/player.php?player=389615	\N
+61	Lauren Slebodnick	G	12500	http://www.eliteprospects.com/player.php?player=389603	\N
+62	Lindsay Berman	D	15000	http://www.eliteprospects.com/player.php?player=368397	\N
+63	Lindsay Grigg	D	13000	http://www.eliteprospects.com/player.php?player=369317	\N
+64	Liudmila Belyakova	F	20000	http://www.eliteprospects.com/player.php?player=369327	\N
+65	Madison Packer	F	15000	http://www.eliteprospects.com/player.php?player=368786	\N
+66	Maggie Giamo	F	10000	http://www.eliteprospects.com/player.php?player=397225	\N
+67	Margot Scharfe	F	10000	http://www.eliteprospects.com/player.php?player=397230	\N
+68	Marissa Gedman	D	10000	http://www.eliteprospects.com/player.php?player=368824	\N
+69	Meagan Mangene	D	22500	http://www.eliteprospects.com/player.php?player=368785	\N
+70	Megan Bozek	D	10000	http://www.eliteprospects.com/player.php?player=367151	\N
+71	Meghan Duggan	F	22500	http://www.eliteprospects.com/player.php?player=367036	\N
+72	Meghan Fardelmann	F	20000	http://www.eliteprospects.com/player.php?player=389632	\N
+73	Micaela Long	F	10000	http://www.eliteprospects.com/player.php?player=369178	\N
+74	Molly Engstrom	D	12000	http://www.eliteprospects.com/player.php?player=369097	\N
+75	Morgan Fritz-Ward	F	12500	http://www.eliteprospects.com/player.php?player=369325	\N
+76	Nana Fujimoto	G	21000	http://www.eliteprospects.com/player.php?player=373172	\N
+77	Nicole Stock	G	10000	http://www.eliteprospects.com/player.php?player=367024	\N
+78	Paige Harrington	D	10000	http://www.eliteprospects.com/player.php?player=389614	\N
+79	Rachel Llanes	F	10500	http://www.eliteprospects.com/player.php?player=367033	\N
+80	Sam Faber	F	13500	http://www.eliteprospects.com/player.php?player=369177	\N
+81	Shannon Doyle	D	15000	http://www.eliteprospects.com/player.php?player=368643	\N
+82	Shelby Bram	F	15000	http://www.eliteprospects.com/player.php?player=368666	\N
+83	Shenae Lundberg	G	15000	http://www.eliteprospects.com/player.php?player=368848	\N
+84	Shiann Darkangelo	F	17000	http://www.eliteprospects.com/player.php?player=368850	\N
+85	Sydney Kidd	D	15000	http://www.eliteprospects.com/player.php?player=367597	\N
+86	Tara Tomimoto	D	10000	http://www.eliteprospects.com/player.php?player=369322	\N
+87	Tatiana Rafter	F	15000	http://www.eliteprospects.com/player.php?player=389620	\N
+88	Taylor Holze	F	10000	http://www.eliteprospects.com/player.php?player=393622	\N
+89	Yekaterina Smolentseva	F	22000	http://www.eliteprospects.com/player.php?player=368054	\N
+90	Zoe Hickel	F	16000	http://www.eliteprospects.com/player.php?player=368828	\N
+91	Breann Frykas	F	10000	http://www.eliteprospects.com/player.php?player=368637	\N
 \.
 
 
@@ -879,6 +887,18 @@ SELECT pg_catalog.setval('players_id_seq', 1, false);
 --
 
 COPY players_teams (id, team_id, player_id, starter) FROM stdin;
+1	1	17	t
+2	1	30	t
+3	1	39	t
+4	1	12	t
+5	1	55	t
+6	1	70	f
+7	2	44	t
+8	2	24	t
+10	2	71	t
+11	2	29	t
+12	2	41	f
+9	2	2	t
 \.
 
 
@@ -886,7 +906,7 @@ COPY players_teams (id, team_id, player_id, starter) FROM stdin;
 -- Name: players_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('players_teams_id_seq', 1, false);
+SELECT pg_catalog.setval('players_teams_id_seq', 12, true);
 
 
 --
@@ -894,6 +914,31 @@ SELECT pg_catalog.setval('players_teams_id_seq', 1, false);
 --
 
 COPY rosters (id, team_id, player_id, week) FROM stdin;
+1	1	17	1
+2	1	17	2
+3	1	17	3
+4	1	17	4
+5	1	17	5
+6	1	30	1
+7	1	30	2
+8	1	30	3
+9	1	30	4
+10	1	30	5
+11	1	39	1
+12	1	39	2
+13	1	70	3
+14	1	70	4
+15	1	39	5
+16	1	55	1
+17	1	55	2
+18	1	55	3
+19	1	55	4
+20	1	55	5
+21	1	12	1
+22	1	12	2
+23	1	12	3
+24	1	12	4
+25	1	12	5
 \.
 
 
@@ -901,7 +946,7 @@ COPY rosters (id, team_id, player_id, week) FROM stdin;
 -- Name: rosters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('rosters_id_seq', 1, false);
+SELECT pg_catalog.setval('rosters_id_seq', 25, true);
 
 
 --
@@ -2134,6 +2179,8 @@ SELECT pg_catalog.setval('skaters_stats_id_seq', 1, false);
 --
 
 COPY teams (id, team_name, max_players, current_players, gm_id) FROM stdin;
+1	London Calling	8	6	1
+2	The Highlanders	8	6	2
 \.
 
 
@@ -2141,7 +2188,7 @@ COPY teams (id, team_name, max_players, current_players, gm_id) FROM stdin;
 -- Name: teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('teams_id_seq', 1, false);
+SELECT pg_catalog.setval('teams_id_seq', 2, true);
 
 
 --
