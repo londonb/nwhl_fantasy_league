@@ -1,13 +1,31 @@
 draft.vtl
 
 #if ($draftPosition != $leagueSize * 8)
+  <h5>Draft for: $league.getName()</h5>
+  <hr>
   <div class="row">
-    <div class="col col-sm-6">
-      <h1>Draft for $league.getName()</h1>
-      <h3>Round: $round</h3>
-      <h3>Turn: $currentTeam.getName()</h3>
+    <div class="col col-sm-4">
+      <h4>Current Pick</h4>
+      <h4>Remaining Salary: $ $remainingSalary</h4>
+      <h4>Current Players:</h4>
+      <h4></h4>
     </div>
-    <div class="col col-sm-6">
+    <div class="col col-sm-4">
+
+      <div class="currentTeam">
+        #if ($draftPosition == 0)
+        <h1>Turn: $currentTeam.getName()</h1>
+        #else
+        <h1>Turn: $displayTeam.getName()</h1>
+        #end
+      </div>
+      <h2>Round: $round</h2>
+    </div>
+
+
+
+
+    <div class="col col-sm-4">
       #if ($evaluation)
         <h4>$evaluation</h4>
       #end
@@ -25,12 +43,19 @@ draft.vtl
   <hr>
   <div class="">
     <div class="">
+      <form class="" action="/pass/$league.getId()" method="post">
+        <button class="btn btn-danger" type="submit" name="pass">Pass</button>
+      </form>
       <form action="/draft/$league.getId()" method="post">
         <button class="btn btn-warning" type="submit" name="draft">Draft Player</button>
         #foreach ($player in $players)
           #if(!$league.allDrafted().contains($player))
             <div class="radio $player.getPos()">
-              <label><input type="radio" name="playerId" value="$player.getId()">$player.getName()</label><a class= "btn btn-xs btn-info" href="/player-info/$player.getId()" target = "none">Player Info</a>
+              <label><input type="radio" name="playerId" value="$player.getId()">$player.getName()</label>
+                <ul>
+                  <li>salary: $ $player.getSalary()</li>
+                  <li><a class= "btn btn-xs btn-info" href="/player-info/$player.getId()" target = "none">Player Info</a></li>
+                </ul>
             </div>
           #end
         #end
@@ -38,5 +63,6 @@ draft.vtl
     </div>
   </div>
 #else
-  <h1>Draft Completed</h1>
+  <h1>Draft Completed!</h1>
+  <a href="/league/$league.getId()" class="btn btn-primary" type="button" name="home">League Page</a>
 #end

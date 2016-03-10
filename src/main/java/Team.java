@@ -162,6 +162,15 @@ public class Team implements Comparable<Team> {
     }
   }
 
+  public Integer currentSalarySpent() {
+    String sql = "SELECT SUM(players.salary) AS total_sum FROM teams JOIN players_teams ON teams.id = players_teams.team_id JOIN players ON players_teams.player_id = players.id WHERE teams.id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Integer.class);
+    }
+  }
+
   public String evaluatePlayer(Player newPlayer) { //THIS FN CALLS ADD PLAYER
     if(current_players + 1 > MAX_PLAYERS) {
       return "You have already selected the maximum number of players";
@@ -171,7 +180,7 @@ public class Team implements Comparable<Team> {
       this.addPlayer(newPlayer);
       return newPlayer.getName() + " has been successfully added to " + this.getName();
     }
-    Integer salaryCap = 104000;
+    Integer salaryCap = 125000;
     String sqlSalary = "SELECT SUM(players.salary) AS total_sum FROM teams JOIN players_teams ON teams.id = players_teams.team_id JOIN players ON players_teams.player_id = players.id WHERE teams.id = :id";
     try(Connection con = DB.sql2o.open()) {
       Integer salary = (Integer) con.createQuery(sqlSalary)
