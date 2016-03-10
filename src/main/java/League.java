@@ -187,7 +187,7 @@ public class League {
     return teams;
   }
 
-  public List<Team> rankWeeklyTeams(int week) { //cumulative through specified week
+  public List<Team> rankWeeklyTeams(int week) { //specific to specified week
     List<Team> teams = this.allTeams();
 
     for (Team team : teams) {
