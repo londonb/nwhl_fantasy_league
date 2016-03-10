@@ -5,7 +5,11 @@ draft.vtl
     <div class="col col-sm-6">
       <h1>Draft for $league.getName()</h1>
       <h3>Round: $round</h3>
+      #if ($draftPosition == 0)
       <h3>Turn: $currentTeam.getName()</h3>
+      #else
+      <h3>Turn: $displayTeam.getName()</h3>
+      #end
     </div>
     <div class="col col-sm-6">
       #if ($evaluation)

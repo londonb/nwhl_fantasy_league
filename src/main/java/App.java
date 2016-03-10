@@ -134,6 +134,7 @@ public class App {
       int leagueSize = draftOrder.size();
       int draftPosition = request.session().attribute("draftPosition");
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
+      Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
       int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
       int playerId = Integer.parseInt(request.queryParams("playerId"));
       Player draftedPlayer = Player.find(playerId);
@@ -153,6 +154,7 @@ public class App {
       model.put("players", Player.all());
       model.put("round", round);
       model.put("currentTeam", currentTeam);
+      model.put("displayTeam", displayTeam);
       model.put("league", league);
       model.put("template", "templates/draft.vtl");
       return new ModelAndView(model, layout);
