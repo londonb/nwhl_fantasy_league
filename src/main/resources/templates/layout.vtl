@@ -4,20 +4,27 @@
     <title>NWHL Fantasy Hockey</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <link rel='stylesheet' href='/app.css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic' rel='stylesheet' type='text/css'>
     <script src="/jquery-1.12.0.js"></script>
     <script src="/scripts.js"></script>
   </head>
   <body>
-    <div class='container'>
       <div class="jumbotron">
-        <h1>NWHL Fantasy Hockey</h1>
-        #if ($gm.allTeams().size() != 0)
-        <a href="/gm/$gm.getId()"><button class="btn btn-primary" type="button" name="home">Home</button></a>
-        #end
-        <a href="/"><button class="btn btn-primary" type="button" name="authors">Change General Manager</button></a>
-      </div>
-      #parse( $template )
+        <div class='container'>
+          <h1>NWHL Fantasy Hockey</h1>
 
-    </div>
+        </div>
+      </div>
+      <div class="nav">
+        <a>current gm</a>
+        #if ($gm.allTeams().size() != 0)
+        <a class="home" href="/gm/$gm.getId()">Home</a>
+        #end
+        <a href="/">Change General Manager</a>
+      </div>
+      <div class="container">
+        #parse( $template )
+      </div>
+
   </body>
 </html>

@@ -1,5 +1,35 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 .jumbotron {
   text-align: center;
+  background-image: url("img/pucks-fade.png");
+  background-size: cover;
+  height: 250px;
+  margin: 0;
+}
+
+.jumbotron h1 {
+  color: white;
+}
+
+.nav {
+  font-size: 1.2em;
+  letter-spacing: 1.5px;
+  margin: 0 auto;
+  border-top: 2px solid black;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 50px;
+  margin-top: -50px;
+}
+
+a {
+  color: white;
 }
 /******************************DRAFT PAGE*/
 radio.hidden {
