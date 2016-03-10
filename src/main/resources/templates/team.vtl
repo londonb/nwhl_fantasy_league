@@ -122,7 +122,27 @@ team.vtl
           </table>
         </div>
         <div class="col-md-6">
-          <h3>Team Standings</h3>
+          <h3>$league.getName() Standings</h3>
+          #set($rank = 1)
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Team</th>
+                <th>Fantasy Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              #foreach($team in $league.rankTeams($league.getCurrentWeek()))
+                <tr>
+                  <th scope="row">$rank</th>
+                  <td>$team.getName()</td>
+                  <td>$team.getTotalPoints($league.getCurrentWeek())</td>
+                </tr>
+                #set ($rank = $rank + 1)
+              #end
+            </tbody>
+          </table>
         </div>
       </div>
 

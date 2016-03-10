@@ -66,12 +66,10 @@ public class App {
     }, new VelocityTemplateEngine());
 
     post("/starters/:id", (request, response) -> {
-
       Team team = Team.find(Integer.parseInt(request.params("id")));
       Gm gm = request.session().attribute("currentGm");
       String[] newStarters = request.queryParamsValues("checkStarter");
       team.selectStarters(newStarters);
-
       response.redirect("/league/" + team.getLeague().getId());
       return null;
     });
@@ -86,6 +84,15 @@ public class App {
       model.put("template", "templates/league.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    get("/advanceweek/:id", (request, response) -> {
+      League league = League.find(Integer.parseInt(request.params("id")));
+      Gm gm = request.session().attribute("currentGm");
+      league.advanceWeek();
+
+      response.redirect("/league/" + league.getId());
+      return null;
+    });
 
 
     post("/new-team-page", (request, response) -> {
