@@ -33,7 +33,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/team/:id", (request, response) -> {
+    post("/new-team", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       int leagueId = Integer.parseInt(request.queryParams("leagueId"));
       String teamName = request.queryParams("teamName");
@@ -52,7 +52,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    post("/new-league/:id", (request, response) -> {
+    post("/new-team-page", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       String leagueName = request.queryParams("leagueName");
       int newTeamId = Integer.parseInt(request.queryParams("newTeamId"));
@@ -60,7 +60,7 @@ public class App {
       League newLeague = new League(leagueName);
       newLeague.save();
       newLeague.addTeam(newTeam);
-      int gmId = Integer.parseInt(request.params("id"));
+      int gmId = newTeam.getGmId();
       Gm gm = Gm.find(gmId);
       model.put("gm", gm);
       model.put("newTeam", newTeam);
@@ -100,14 +100,42 @@ public class App {
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
       int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
 
+      request.session().attribute("draftOrder", draftOrder);
+      request.session().attribute("draftPosition", draftPosition);
+      model.put("draftPosition", draftPosition);
+      model.put("leagueSize", leagueSize);
+      model.put("players", Player.all());
+      model.put("round", round);
+      model.put("currentTeam", currentTeam);
+      model.put("league", league);
+      model.put("template", "templates/draft.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/draft/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int leagueId = Integer.parseInt(request.params("id"));
+      League league = League.find(leagueId);
+      List<Team> draftOrder = request.session().attribute("draftOrder");
+      int leagueSize = draftOrder.size();
+      int draftPosition = request.session().attribute("draftPosition");
+      Team currentTeam = draftOrder.get(draftPosition % leagueSize);
+      int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
+      int playerId = Integer.parseInt(request.queryParams("playerId"));
+      Player draftedPlayer = Player.find(playerId);
+      String evaluation = currentTeam.evaluatePlayer(draftedPlayer);
+
       if (draftPosition < leagueSize * 8) {
         //add player logic - use evaluateplayer() not addplayer()
-        draftPosition++; // pass this around via hidden form fields or cookies
+        if (evaluation.contains("successfully")) {
+          draftPosition++; // pass this around via hidden form fields or cookies
+          request.session().attribute("draftPosition", draftPosition);
+        }
       }
 
-      request.session().attribute("draftOrder", draftOrder);
-      request.session().attribute("leagueSize", leagueSize);
-      request.session().attribute("draftPosition", draftPosition);
+      model.put("draftPosition", draftPosition);
+      model.put("leagueSize", leagueSize);
+      model.put("evaluation", evaluation);
       model.put("players", Player.all());
       model.put("round", round);
       model.put("currentTeam", currentTeam);

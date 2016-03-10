@@ -4,7 +4,7 @@ team.vtl
 <h2>$gm.getName()</h2>
 
 #if ($leagueId == 0)
-  <form class="form-inline" action="/new-league/$gm.getId()" method="post">
+  <form class="form-inline" action="/new-team-page" method="post">
     <div class="form-group">
       <label for="leagueName" class="control-label">League Name</label>
       <input type="hidden" name="newTeamId" value="$newTeam.getId()">

@@ -181,7 +181,7 @@ public class Team implements Comparable<Team> {
         return newPlayer.getName() + " has been successfully added to " + this.getName();
       } else {
         String capOverage = team_name + " does not have the available cap space to draft " + newPlayer.getName();
-        capOverage += ". There is currently " + (salaryCap - salary) + " in cap space remaining.";
+        capOverage += ". There is currently $" + (salaryCap - salary) + " in cap space remaining.";
         return capOverage;
       }
     }
