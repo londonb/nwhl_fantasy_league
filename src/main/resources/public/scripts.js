@@ -20,4 +20,11 @@ $(document).ready(function() {
   $("button#all").click(function () {
     $("div.radio").removeClass("hidden");
   });
+
+  $('input[type=checkbox]').change(function(e){
+   if ($('input[type=checkbox]:checked').length > 5) {
+        $(this).prop('checked', false)
+        alert("Please select only 5 starters");
+   }
+ });
 });

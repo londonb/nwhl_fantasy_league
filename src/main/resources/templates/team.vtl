@@ -1,6 +1,9 @@
 team.vtl
-
-<h1>$gm.getName() Team Management for $team.getName()</h1>
+#if($gm.getId() == $team.getGmId())
+  <h1>$gm.getName() Team Management for $team.getName()</h1>
+#else
+  <h1>$team.getName() Profile</h1>
+#end
 
 #if ($leagueId == 0)
   <form class="form-inline" action="/new-team-page" method="post">
@@ -13,7 +16,7 @@ team.vtl
   </form>
 #else
 
-<h3>League: $league.getName()</h3>
+<h3>League: <a href="/league/$league.getId()">$league.getName()</a></h3>
 <h3>Week: $league.getCurrentWeek()</h3>
   <div class="row">
     <div class="col-md-3">
@@ -21,23 +24,25 @@ team.vtl
         <h5>You have not yet drafted players</h5>
       #else
         <h3>Players:</h3>
+        <h3 class="small">Choose up to 5</h3>
         <form action="/starters/$team.getId()" method="post">
           <div class="list-group">
             #foreach($player in $team.allPlayers())
               <div class="list-group-item checkbox">
                 <label>
                   #if($team.allStarters().contains($player))
-                    <input type="checkbox" name="checkStarter" value="player$player.getId()" checked>
-                    <a href="$player.getUrl()" target="_blank">$player.getName()</a>
+                    <input type="checkbox" name="checkStarter" value="$player.getId()" checked>
                   #else
-                    <input type="checkbox" name="checkStarter" value="player$player.getId()">
-                    <a href="$player.getUrl()" target="_blank">$player.getName()</a>
+                    <input type="checkbox" name="checkStarter" value="$player.getId()">
                   #end
+                    <a href="$player.getUrl()" target="_blank">$player.getName()</a>
                 </label>
               </div>
             #end
           </div>
-          <button type="submit" class="btn btn-default" id="changeStarters">Set Starters for Next Week</button>
+          #if($gm.getId() == $team.getGmId())
+            <button type="submit" class="btn btn-default" id="changeStarters">Set Starters for Next Week</button>
+          #end
         </form>
       #end
     </div>
