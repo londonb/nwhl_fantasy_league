@@ -2,17 +2,24 @@ draft.vtl
 
 #if ($draftPosition != $leagueSize * 8)
   <div class="row header">
-    <h4 class="center">Draft for: $league.getName()</h4>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col col-sm-3">
+    <h4 class="center">$league.getName()</h4>
+    <div id="currentTeam">
       #if ($draftPosition == 0)
-      <h3>Turn: $currentTeam.getName()</h3>
+      <h1 class="center">Current Pick: $currentTeam.getName()</h1>
       #else
-      <h3>$displayTeam.getName()</h3>
+      <h1 class="center">Current Pick: $displayTeam.getName()</h1>
       #end
-      <h4>Current Pick Info</h4>
+    </div>
+    <h2 class="center">Round: $round</h2>
+  </div>
+  <hr class="break">
+  <div class="row">
+    <div id="pick" class="col col-sm-8">
+      #if ($draftPosition == 0)
+      <h2>$currentTeam.getName():</h2>
+      #else
+      <h2>$displayTeam.getName():</h2>
+      #end
       <hr>
       <h4>Remaining Salary: $ $remainingSalary</h4>
       #if ($draftPosition >= $leagueSize)
@@ -32,28 +39,67 @@ draft.vtl
           </tbody>
         </table>
       #end
+
+      <hr class="break">
+      <h2 class="center">NEXT PICK:</h2>
+      <h3>Filter By Position</h3>
+      <button class="btn btn-success" id="all" type="button" name="button">All</button>
+      <button class="btn btn-success" id="f" type="button" name="button">Forward</button>
+      <button class="btn btn-success" id="d" type="button" name="button">Defense</button>
+      <button class="btn btn-success" id="g" type="button" name="button">Goalie</button>
+      <hr>
+
+      #if ($draftPosition >= $leagueSize)
+        <form class="" action="/pass/$league.getId()" method="post">
+          <button class="btn btn-danger" type="submit" name="pass">Pass</button>
+        </form>
+      #end
+      <form action="/draft/$league.getId()" method="post">
+        <button class="btn btn-warning" type="submit" name="draft">Draft Player</button>
+        <br>
+        <div class="row">
+          <div class="col col-sm-6">
+            #foreach($i in [0..50])
+              #if(!$league.allDrafted().contains($players.get($i)))
+                <div class="radio $players.get($i).getPos()">
+                  <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName()</label>
+                    <ul>
+                      <li>salary: $ $players.get($i).getSalary()</li>
+                      <li><a class= "btn btn-xs btn-info" href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
+                    </ul>
+                </div>
+              #end
+            #end
+          </div>
+          <div class="col col-sm-6">
+            #foreach($i in [51..90])
+              #if(!$league.allDrafted().contains($players.get($i)))
+                <div class="radio $players.get($i).getPos()">
+                  <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName()</label>
+                    <ul>
+                      <li>salary: $ $players.get($i).getSalary()</li>
+                      <li><a class= "btn btn-xs btn-info" href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
+                    </ul>
+                </div>
+              #end
+            #end
+          </div>
+        </div>
+      </form>
+
+    #else
+      <h1>Draft Completed!</h1>
+      <a href="/league/$league.getId()" class="btn btn-primary" type="button" name="home">League Page</a>
+    #end
     </div>
-    <div id="currentPick" class="col col-sm-6">
-
-      <div id="currentTeam">
-        #if ($draftPosition == 0)
-        <h1>Turn: $currentTeam.getName()</h1>
-        #else
-        <h1>Turn: $displayTeam.getName()</h1>
-        #end
-      </div>
-      <h2>Round: $round</h2>
-    </div>
-
-
-    <div class="col col-sm-3">
-      #if ($draftPosition != 0)
-        <h3>$currentTeam.getName()</h3>
-        <h4>Previous Pick Info</h4>
+    <div class="col col-sm-4">
+      #if ($evaluation)
+      <h2>Previous Pick:</h2>
+        <h4>$evaluation</h4>
         <hr>
-        #if ($evaluation)
-          <h4>$evaluation</h4>
-        #end
+      #end
+      #if ($draftPosition != 0)
+        <h3>$GM.find($currentTeam.getGmId()).getName()</h3>
         <h4>Current Players:</h4>
         <table class="table table-striped table-bordered">
           <tbody>
@@ -69,41 +115,30 @@ draft.vtl
             #end
           </tbody>
         </table>
-      #end
-    </div>
-  </div>
-  <hr>
-  <h3>Filter By Position</h3>
-  <button class="btn btn-success" id="all" type="button" name="button">All</button>
-  <button class="btn btn-success" id="f" type="button" name="button">Forward</button>
-  <button class="btn btn-success" id="d" type="button" name="button">Defense</button>
-  <button class="btn btn-success" id="g" type="button" name="button">Goalie</button>
-  <hr>
-  <div class="">
-    <div class="">
-      #if ($draftPosition >= $leagueSize)
-        <form class="" action="/pass/$league.getId()" method="post">
-          <button class="btn btn-danger" type="submit" name="pass">Pass</button>
-        </form>
-      #end
-      <form action="/draft/$league.getId()" method="post">
-        <button class="btn btn-warning" type="submit" name="draft">Draft Player</button>
-        <br>
-        #foreach ($player in $players)
-          #if(!$league.allDrafted().contains($player))
-            <div class="radio $player.getPos()">
-              <label><input type="radio" name="playerId" value="$player.getId()">$player.getName()</label>
-                <ul>
-                  <li>salary: $ $player.getSalary()</li>
-                  <li><a class= "btn btn-xs btn-info" href="/player-info/$player.getId()" target = "none">Player Info</a></li>
-                </ul>
-            </div>
+        <hr class="break">
+        #foreach ($team in $league.allTeams())
+          #if ($team.allPlayers().size() > 0 && !$team.equals($currentTeam) && !$team.equals($displayTeam))
+
+            <h3>$GM.find($team.getGmId()).getName()</h3>
+            <h4>Current Players:</h4>
+            <table class="table table-striped table-bordered">
+              <tbody>
+                <thead>
+                  <tr>
+                    <th>$team.getName()</th>
+                  </tr>
+                </thead>
+                #foreach ($player in $team.allPlayers())
+                  <tr>
+                    <td>$player.getName() - <small>$player.getPos()</small></td>
+                  </tr>
+                #end
+              </tbody>
+            </table>
+            <hr class="break">
+
           #end
         #end
-      </form>
+      #end
     </div>
   </div>
-#else
-  <h1>Draft Completed!</h1>
-  <a href="/league/$league.getId()" class="btn btn-primary" type="button" name="home">League Page</a>
-#end
