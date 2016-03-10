@@ -165,15 +165,6 @@ public class League {
     return teams;
   }
 
-  // List<Team> drafting = testTeam.draftOrder();
-  // int leagueSize = drafting.size();
-  // int draftPosition = 0;
-  // if (draftPosition < leagueSize * 8) {
-  //   Team currentTeam = drafting.get(draftPosition % leagueSize);
-  //   //add player logic - use evaluateplayer() not addplayer()
-  //   draftPosition++; // pass this around via hidden form fields or cookies
-  // }
-
 //RANK TEAMS
 
   public List<Team> rankTeams(int week) { //cumulative through specified week
@@ -196,6 +187,22 @@ public class League {
     Collections.sort(teams);
     Collections.reverse(teams);
     return teams;
+  }
+
+  // ADVANCE BY ONE WEEK
+
+  public void advanceWeek() {
+    current_week += 1;
+    for (Team team : this.allTeams()) {
+      team.setWeeklyRoster(current_week);
+    }
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "UPDATE leagues SET current_week=:current_week WHERE id=:id";
+      con.createQuery(sql)
+        .addParameter("current_week", current_week)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
   }
 
 
