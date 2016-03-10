@@ -11,9 +11,9 @@
     <div class='container'>
       <div class="jumbotron">
         <h1>NWHL Fantasy Hockey</h1>
-        #if ($gm.allTeams().size() != 0)
-        <a href="/gm/$gm.getId()"><button class="btn btn-primary" type="button" name="home">Home</button></a>
-        #end
+
+        <a href="/home"><button class="btn btn-primary" type="button" name="home">GM Home</button></a>
+        
         <a href="/"><button class="btn btn-primary" type="button" name="authors">Change General Manager</button></a>
       </div>
       #parse( $template )
