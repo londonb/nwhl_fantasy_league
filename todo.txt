@@ -18,5 +18,8 @@
 3) Player info links
   ##a) url for eliteprospects.com page for each player
   b) photo for each player (url or image file location in project folder)
-  c) special page for d laing with links to donation pages
+  c) special page for d laing with links to donation pages -- PLAYER ID 26
 4) Integration!!!!!!!
+
+
+IN TEAM.VTL, MUST DEAL WITH LISTS OF HASHMAPS CONTAINING MORE THAN ONE HASHMAP

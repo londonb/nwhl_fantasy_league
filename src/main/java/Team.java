@@ -165,6 +165,8 @@ public class Team implements Comparable<Team> {
   public String evaluatePlayer(Player newPlayer) { //THIS FN CALLS ADD PLAYER
     if(current_players + 1 > MAX_PLAYERS) {
       return "You have already selected the maximum number of players";
+    } else if (newPlayer.getId() == 26) {
+      return "Denna Laing is not a draftable player.";
     } else if (current_players == 0) {
       this.addPlayer(newPlayer);
       return newPlayer.getName() + " has been successfully added to " + this.getName();

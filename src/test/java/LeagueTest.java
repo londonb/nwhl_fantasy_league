@@ -203,4 +203,52 @@ public class LeagueTest {
     //assertEquals(newLeague.rankTeams(10).get(0).getPoints(), newTeam2.getPoints(), 0);
   }
 
+  @Test
+  public void rankWeeklyTeams_returnsTeamsRankedByWeeklyResult() {
+    Team newTeam = new Team("Cheryl", 1);
+    newTeam.save();
+    Team newTeam2 = new Team("Beryl", 2);
+    newTeam2.save();
+    Team newTeam3 = new Team("Maisie", 3);
+    newTeam3.save();
+    Team newTeam4 = new Team("Killler", 4);
+    newTeam4.save();
+    League newLeague = new League("Masters of Puck");
+    newLeague.save();
+    newLeague.addTeam(newTeam);
+    newLeague.addTeam(newTeam2);
+    newLeague.addTeam(newTeam3);
+    newLeague.addTeam(newTeam4);
+
+    newTeam.evaluatePlayer(Player.find(12));
+    newTeam.evaluatePlayer(Player.find(70));
+    newTeam.evaluatePlayer(Player.find(55));
+    newTeam.evaluatePlayer(Player.find(1));
+    newTeam.evaluatePlayer(Player.find(3));
+    newTeam2.evaluatePlayer(Player.find(90));
+    newTeam2.evaluatePlayer(Player.find(7));
+    newTeam2.evaluatePlayer(Player.find(42));
+    newTeam2.evaluatePlayer(Player.find(74));
+    newTeam2.evaluatePlayer(Player.find(82));
+    newTeam3.evaluatePlayer(Player.find(5));
+    newTeam3.evaluatePlayer(Player.find(88));
+    newTeam3.evaluatePlayer(Player.find(19));
+    newTeam3.evaluatePlayer(Player.find(27));
+    newTeam3.evaluatePlayer(Player.find(33));
+    newTeam4.evaluatePlayer(Player.find(29));
+    newTeam4.evaluatePlayer(Player.find(67));
+    newTeam4.evaluatePlayer(Player.find(35));
+    newTeam4.evaluatePlayer(Player.find(73));
+    newTeam4.evaluatePlayer(Player.find(34));
+    newTeam.setWeeklyRoster(7);
+    newTeam2.setWeeklyRoster(7);
+    newTeam3.setWeeklyRoster(7);
+    newTeam4.setWeeklyRoster(7);
+    double[] original = {newTeam.getWeeklyPoints(7), newTeam2.getWeeklyPoints(7),  newTeam3.getWeeklyPoints(7), newTeam4.getWeeklyPoints(7)};
+    assertEquals(newLeague.rankWeeklyTeams(7).get(0).getPoints(), original[3], 0);
+    assertEquals(newLeague.rankWeeklyTeams(7).get(1).getPoints(), original[0], 0);
+    assertEquals(newLeague.rankWeeklyTeams(7).get(2).getPoints(), original[1], 0);
+    assertEquals(newLeague.rankWeeklyTeams(7).get(3).getPoints(), original[2], 0);
+  }
+
 }
