@@ -48,51 +48,80 @@ team.vtl
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
-              <th>Week</th>
+              <th>Game Date</th>
               <th>Player Name</th>
+              <th>Goals</th>
+              <th>Assists</th>
+              <th>Save %</th>
+              <th><abbr title="Goals Against Average" class="initialism">GAA</abbr></th>
               <th>Fantasy Points</th>
             </tr>
           </thead>
           <tbody>
-              #foreach($player in $team.getWeeklyRoster($league.getCurrentWeek()))
+            #foreach($player in $team.getWeeklyRoster($league.getCurrentWeek()))
+              #foreach($game in $player.getStats($league.getCurrentWeek()))
                 <tr>
-                  <th scope="row">Week $league.getCurrentWeek()</th>
-                  <td>$player.getName() <small> $player.getPos()</small></td>
-                  <td>$player.getStats($league.getCurrentWeek()).get(0).get("fantasy_points")</td>
+                  <th scope="row">$game.get("game_date")</th>
+                  <td>$player.getName() - <small>$player.getPos()</small></td>
+                  #if(!$player.getPos().equals("G"))
+                  <td>$game.get("goals")</td>
+                  <td>$game.get("assists")</td>
+                  <td></td>
+                  <td></td>
+                  #else
+                  <td></td>
+                  <td></td>
+                  <td>$game.get("sv_percent")</td>
+                  <td>$game.get("gaa")</td>
+                  #end
+                  <td>$game.get("fantasy_points")</td>
                 </tr>
               #end
+            #end
 
             <tr>
               <th scope="row">Total</th>
               <td>$team.getName()</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>$team.getWeeklyPoints($league.getCurrentWeek())</td>
             </tr>
           </tbody>
         </table>
 
       <!-- Fantasy Stats for whole team -->
-        <h3>Team Points</h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Week</th>
-              <th>Fantasy Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            #foreach($i in [1..$league.getCurrentWeek()])
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Team Points</h3>
+          <table class="table table-striped">
+            <thead>
               <tr>
-                <th scope="row">Week $i</th>
-                <td>$team.getWeeklyPoints($i)</td>
+                <th>Week</th>
+                <th>Fantasy Points</th>
               </tr>
-            #end
-            <tr>
-              <th scope="row">Total</th>
-              <td>$team.getTotalPoints($league.getCurrentWeek())</td>
-            </tr>
-          </tbody>
-        </table>
-        <h3>Team Standings</h3>
+            </thead>
+            <tbody>
+              #foreach($i in [1..$league.getCurrentWeek()])
+                <tr>
+                  <th scope="row">Week $i</th>
+                  <td>$team.getWeeklyPoints($i)</td>
+                </tr>
+              #end
+              <tr>
+                <th scope="row">Total</th>
+                <td>$team.getTotalPoints($league.getCurrentWeek())</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <h3>Team Standings</h3>
+        </div>
+      </div>
+
+
 
       #end
     </div>
