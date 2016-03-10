@@ -65,6 +65,28 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/starters/:id", (request, response) -> {
+
+      Team team = Team.find(Integer.parseInt(request.params("id")));
+      Gm gm = request.session().attribute("currentGm");
+      String[] newStarters = request.queryParamsValues("checkStarter");
+      team.selectStarters(newStarters);
+
+      response.redirect("/league/" + team.getLeague().getId());
+      return null;
+    });
+
+    get("league/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      League league = League.find(Integer.parseInt(request.params("id")));
+      Gm gm = request.session().attribute("currentGm");
+      model.put("league", league);
+      model.put("GM", Gm.class);
+      model.put("gm", gm);
+      model.put("template", "templates/league.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
 
     post("/new-team-page", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();

@@ -1,0 +1,49 @@
+league.vtl
+<div class="row">
+  <div class="col-md-6">
+    <h1>$league.getName()</h1>
+    <h1 class="small">Week $league.getCurrentWeek()</h1>
+  </div>
+  <div class="col-md-6">
+    <a href="/addweek/$league.getId()" type="button" class="btn btn-default">Move Forward 1 Week</a>
+  </div>
+</div>
+
+
+
+<div class="row">
+  <div class="col-md-4">
+    <h2>Teams</h2>
+    #foreach($team in $league.allTeams())
+      <h4><a href="/team/$team.getId()">$team.getName()</a></h4>
+      <h4 class="small">$GM.find($team.getGmId()).getName()</h4>
+      <dl>
+        <dt>Current Starters</dt>
+        #foreach($player in $team.allStarters())
+          <dd>$player.getName()</dd>
+          <dd>$player.getPos()</dd>
+        #end
+      </dl>
+
+    #end
+  </div>
+  <div class="col-md-8">
+    <h2>Current Standings</h2>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Fantasy Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        #foreach($team in $league.rankTeams($league.getCurrentWeek))
+          <tr>
+            <td>$team.getName()</td>
+            <td>$team.getTotalPoints($league.getCurrentWeek())</td>
+          </tr>
+        #end
+      </tbody>
+    </table>
+  </div>
+</div>

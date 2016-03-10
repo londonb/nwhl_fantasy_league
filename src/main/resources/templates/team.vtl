@@ -1,6 +1,9 @@
 team.vtl
-
-<h1>$gm.getName() Team Management for $team.getName()</h1>
+#if($gm.getId() == $team.getGmId())
+  <h1>$gm.getName() Team Management for $team.getName()</h1>
+#else
+  <h1>$team.getName() Profile</h1>
+#end
 
 #if ($leagueId == 0)
   <form class="form-inline" action="/new-team-page" method="post">
@@ -13,7 +16,7 @@ team.vtl
   </form>
 #else
 
-<h3>League: $league.getName()</h3>
+<h3>League: <a href="/league/$league.getId()">$league.getName()</a></h3>
 <h3>Week: $league.getCurrentWeek()</h3>
   <div class="row">
     <div class="col-md-3">
@@ -21,23 +24,25 @@ team.vtl
         <h5>You have not yet drafted players</h5>
       #else
         <h3>Players:</h3>
+        <h3 class="small">Choose up to 5</h3>
         <form action="/starters/$team.getId()" method="post">
           <div class="list-group">
             #foreach($player in $team.allPlayers())
               <div class="list-group-item checkbox">
                 <label>
                   #if($team.allStarters().contains($player))
-                    <input type="checkbox" name="checkStarter" value="player$player.getId()" checked>
-                    <a href="$player.getUrl()" target="_blank">$player.getName()</a>
+                    <input type="checkbox" name="checkStarter" value="$player.getId()" checked>
                   #else
-                    <input type="checkbox" name="checkStarter" value="player$player.getId()">
-                    <a href="$player.getUrl()" target="_blank">$player.getName()</a>
+                    <input type="checkbox" name="checkStarter" value="$player.getId()">
                   #end
+                    <a href="$player.getUrl()" target="_blank">$player.getName()</a>
                 </label>
               </div>
             #end
           </div>
-          <button type="submit" class="btn btn-default" id="changeStarters">Set Starters for Next Week</button>
+          #if($gm.getId() == $team.getGmId())
+            <button type="submit" class="btn btn-default" id="changeStarters">Set Starters for Next Week</button>
+          #end
         </form>
       #end
     </div>
@@ -48,51 +53,80 @@ team.vtl
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
-              <th>Week</th>
+              <th>Game Date</th>
               <th>Player Name</th>
+              <th>Goals</th>
+              <th>Assists</th>
+              <th>Save %</th>
+              <th><abbr title="Goals Against Average" class="initialism">GAA</abbr></th>
               <th>Fantasy Points</th>
             </tr>
           </thead>
           <tbody>
-              #foreach($player in $team.getWeeklyRoster($league.getCurrentWeek()))
+            #foreach($player in $team.getWeeklyRoster($league.getCurrentWeek()))
+              #foreach($game in $player.getStats($league.getCurrentWeek()))
                 <tr>
-                  <th scope="row">Week $league.getCurrentWeek()</th>
-                  <td>$player.getName() <small> $player.getPos()</small></td>
-                  <td>$player.getStats($league.getCurrentWeek()).get(0).get("fantasy_points")</td>
+                  <th scope="row">$game.get("game_date")</th>
+                  <td>$player.getName() - <small>$player.getPos()</small></td>
+                  #if(!$player.getPos().equals("G"))
+                  <td>$game.get("goals")</td>
+                  <td>$game.get("assists")</td>
+                  <td></td>
+                  <td></td>
+                  #else
+                  <td></td>
+                  <td></td>
+                  <td>$game.get("sv_percent")</td>
+                  <td>$game.get("gaa")</td>
+                  #end
+                  <td>$game.get("fantasy_points")</td>
                 </tr>
               #end
+            #end
 
             <tr>
               <th scope="row">Total</th>
               <td>$team.getName()</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td>$team.getWeeklyPoints($league.getCurrentWeek())</td>
             </tr>
           </tbody>
         </table>
 
       <!-- Fantasy Stats for whole team -->
-        <h3>Team Points</h3>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Week</th>
-              <th>Fantasy Points</th>
-            </tr>
-          </thead>
-          <tbody>
-            #foreach($i in [1..$league.getCurrentWeek()])
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Team Points</h3>
+          <table class="table table-striped">
+            <thead>
               <tr>
-                <th scope="row">Week $i</th>
-                <td>$team.getWeeklyPoints($i)</td>
+                <th>Week</th>
+                <th>Fantasy Points</th>
               </tr>
-            #end
-            <tr>
-              <th scope="row">Total</th>
-              <td>$team.getTotalPoints($league.getCurrentWeek())</td>
-            </tr>
-          </tbody>
-        </table>
-        <h3>Team Standings</h3>
+            </thead>
+            <tbody>
+              #foreach($i in [1..$league.getCurrentWeek()])
+                <tr>
+                  <th scope="row">Week $i</th>
+                  <td>$team.getWeeklyPoints($i)</td>
+                </tr>
+              #end
+              <tr>
+                <th scope="row">Total</th>
+                <td>$team.getTotalPoints($league.getCurrentWeek())</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <h3>Team Standings</h3>
+        </div>
+      </div>
+
+
 
       #end
     </div>
