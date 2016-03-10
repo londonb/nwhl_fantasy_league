@@ -116,6 +116,7 @@ public class App {
 
       request.session().attribute("draftOrder", draftOrder);
       request.session().attribute("draftPosition", draftPosition);
+      model.put("remainingSalary", "$125000");
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);
       model.put("players", Player.all());
@@ -134,11 +135,27 @@ public class App {
       int leagueSize = draftOrder.size();
       int draftPosition = request.session().attribute("draftPosition");
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
-      Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
       int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
       int playerId = Integer.parseInt(request.queryParams("playerId"));
       Player draftedPlayer = Player.find(playerId);
       String evaluation = currentTeam.evaluatePlayer(draftedPlayer);
+
+
+      if (evaluation.contains("successfully")){
+        Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
+        model.put("displayTeam", displayTeam);
+        Integer moneySpent = displayTeam.currentSalarySpent();
+        Integer salaryCap = 125000;
+        Integer remainingSalary = salaryCap - moneySpent;
+        model.put("remainingSalary", remainingSalary);
+      } else {
+        Team displayTeam = draftOrder.get((draftPosition) % leagueSize);
+        model.put("displayTeam", displayTeam);
+        Integer moneySpent = displayTeam.currentSalarySpent();
+        Integer salaryCap = 125000;
+        Integer remainingSalary = salaryCap - moneySpent;
+        model.put("remainingSalary", remainingSalary);
+      }
 
       if (draftPosition < leagueSize * 8) {
         //add player logic - use evaluateplayer() not addplayer()
@@ -154,13 +171,43 @@ public class App {
       model.put("players", Player.all());
       model.put("round", round);
       model.put("currentTeam", currentTeam);
-      model.put("displayTeam", displayTeam);
       model.put("league", league);
       model.put("template", "templates/draft.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/pass/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int leagueId = Integer.parseInt(request.params("id"));
+      League league = League.find(leagueId);
+      List<Team> draftOrder = request.session().attribute("draftOrder");
+      int leagueSize = draftOrder.size();
+      int draftPosition = request.session().attribute("draftPosition");
+      Team currentTeam = draftOrder.get(draftPosition % leagueSize);
+      Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
+      int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
+      String evaluation = currentTeam.getName() + " passes their turn.";
+      Integer moneySpent = displayTeam.currentSalarySpent();
+      Integer salaryCap = 125000;
+      Integer remainingSalary = salaryCap - moneySpent;
 
+      if (draftPosition < leagueSize * 8) {
+        draftPosition++; // pass this around via hidden form fields or cookies
+        request.session().attribute("draftPosition", draftPosition);
+      }
+
+      model.put("remainingSalary", remainingSalary);
+      model.put("draftPosition", draftPosition);
+      model.put("leagueSize", leagueSize);
+      model.put("evaluation", evaluation);
+      model.put("players", Player.all());
+      model.put("round", round);
+      model.put("currentTeam", currentTeam);
+      model.put("displayTeam", displayTeam);
+      model.put("league", league);
+      model.put("template", "templates/draft.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
 
   }
 }
