@@ -16,7 +16,7 @@ index.vtl
     <form class="form-inline" action="/hello" method="post">
       <div class="form-group">
         <label for="leagueName" class="control-label">User Name</label>
-        <select class="form-control" name="gmId">
+        <select class="form-control" name="gmId" required>
           <option value=""></option>
         #foreach($gm in $allGms)
           <option value="$gm.getId()">$gm.getName()</option>
