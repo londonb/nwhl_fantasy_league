@@ -200,6 +200,7 @@ public class App {
         }
       }
 
+      model.put("GM", Gm.class);
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);
       model.put("evaluation", evaluation);
@@ -221,7 +222,7 @@ public class App {
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
       Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
       int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
-      String evaluation = currentTeam.getName() + " passes their turn.";  
+      String evaluation = currentTeam.getName() + " passes their turn.";
       Integer moneySpent = displayTeam.currentSalarySpent();
       Integer salaryCap = 125000;
       Integer remainingSalary = salaryCap - moneySpent;
@@ -231,6 +232,7 @@ public class App {
         request.session().attribute("draftPosition", draftPosition);
       }
 
+      model.put("GM", Gm.class);
       model.put("remainingSalary", remainingSalary);
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);
