@@ -113,7 +113,7 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    get("/gm/:id", (request, response) -> {
+    get("/home", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Gm gm = request.session().attribute("currentGm");
       model.put("gmsTeams", gm.allTeams());
@@ -121,6 +121,67 @@ public class App {
       model.put("template", "templates/gm.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    post("/edit/:id", (request, response) -> {
+      Gm gm = request.session().attribute("currentGm");
+      String type = request.queryParams("type");
+      String newName = request.queryParams("newName");
+      if(type.equals("Team")){
+        Team editedItem = Team.find(Integer.parseInt(request.params("id")));
+        editedItem.updateName(newName);
+      } else if (type.equals("Gm")) {
+        Gm editedItem = Gm.find(Integer.parseInt(request.params("id")));
+        editedItem.updateName(newName);
+      } else if (type.equals("League")) {
+        League editedItem = League.find(Integer.parseInt(request.params("id")));
+        editedItem.updateName(newName);
+      }
+      response.redirect("/home");
+      return null;
+    });
+
+    get("/delete/:type/:id", (request, response) -> {
+      int id = Integer.parseInt(request.params("id"));
+      String type = request.params("type");
+      Gm gm = request.session().attribute("currentGm");
+      if(type.equals("Team")){
+        Team editedItem = Team.find(id);
+        editedItem.delete();
+      } else if (type.equals("Gm")) {
+        Gm editedItem = Gm.find(id);
+        if(editedItem.equals(gm)){
+          editedItem.delete();
+          response.redirect("/");
+          return null;
+        }
+      } else if (type.equals("League")) {
+        League editedItem = League.find(id);
+        editedItem.delete();
+      }
+      response.redirect("/home");
+      return null;
+    });
+
+    get("/edit/:type/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      int id = Integer.parseInt(request.params("id"));
+      String type = request.params("type");
+      Gm gm = request.session().attribute("currentGm");
+      if(type.equals("Team")){
+        Team object = Team.find(id);
+        model.put("object", object);
+      } else if (type.equals("Gm")) {
+        Gm object = Gm.find(id);
+        model.put("object", object);
+      } else if (type.equals("League")) {
+        League object = League.find(id);
+        model.put("object", object);
+      }
+
+      model.put("template", "templates/update.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
 
     post("/hello", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
@@ -221,7 +282,7 @@ public class App {
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
       Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
       int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
-      String evaluation = currentTeam.getName() + " passes their turn.";  
+      String evaluation = currentTeam.getName() + " passes their turn.";
       Integer moneySpent = displayTeam.currentSalarySpent();
       Integer salaryCap = 125000;
       Integer remainingSalary = salaryCap - moneySpent;
