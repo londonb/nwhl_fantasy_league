@@ -45,9 +45,22 @@ public class App {
         league.addTeam(newTeam);
         model.put("league", league);
       }
-      model.put("newTeam", newTeam);
+      model.put("team", newTeam);
       model.put("gm", gm);
       model.put("leagueId", leagueId);
+      model.put("template", "templates/team.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/team/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Gm gm = request.session().attribute("currentGm");
+      Team team = Team.find(Integer.parseInt(request.params("id")));
+
+      model.put("league", team.getLeague());
+      model.put("team", team);
+      model.put("gm", gm);
+      model.put("leagueId", team.getLeague().getId());
       model.put("template", "templates/team.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -63,7 +76,7 @@ public class App {
       int gmId = Integer.parseInt(request.params("id"));
       Gm gm = Gm.find(gmId);
       model.put("gm", gm);
-      model.put("newTeam", newTeam);
+      model.put("team", newTeam);
       model.put("league", newLeague);
       model.put("leagueId", newLeague.getId());
       model.put("template", "templates/team.vtl");

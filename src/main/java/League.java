@@ -6,11 +6,14 @@ public class League {
   private String league_name;
   private int current_gms;
   private final int MAX_GMS;
+  private int current_week;
+  // MAYBE ADD A MAX_WEEK HERE???
 
   public League(String name) {
     league_name = name;
     MAX_GMS = 8;
     current_gms = 0;
+    current_week = 0;
   }
 
   public String getName() {
@@ -23,6 +26,10 @@ public class League {
 
   public int getCurrentGms() {
     return current_gms;
+  }
+
+  public int getCurrentWeek() {
+    return current_week;
   }
 
   @Override
