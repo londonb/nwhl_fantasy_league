@@ -6,7 +6,15 @@ radio.hidden {
   display: none;
 }
 
-.currentTeam h1 {
+#currentTeam h1 {
   font-weight: bold;
-  color: ##d9534f;
+  color: #d9534f;
+}
+
+#currentPick {
+  text-align: center;
+}
+
+.center {
+  text-align: center;
 }

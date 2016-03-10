@@ -145,7 +145,7 @@ public class App {
 
       request.session().attribute("draftOrder", draftOrder);
       request.session().attribute("draftPosition", draftPosition);
-      model.put("remainingSalary", "$125000");
+      model.put("remainingSalary", "125000");
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);
       model.put("players", Player.all());
@@ -173,10 +173,16 @@ public class App {
       if (evaluation.contains("successfully")){
         Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
         model.put("displayTeam", displayTeam);
-        Integer moneySpent = displayTeam.currentSalarySpent();
         Integer salaryCap = 125000;
-        Integer remainingSalary = salaryCap - moneySpent;
-        model.put("remainingSalary", remainingSalary);
+        if (displayTeam.currentSalarySpent() != null) {
+          Integer moneySpent = displayTeam.currentSalarySpent();
+          Integer remainingSalary = salaryCap - moneySpent;
+          model.put("remainingSalary", remainingSalary);
+        } else {
+          Integer moneySpent = 0;
+          Integer remainingSalary = salaryCap - moneySpent;
+          model.put("remainingSalary", remainingSalary);
+        }
       } else {
         Team displayTeam = draftOrder.get((draftPosition) % leagueSize);
         model.put("displayTeam", displayTeam);
@@ -215,7 +221,7 @@ public class App {
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
       Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
       int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
-      String evaluation = currentTeam.getName() + " passes their turn.";
+      String evaluation = currentTeam.getName() + " passes their turn.";  
       Integer moneySpent = displayTeam.currentSalarySpent();
       Integer salaryCap = 125000;
       Integer remainingSalary = salaryCap - moneySpent;

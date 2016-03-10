@@ -13,7 +13,9 @@ create-team.vtl
     <select class="form-control" name="leagueId">
       <option value="0">Create New League</option>
       #foreach($league in $availableLeagues)
-        <option value="$league.getId()">$league.getName()</option>
+        #if ($league.allDrafted().size() == 0)
+          <option value="$league.getId()">$league.getName()</option>
+        #end
       #end
     </select>
   </div>

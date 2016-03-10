@@ -1,41 +1,25 @@
 draft.vtl
 
 #if ($draftPosition != $leagueSize * 8)
-  <div class="row header">
-    <h4 class="center">Draft for: $league.getName()</h4>
-  </div>
+  <h5>Draft for: $league.getName()</h5>
   <hr>
   <div class="row">
-    <div class="col col-sm-3">
-      #if ($draftPosition == 0)
-      <h3>Turn: $currentTeam.getName()</h3>
-      #else
-      <h3>$displayTeam.getName()</h3>
-      #end
+    <div class="col col-sm-4">
       <h4>Current Pick Info</h4>
       <hr>
       <h4>Remaining Salary: $ $remainingSalary</h4>
       #if ($draftPosition >= $leagueSize)
         <h4>Current Players:</h4>
-        <table class="table table-striped table-bordered">
-          <tbody>
-            <thead>
-              <tr>
-                <th>$displayTeam.getName()</th>
-              </tr>
-            </thead>
-            #foreach ($player in $displayTeam.allPlayers())
-              <tr>
-                <td>$player.getName() - <small>$player.getPos()</small></td>
-              </tr>
-            #end
-          </tbody>
-        </table>
+          <table class="table table-striped table-bordered">
+            <tbody>
+              $displayTeam.getName()
+            </tbody>
+          </table>
       #end
     </div>
-    <div id="currentPick" class="col col-sm-6">
+    <div class="col col-sm-4">
 
-      <div id="currentTeam">
+      <div class="currentTeam">
         #if ($draftPosition == 0)
         <h1>Turn: $currentTeam.getName()</h1>
         #else
@@ -46,9 +30,8 @@ draft.vtl
     </div>
 
 
-    <div class="col col-sm-3">
+    <div class="col col-sm-4">
       #if ($draftPosition != 0)
-        <h3>$currentTeam.getName()</h3>
         <h4>Previous Pick Info</h4>
         <hr>
         #if ($evaluation)
@@ -57,16 +40,7 @@ draft.vtl
         <h4>Current Players:</h4>
         <table class="table table-striped table-bordered">
           <tbody>
-            <thead>
-              <tr>
-                <th>$currentTeam.getName()</th>
-              </tr>
-            </thead>
-            #foreach ($player in $currentTeam.allPlayers())
-              <tr>
-                <td>$player.getName() - <small>$player.getPos()</small></td>
-              </tr>
-            #end
+            $currentTeam.getName()
           </tbody>
         </table>
       #end
@@ -81,14 +55,11 @@ draft.vtl
   <hr>
   <div class="">
     <div class="">
-      #if ($draftPosition >= $leagueSize)
-        <form class="" action="/pass/$league.getId()" method="post">
-          <button class="btn btn-danger" type="submit" name="pass">Pass</button>
-        </form>
-      #end
+      <form class="" action="/pass/$league.getId()" method="post">
+        <button class="btn btn-danger" type="submit" name="pass">Pass</button>
+      </form>
       <form action="/draft/$league.getId()" method="post">
         <button class="btn btn-warning" type="submit" name="draft">Draft Player</button>
-        <br>
         #foreach ($player in $players)
           #if(!$league.allDrafted().contains($player))
             <div class="radio $player.getPos()">
@@ -107,3 +78,47 @@ draft.vtl
   <h1>Draft Completed!</h1>
   <a href="/league/$league.getId()" class="btn btn-primary" type="button" name="home">League Page</a>
 #end
+
+
+
+
+
+<table class="table table-striped table-bordered">
+  <tbody>
+    #foreach ($player in $displayTeam.allPlayers())
+      <tr>
+        <td>$player.getName() - <small>$player.getPos()</small></td>
+      </tr>
+    #end
+  </tbody>
+</table>
+</div>
+<div class="col col-sm-4">
+
+<div class="currentTeam">
+  #if ($draftPosition == 0)
+  <h1>Turn: $currentTeam.getName()</h1>
+  #else
+  <h1>Turn: $displayTeam.getName()</h1>
+  #end
+</div>
+<h2>Round: $round</h2>
+</div>
+
+
+<div class="col col-sm-4">
+<h4>Previous Pick Info</h4>
+<hr>
+#if ($evaluation)
+  <h4>$evaluation</h4>
+#end
+<h4>Current Players:</h4>
+<table class="table table-striped table-bordered">
+  <tbody>
+    #foreach ($player in $currentTeam.allPlayers())
+      <tr>
+        <td>$player.getName() - <small>$player.getPos()</small></td>
+      </tr>
+    #end
+  </tbody>
+</table>
