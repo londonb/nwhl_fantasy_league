@@ -41,6 +41,7 @@ league.vtl
     #end
   </div>
   <div class="col-md-8">
+    #set($String = "abc")
     <h2>Current Standings</h2>
     #set($rank = 1)
     <table class="table table-striped">
@@ -56,7 +57,7 @@ league.vtl
           <tr>
             <th scope="row">$rank</th>
             <td>$team.getName()</td>
-            <td>$team.getTotalPoints($league.getCurrentWeek())</td>
+            <td>$String.format("%.3f", $team.getTotalPoints($league.getCurrentWeek()))</td>
           </tr>
           #set ($rank = $rank + 1)
         #end

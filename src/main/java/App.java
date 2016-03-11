@@ -20,6 +20,13 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    get("/about", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("gm", request.session().attribute("currentGm"));
+      model.put("template", "templates/about.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
     get("/search", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       Gm gm = request.session().attribute("currentGm");
