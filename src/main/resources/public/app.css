@@ -1,5 +1,51 @@
+html,body
+{
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #FFFEFA;
+}
+
+
+/****************************JUMBO AND NAV*/
+
 .jumbotron {
+  font-family: 'Russo One', sans-serif;
   text-align: center;
+  background-image: url("img/pucks-fade.png");
+  background-size: cover;
+  height: 250px;
+  margin: 0;
+}
+
+.jumbotron h1 {
+  color: #FFFEFA;
+  font-size: 5em;
+}
+
+.nav {
+  font-size: 1.2em;
+  letter-spacing: 1.5px;
+  margin: 0 auto;
+  border-top: 2px solid black;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.6);
+  color: #FFFEFA;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 50px;
+  margin-top: -50px;
+}
+
+.nav a {
+  color: white;
 }
 /******************************DRAFT PAGE*/
 radio.hidden {

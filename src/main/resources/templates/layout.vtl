@@ -4,20 +4,32 @@
     <title>NWHL Fantasy Hockey</title>
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <link rel='stylesheet' href='/app.css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Russo+One' rel='stylesheet' type='text/css'>
     <script src="/jquery-1.12.0.js"></script>
     <script src="/scripts.js"></script>
   </head>
   <body>
-    <div class='container'>
       <div class="jumbotron">
-        <h1>NWHL Fantasy Hockey</h1>
+        <div class='container'>
+          <h1>NWHL Fantasy Hockey</h1>
 
-        <a href="/home"><button class="btn btn-primary" type="button" name="home">GM Home</button></a>
-        
-        <a href="/"><button class="btn btn-primary" type="button" name="authors">Change General Manager</button></a>
+        </div>
       </div>
-      #parse( $template )
+      <div class="nav">
+        <a href="/search">Find</a>
+        #if ($gm.allTeams().size() != 0)
+        <a class="home" href="/home">Home</a>
+        #end
+        <a href="/">Logout/Login</a>
+      </div>
+      <div class="container">
+        #if ($gm)
+        <p>Current GM: $gm.getName()</p>
+        #end
 
-    </div>
+        #parse( $template )
+
+      </div>
   </body>
 </html>
