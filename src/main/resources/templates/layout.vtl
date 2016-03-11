@@ -18,10 +18,11 @@
       </div>
       <div class="nav">
         <a href="/search">Find</a>
-        #if ($gm.allTeams().size() != 0)
+        #if ($gm)
         <a class="home" href="/home">Home</a>
         #end
         <a href="/">Logout/Login</a>
+        <a href="/about">About</a>
       </div>
       <div class="container">
         #if ($gm)
@@ -31,5 +32,11 @@
         #parse( $template )
 
       </div>
+      <footer class="footer">
+        <div class='container'>
+          <h3 class="text-muted">Copyright 2016 Bad-T</h3>
+          <p class="text-muted small">Brad London, Tyler Suderman, Abigail Rolling, and Daren Schaad</p>
+        </div>
+      </footer>
   </body>
 </html>
