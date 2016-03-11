@@ -7,8 +7,18 @@
   height: 100px;
   background-color: #558D8F;
   color: #FDFFFC;
+  margin-top: 20px;
 }
 
+.map {
+  display: block;
+  width: 400px;
+  margin: 40px auto;
+}
+
+.map img {
+  max-width: 100%;
+}
 .text-muted {
   color: #FDFFFC;
 }
@@ -18,10 +28,6 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 100px;
-  min-height: 100%;
-}
 
 html,body
 {
@@ -32,10 +38,44 @@ html,body
   overflow-x: hidden;
 }
 
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
+  margin-bottom: 140px;
   background-color: #FDFFFC;
   color: #1B2347;
+}
+
+.container {
+  height: 90vh;
+  margin-bottom: 20vh;
+  min-height:100%;
+  overflow: visible;
+}
+@media screen and (max-width: 1200px ) {
+  .container {
+    height: 120vh;
+  }
+}
+
+.gallery {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 60px auto;
+  width: 500px;
+  outline: 1px solid black;
+}
+
+.gallery img {
+  width: 200px;
+  height: 200px;
+  margin: 20px;
 }
 
 p, h1, h2, h3, h4, h5, h6 {
@@ -122,7 +162,7 @@ a:hover {
 }
 
 a  {
-  color: #235789;
+  color: #2d71af;
 }
 
 #welcome {
@@ -134,15 +174,15 @@ a  {
   margin-bottom: 15px;
 }
 
-tr:nth-child(odd) {
-  background: #ccc;
-}
-
-.table-striped>tbody>tr:nth-of-type(even) {
-  background: #E0E0E0;
+.table-striped>thead>tr:nth-child(odd) {
+  background: transparent;
 }
 
 .table-striped>tbody>tr:nth-of-type(odd) {
+  background: #E0E0E0;
+}
+
+.table-striped>tbody>tr:nth-of-type(even) {
   background: transparent;
 }
 
