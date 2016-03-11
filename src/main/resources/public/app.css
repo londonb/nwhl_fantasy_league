@@ -5,10 +5,11 @@
   bottom: 0;
   width: 100%;
   height: 100px;
-  background: grey;
-  color: #FFFEFA;
+  background-color: #558D8F;
+  color: #FDFFFC;
   margin-top: 20px;
 }
+
 .map {
   display: block;
   width: 400px;
@@ -19,7 +20,7 @@
   max-width: 100%;
 }
 .text-muted {
-  color: white;
+  color: #FDFFFC;
 }
 
 html {
@@ -27,10 +28,6 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 100px;
-  min-height: 100%;
-}
 
 html,body
 {
@@ -48,8 +45,9 @@ body::-webkit-scrollbar {
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #FFFEFA;
   margin-bottom: 140px;
+  background-color: #FDFFFC;
+  color: #1B2347;
 }
 
 .container {
@@ -80,6 +78,46 @@ body {
   margin: 20px;
 }
 
+p, h1, h2, h3, h4, h5, h6 {
+  color: #1B2347;
+}
+
+#leaguebuttons {
+  margin-top: 30px;
+}
+
+.btn-danger {
+  margin-top: 20px;
+  background-color: #F42C04;
+}
+
+.btn:hover {
+  background-color: #1B2347;
+  color: #FDFFFC;
+}
+
+.btn-default {
+  background-color: #558D8F;
+}
+
+.btn-primary {
+  background-color: #235789;
+}
+
+.form-control, .checkbox {
+  background-color: #FDFFFC;
+}
+
+.btn {
+  border: none;
+
+  color: #FDFFFC;
+}
+
+a:hover {
+  color: #F42C04;
+}
+
 /*******************************CREATE GM/TEAM/LEAGUE FLOW*/
 
 #first-choice .col {
@@ -104,7 +142,7 @@ body {
 }
 
 .jumbotron h1 {
-  color: #FFFEFA;
+  color: #FDFFFC;
   font-size: 5em;
 }
 
@@ -114,8 +152,8 @@ body {
   margin: 0 auto;
   border-top: 2px solid black;
   width: 100vw;
-  background-color: rgba(0,0,0,0.6);
-  color: #FFFEFA;
+  background-color: #558D8F;
+  color: #FDFFFC;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -123,8 +161,46 @@ body {
   margin-top: -50px;
 }
 
+a  {
+  color: #2d71af;
+}
+
+#welcome {
+  float: right;
+  font-size: 17px;
+}
+
+#draft {
+  margin-bottom: 15px;
+}
+
+.table-striped>thead>tr:nth-child(odd) {
+  background: transparent;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+  background: #E0E0E0;
+}
+
+.table-striped>tbody>tr:nth-of-type(even) {
+  background: transparent;
+}
+
+.list-group-item {
+  background-color: #FDFFFC;
+  color: #558D8F;
+}
+
+.list-group a {
+  color: #235789;
+}
+
+.list-group a:hover {
+  color: #F42C04;
+}
+
 .nav a {
-  color: white;
+  color: #FDFFFC;
 }
 /******************************DRAFT PAGE*/
 radio.hidden {
@@ -133,7 +209,7 @@ radio.hidden {
 
 #currentTeam h1 {
   font-weight: bold;
-  color: #d9534f;
+  color: #F42C04;
 }
 
 #currentPick {

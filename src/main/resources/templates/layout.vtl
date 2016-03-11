@@ -26,14 +26,16 @@
       </div>
       <div id="body-container" class="container">
         #if ($gm)
-        <p>Current GM: $gm.getName()</p>
+        <h2 id="welcome">Welcome $gm.getName()</h2>
         #end
 
         #parse( $template )
 
+
       </div>
       <footer class="footer">
         <div class='container'>
+
           <h3 class="text-muted">Copyright 2016 Bad-T</h3>
           <p class="text-muted small">Brad London, Tyler Suderman, Abigail Rolling, and Daren Schaad</p>
         </div>
