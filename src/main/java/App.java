@@ -178,6 +178,7 @@ public class App {
         model.put("object", object);
       }
 
+      model.put("gm", gm);
       model.put("template", "templates/update.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
@@ -197,6 +198,7 @@ public class App {
     get("/draft/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       int leagueId = Integer.parseInt(request.params("id"));
+      Gm gm = request.session().attribute("currentGm");
       League league = League.find(leagueId);
       List<Team> draftOrder = league.draftOrder();
       int leagueSize = draftOrder.size();
@@ -213,12 +215,14 @@ public class App {
       model.put("round", round);
       model.put("currentTeam", currentTeam);
       model.put("league", league);
+      model.put("gm", gm);
       model.put("template", "templates/draft.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
     post("/draft/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
+      Gm gm = request.session().attribute("currentGm");
       int leagueId = Integer.parseInt(request.params("id"));
       League league = League.find(leagueId);
       List<Team> draftOrder = request.session().attribute("draftOrder");
@@ -262,6 +266,7 @@ public class App {
       }
 
       model.put("GM", Gm.class);
+      model.put("gm", gm);
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);
       model.put("evaluation", evaluation);
@@ -275,6 +280,7 @@ public class App {
 
     post("/pass/:id", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
+      Gm gm = request.session().attribute("currentGm");
       int leagueId = Integer.parseInt(request.params("id"));
       League league = League.find(leagueId);
       List<Team> draftOrder = request.session().attribute("draftOrder");
@@ -294,6 +300,7 @@ public class App {
       }
 
       model.put("GM", Gm.class);
+      model.put("gm", gm);
       model.put("remainingSalary", remainingSalary);
       model.put("draftPosition", draftPosition);
       model.put("leagueSize", leagueSize);

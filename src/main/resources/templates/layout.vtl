@@ -5,6 +5,7 @@
     <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
     <link rel='stylesheet' href='/app.css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Russo+One' rel='stylesheet' type='text/css'>
     <script src="/jquery-1.12.0.js"></script>
     <script src="/scripts.js"></script>
   </head>
@@ -16,13 +17,17 @@
         </div>
       </div>
       <div class="nav">
-        <a>current gm</a>
+        <a href="/search">Find</a>
         #if ($gm.allTeams().size() != 0)
         <a class="home" href="/home">Home</a>
         #end
-        <a href="/">Change General Manager</a>
+        <a href="/">Logout/Login</a>
       </div>
       <div class="container">
+        #if ($gm)
+        <p>Current GM: $gm.getName()</p>
+        #end
+
         #parse( $template )
 
       </div>
