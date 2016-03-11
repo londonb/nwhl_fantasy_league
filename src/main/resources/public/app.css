@@ -12,6 +12,17 @@ body {
   background-color: #FFFEFA;
 }
 
+/*******************************CREATE GM/TEAM/LEAGUE FLOW*/
+
+#first-choice .col {
+  text-align: center;
+  margin:auto;
+}
+
+.new-team {
+  width: 30%;
+  min-width: 200px;
+}
 
 /****************************JUMBO AND NAV*/
 

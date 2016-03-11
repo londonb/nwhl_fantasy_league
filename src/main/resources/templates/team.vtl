@@ -1,28 +1,29 @@
 team.vtl
-#if($gm.getId() == $team.getGmId())
-  <div class="row">
-    <div class="col-md-9">
-      <h1>$gm.getName() Team Management for $team.getName()</h1>
-    </div>
-    <div class="col-md-3">
-      <a href="/edit/Team/$team.getId()" type="button" class="btn btn-danger">Edit Team</a>
-    </div>
-  </div>
-
-#else
-  <h1>$team.getName() Profile</h1>
-#end
 
 #if ($leagueId == 0)
-  <form class="form-inline" action="/new-team-page" method="post">
+<h1>Create a New League</h1>
+  <form action="/new-team-page" method="post">
     <div class="form-group">
-      <label for="leagueName" class="control-label">League Name</label>
       <input type="hidden" name="newTeamId" value="$team.getId()">
-      <input class="form-control" type="text" name="leagueName" required autofocus="autofocus">
+      <input class="form-control new-team" type="text" name="leagueName" required autofocus="autofocus" placeholder="League Name">
     </div>
-    <button type="submit" name="button" class="btn btn-primary">Submit</button>
+    <button type="submit" name="button" class="btn btn-primary">Create</button>
   </form>
 #else
+
+#if($gm.getId() == $team.getGmId())
+<div class="row">
+  <div class="col-md-9">
+    <h1>Team Management for $team.getName()</h1>
+  </div>
+  <div class="col-md-3">
+    <a href="/edit/Team/$team.getId()" type="button" class="btn btn-danger">Edit Team</a>
+  </div>
+</div>
+
+#else
+<h1>$team.getName() Profile</h1>
+#end
 
 <h3>League: <a href="/league/$league.getId()">$league.getName()</a></h3>
 <h3>Week: $league.getCurrentWeek()</h3>
