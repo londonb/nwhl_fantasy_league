@@ -493,6 +493,12 @@ ALTER TABLE ONLY teams ALTER COLUMN id SET DEFAULT nextval('teams_id_seq'::regcl
 COPY gms (id, user_name) FROM stdin;
 1	Big Ben
 2	Scotland Forever
+3	Herbert
+5	Brad
+7	Henrietta
+8	Mary
+9	Kevin
+4	Abigail
 \.
 
 
@@ -500,7 +506,7 @@ COPY gms (id, user_name) FROM stdin;
 -- Name: gms_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('gms_id_seq', 2, true);
+SELECT pg_catalog.setval('gms_id_seq', 9, true);
 
 
 --
@@ -510,6 +516,14 @@ SELECT pg_catalog.setval('gms_id_seq', 2, true);
 COPY gms_leagues (id, gm_id, league_id) FROM stdin;
 1	1	1
 2	2	1
+3	3	2
+4	4	3
+5	5	3
+6	6	2
+7	7	2
+8	8	2
+9	9	2
+10	4	4
 \.
 
 
@@ -517,14 +531,14 @@ COPY gms_leagues (id, gm_id, league_id) FROM stdin;
 -- Name: gms_leagues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('gms_leagues_id_seq', 2, true);
+SELECT pg_catalog.setval('gms_leagues_id_seq', 10, true);
 
 
 --
 -- Name: gms_leagues_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('gms_leagues_teams_id_seq', 2, true);
+SELECT pg_catalog.setval('gms_leagues_teams_id_seq', 10, true);
 
 
 --
@@ -755,7 +769,10 @@ SELECT pg_catalog.setval('goalies_stats_id_seq', 1, false);
 --
 
 COPY leagues (id, league_name, max_gms, current_gms, current_week) FROM stdin;
-1	UK Hockey	8	2	5
+3	Epicodus	8	2	2
+2	Cleaning Supplies	8	3	\N
+1	UK Hockey	8	2	10
+4	Hawaii Rocks	8	1	\N
 \.
 
 
@@ -763,7 +780,7 @@ COPY leagues (id, league_name, max_gms, current_gms, current_week) FROM stdin;
 -- Name: leagues_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('leagues_id_seq', 1, true);
+SELECT pg_catalog.setval('leagues_id_seq', 4, true);
 
 
 --
@@ -773,6 +790,12 @@ SELECT pg_catalog.setval('leagues_id_seq', 1, true);
 COPY leagues_teams (id, league_id, team_id) FROM stdin;
 1	1	1
 2	1	2
+4	3	4
+5	3	5
+7	2	7
+8	2	8
+9	2	9
+10	4	10
 \.
 
 
@@ -887,18 +910,39 @@ SELECT pg_catalog.setval('players_id_seq', 1, false);
 --
 
 COPY players_teams (id, team_id, player_id, starter) FROM stdin;
-1	1	17	t
+29	9	42	t
+30	8	53	t
+31	7	39	t
+32	9	55	t
+33	8	54	t
+34	7	76	t
+1	1	17	f
+5	1	55	f
 2	1	30	t
-3	1	39	t
+6	1	70	t
 4	1	12	t
-5	1	55	t
-6	1	70	f
-7	2	44	t
-8	2	24	t
-10	2	71	t
+3	1	39	t
+13	1	76	t
+8	2	24	f
 11	2	29	t
-12	2	41	f
+10	2	71	t
+12	2	41	t
+7	2	44	t
 9	2	2	t
+15	5	13	t
+17	5	12	t
+19	5	16	t
+21	5	47	t
+23	5	11	t
+25	5	35	f
+28	5	90	f
+18	4	42	f
+20	4	71	f
+26	4	54	t
+16	4	39	t
+22	4	15	t
+24	4	53	t
+27	4	52	t
 \.
 
 
@@ -906,7 +950,7 @@ COPY players_teams (id, team_id, player_id, starter) FROM stdin;
 -- Name: players_teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('players_teams_id_seq', 12, true);
+SELECT pg_catalog.setval('players_teams_id_seq', 34, true);
 
 
 --
@@ -914,31 +958,126 @@ SELECT pg_catalog.setval('players_teams_id_seq', 12, true);
 --
 
 COPY rosters (id, team_id, player_id, week) FROM stdin;
-1	1	17	1
-2	1	17	2
-3	1	17	3
-4	1	17	4
-5	1	17	5
-6	1	30	1
-7	1	30	2
-8	1	30	3
-9	1	30	4
-10	1	30	5
-11	1	39	1
-12	1	39	2
-13	1	70	3
-14	1	70	4
-15	1	39	5
-16	1	55	1
-17	1	55	2
-18	1	55	3
-19	1	55	4
-20	1	55	5
-21	1	12	1
-22	1	12	2
-23	1	12	3
-24	1	12	4
-25	1	12	5
+46	1	17	1
+47	1	39	1
+48	1	55	1
+49	1	70	1
+50	1	76	1
+51	2	2	1
+52	2	24	1
+53	2	41	1
+54	2	44	1
+55	2	71	1
+56	1	12	2
+57	1	30	2
+58	1	39	2
+59	1	70	2
+60	1	76	2
+61	2	2	2
+62	2	24	2
+63	2	41	2
+64	2	44	2
+65	2	71	2
+66	1	12	3
+67	1	17	3
+68	1	39	3
+69	1	55	3
+70	1	76	3
+71	2	2	3
+72	2	24	3
+73	2	41	3
+74	2	44	3
+75	2	71	3
+76	1	12	4
+77	1	17	4
+78	1	39	4
+79	1	55	4
+80	1	76	4
+81	2	2	4
+82	2	24	4
+83	2	41	4
+84	2	44	4
+85	2	71	4
+86	1	12	5
+87	1	17	5
+88	1	39	5
+89	1	55	5
+90	1	76	5
+91	2	2	5
+92	2	24	5
+93	2	41	5
+94	2	44	5
+95	2	71	5
+96	1	12	6
+97	1	17	6
+98	1	39	6
+99	1	55	6
+100	1	76	6
+101	2	2	6
+102	2	29	6
+103	2	41	6
+104	2	44	6
+105	2	71	6
+106	1	12	7
+107	1	17	7
+108	1	39	7
+109	1	55	7
+110	1	76	7
+111	2	2	7
+112	2	29	7
+113	2	41	7
+114	2	44	7
+115	2	71	7
+116	1	12	8
+117	1	17	8
+118	1	39	8
+119	1	55	8
+120	1	76	8
+121	2	2	8
+122	2	29	8
+123	2	41	8
+124	2	44	8
+125	2	71	8
+126	1	12	9
+127	1	17	9
+128	1	39	9
+129	1	55	9
+130	1	76	9
+131	2	2	9
+132	2	29	9
+133	2	41	9
+134	2	44	9
+135	2	71	9
+136	4	15	1
+137	4	39	1
+138	4	52	1
+139	4	53	1
+140	4	71	1
+141	5	11	1
+142	5	12	1
+143	5	13	1
+144	5	16	1
+145	5	47	1
+146	4	15	2
+147	4	39	2
+148	4	52	2
+149	4	53	2
+150	4	54	2
+151	5	11	2
+152	5	12	2
+153	5	13	2
+154	5	16	2
+155	5	47	2
+156	1	12	10
+157	1	30	10
+158	1	39	10
+159	1	70	10
+160	1	76	10
+161	2	2	10
+162	2	29	10
+163	2	41	10
+164	2	44	10
+165	2	71	10
 \.
 
 
@@ -946,7 +1085,7 @@ COPY rosters (id, team_id, player_id, week) FROM stdin;
 -- Name: rosters_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('rosters_id_seq', 25, true);
+SELECT pg_catalog.setval('rosters_id_seq', 165, true);
 
 
 --
@@ -2181,6 +2320,12 @@ SELECT pg_catalog.setval('skaters_stats_id_seq', 1, false);
 COPY teams (id, team_name, max_players, current_players, gm_id) FROM stdin;
 1	London Calling	8	6	1
 2	The Highlanders	8	6	2
+4	PowderPuck Girls	8	7	4
+5	Brad's Team	8	7	5
+9	No pucks given	8	2	9
+8	Magpies	8	2	8
+7	Herons	8	2	7
+10	Hula Dancers	8	0	4
 \.
 
 
@@ -2188,7 +2333,7 @@ COPY teams (id, team_name, max_players, current_players, gm_id) FROM stdin;
 -- Name: teams_id_seq; Type: SEQUENCE SET; Schema: public; Owner: Guest
 --
 
-SELECT pg_catalog.setval('teams_id_seq', 2, true);
+SELECT pg_catalog.setval('teams_id_seq', 10, true);
 
 
 --

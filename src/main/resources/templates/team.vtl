@@ -59,6 +59,8 @@ team.vtl
       #if($league.getCurrentWeek() > 0)
       <!-- Stats for this week -->
         <h3>Player Statistics for Week $league.getCurrentWeek()</h3>
+        #set($String = "abc")
+
         <table class="table table-striped table-bordered">
           <thead>
             <tr>
@@ -88,7 +90,7 @@ team.vtl
                   <td>$game.get("sv_percent")</td>
                   <td>$game.get("gaa")</td>
                   #end
-                  <td>$game.get("fantasy_points")</td>
+                  <td>$String.format("%.3f", $game.get("fantasy_points"))</td>
                 </tr>
               #end
             #end
@@ -100,7 +102,7 @@ team.vtl
               <td></td>
               <td></td>
               <td></td>
-              <td>$team.getWeeklyPoints($league.getCurrentWeek())</td>
+              <td>$String.format("%.3f", $team.getWeeklyPoints($league.getCurrentWeek()))</td>
             </tr>
           </tbody>
         </table>
@@ -120,12 +122,12 @@ team.vtl
               #foreach($i in [1..$league.getCurrentWeek()])
                 <tr>
                   <th scope="row">Week $i</th>
-                  <td>$team.getWeeklyPoints($i)</td>
+                  <td>$String.format("%.3f", $team.getWeeklyPoints($i))</td>
                 </tr>
               #end
               <tr>
                 <th scope="row">Total</th>
-                <td>$team.getTotalPoints($league.getCurrentWeek())</td>
+                <td>$String.format("%.3f", $team.getTotalPoints($league.getCurrentWeek()))</td>
               </tr>
             </tbody>
           </table>
@@ -146,7 +148,7 @@ team.vtl
                 <tr>
                   <th scope="row">$rank</th>
                   <td>$team.getName()</td>
-                  <td>$team.getTotalPoints($league.getCurrentWeek())</td>
+                  <td>$String.format("%.3f", $team.getTotalPoints($league.getCurrentWeek()))</td>
                 </tr>
                 #set ($rank = $rank + 1)
               #end
