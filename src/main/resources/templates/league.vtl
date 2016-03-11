@@ -1,10 +1,10 @@
-league.vtl
+
 <div class="row">
   <div class="col-md-6">
     <h1>$league.getName()</h1>
     <h4>Week $league.getCurrentWeek()</h4>
   </div>
-  <div class="col-md-3">
+  <div class="col-md-3" id="leaguebuttons">
     #if($gm.allGmsLeagues().contains($league))
       <a href="/edit/League/$league.getId()" type="button" class="btn btn-danger">Edit League</a>
     #end
@@ -13,7 +13,7 @@ league.vtl
     #end
   </div>
   <div class="col-md-3">
-    #if(!$gm.allGmsLeagues().contains($league) && !$league.draftNotStarted())
+    #if(!$gm.allGmsLeagues().contains($league) && $league.draftNotStarted())
       <a href="/create-team" type="button" class="btn btn-default">Create New Team for $gm.getName()</a>
     #elseif(!$league.draftNotStarted() && $gm.allGmsLeagues().contains($league) && $league.getCurrentWeek() < 19)
       <a href="/advanceweek/$league.getId()" type="button" class="btn btn-default">Move Forward 1 Week</a>
