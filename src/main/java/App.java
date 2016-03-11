@@ -256,7 +256,7 @@ public class App {
       int leagueSize = draftOrder.size();
       int draftPosition = request.session().attribute("draftPosition");
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
-      int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
+      int round = (int) Math.ceil(((double) draftPosition + 2) / (double) leagueSize);
       int playerId = Integer.parseInt(request.queryParams("playerId"));
       Player draftedPlayer = Player.find(playerId);
       String evaluation = currentTeam.evaluatePlayer(draftedPlayer);
@@ -315,7 +315,7 @@ public class App {
       int draftPosition = request.session().attribute("draftPosition");
       Team currentTeam = draftOrder.get(draftPosition % leagueSize);
       Team displayTeam = draftOrder.get((draftPosition + 1) % leagueSize);
-      int round = (int) Math.ceil(((double) draftPosition + 1) / (double) leagueSize);
+      int round = (int) Math.ceil(((double) draftPosition + 2) / (double) leagueSize);
       String evaluation = currentTeam.getName() + " passes their turn.";
       Integer moneySpent = displayTeam.currentSalarySpent();
       Integer salaryCap = 125000;
