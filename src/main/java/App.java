@@ -144,6 +144,7 @@ public class App {
       Gm gm = request.session().attribute("currentGm");
       model.put("gmsTeams", gm.allTeams());
       model.put("gm", gm);
+      model.put("index", "templates/index.vtl");
       model.put("template", "templates/gm.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());

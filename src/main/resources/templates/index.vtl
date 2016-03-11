@@ -1,23 +1,21 @@
 index.vtl
 
-<div class="row">
+<div id="first-choice" class="row">
   <div class="col col-sm-6">
-    <h2>Create a new General Manager</h2>
+    <h2>New General Manager</h2>
     <form class="form-inline" action="/create-team" method="post">
       <div class="form-group">
-        <label for="userName" class="control-label">User Name</label>
-        <input class="form-control" type="text" name="userName" required autofocus="autofocus">
+        <input class="form-control" type="text" name="userName" required autofocus="autofocus" placeholder="User Name">
       </div>
-      <button type="submit" name="button" class="btn btn-primary">Submit</button>
+      <button type="submit" name="button" class="btn btn-primary">Create</button>
     </form>
   </div>
   <div class="col col-sm-6">
     <h2>General Manager Login</h2>
     <form class="form-inline" action="/hello" method="post">
       <div class="form-group">
-        <label for="leagueName" class="control-label">User Name</label>
         <select class="form-control" name="gmId" required>
-          <option value=""></option>
+          <option value="" placeholder>User Name</option>
         #foreach($gm in $allGms)
           <option value="$gm.getId()">$gm.getName()</option>
         #end
