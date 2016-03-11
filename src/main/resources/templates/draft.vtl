@@ -1,4 +1,4 @@
-draft.vtl
+
 
 #if ($draftPosition != $leagueSize * 8)
   <div class="row header">
@@ -55,7 +55,7 @@ draft.vtl
         </form>
       #end
       <form action="/draft/$league.getId()" method="post">
-        <button class="btn btn-warning" type="submit" name="draft">Draft Player</button>
+        <button class="btn btn-warning" type="submit" id="draft" name="draft">Draft Player</button>
         <br>
         <div class="row">
           <div class="col col-sm-6">
@@ -63,9 +63,9 @@ draft.vtl
               #if(!$league.allDrafted().contains($players.get($i)))
                 <div class="radio $players.get($i).getPos()">
                   <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName()</label>
-                    <ul>
+                    <ul class="list-unstyled">
                       <li>salary: $ $players.get($i).getSalary()</li>
-                      <li><a class= "btn btn-xs btn-info" href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
+                      <li><a href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
                     </ul>
                 </div>
               #end
@@ -76,9 +76,9 @@ draft.vtl
               #if(!$league.allDrafted().contains($players.get($i)))
                 <div class="radio $players.get($i).getPos()">
                   <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName()</label>
-                    <ul>
+                    <ul class="list-unstyled">
                       <li>salary: $ $players.get($i).getSalary()</li>
-                      <li><a class= "btn btn-xs btn-info" href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
+                      <li><a href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
                     </ul>
                 </div>
               #end
