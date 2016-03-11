@@ -18,13 +18,13 @@
       <div class="nav">
         <a>current gm</a>
         #if ($gm.allTeams().size() != 0)
-        <a class="home" href="/gm/$gm.getId()">Home</a>
+        <a class="home" href="/home">Home</a>
         #end
         <a href="/">Change General Manager</a>
       </div>
       <div class="container">
         #parse( $template )
-      </div>
 
+      </div>
   </body>
 </html>

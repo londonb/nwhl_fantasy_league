@@ -114,6 +114,7 @@ public class Team implements Comparable<Team> {
       String leagueJoinSql = "DELETE FROM leagues_teams WHERE team_id = :id";
       String playersJoinSql = "DELETE FROM players_teams WHERE team_id = :id";
       String gmSql = "UPDATE leagues SET current_gms=:new_current_gms WHERE id=:league_id";
+      String rostersSql = "DELETE FROM rosters WHERE team_id = :id";
       con.createQuery(sql)
         .addParameter("id", id)
         .executeUpdate();
@@ -123,12 +124,15 @@ public class Team implements Comparable<Team> {
       con.createQuery(playersJoinSql)
         .addParameter("id", id)
         .executeUpdate();
+      con.createQuery(rostersSql)
+        .addParameter("id", id)
+        .executeUpdate();
       con.createQuery(gmSql)
         .addParameter("league_id", league_id)
         .addParameter("new_current_gms", currentTeams)
         .executeUpdate();
     }
-  } // add deletion from ROSTER join tables here!!!
+  }
 
 
   //JOIN TABLE INTERACTION
@@ -187,7 +191,7 @@ public class Team implements Comparable<Team> {
         .addParameter("id", this.id)
         .executeAndFetchFirst(Integer.class);
 
-      if (salary + newPlayer.getSalary() < salaryCap) {
+      if (salary + newPlayer.getSalary() <= salaryCap) {
         this.addPlayer(newPlayer);
         return newPlayer.getName() + " has been successfully added to " + this.getName();
       } else {
