@@ -1,22 +1,32 @@
 gm.vtl
 
-<h1>$gm.getName()</h1>
+
+<div class="row">
+  <div class="col-md-9">
+    <h1>$gm.getName()</h1>
+    <a href="/create-team" type="button" class="btn btn-default">Create New Team</a>
+  </div>
+  <div class="col-md-3">
+    <a href="/edit/Gm/$gm.getId()" type="button" class="btn btn-danger">Edit Yourself</a>
+  </div>
+</div>
 <hr>
 
 #if ($gm.allTeams().size() > 0)
-<h3>Your Teams</h3>
-<ul>
+<div class="row">
+  <div class="col-md-4">
+    <h3>Your Teams</h3>
 
-  #foreach($team in $gmsTeams)
-    <li>$team.getLeague().getName()</li>
-    <ul>
-      <li><a href="/team/$team.getId()">$team.getName()</a>
-        #if ($team.getLeague().draftNotStarted())
-          <a href="/draft/$team.getLeague().getId()" class="btn btn-sm btn-danger">Start Draft</a>
-        #end
-      </li>
+    <ul class="list-group">
+      #foreach($team in $gmsTeams)
+        <li class="list-group-item">
+          <h4 class="list-group-item-heading"><a href="/league/$team.getLeague().getId()">League: $team.getLeague().getName()</a></h4>
+          <a href="/team/$team.getId()" class="list-group-item-text">$team.getName()</a>
+        </li>
+      #end
+
     </ul>
-  #end
+  </div>
+</div>
 
-</ul>
 #end

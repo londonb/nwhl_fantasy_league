@@ -15,9 +15,19 @@ public class App {
 
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      List<Gm> allGms = Gm.all();
-      model.put("allGms", allGms);
+      model.put("allGms", Gm.all());
       model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/search", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Gm gm = request.session().attribute("currentGm");
+      model.put("gm", gm);
+      model.put("allGms", Gm.all());
+      model.put("allTeams", Team.all());
+      model.put("allLeagues", League.all());
+      model.put("template", "templates/search.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
@@ -28,6 +38,15 @@ public class App {
       newGm.save();
       request.session().attribute("currentGm", newGm);
       model.put("gm", newGm);
+      model.put("availableLeagues", League.availableLeagues());
+      model.put("template", "templates/create-team.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/create-team", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      Gm gm = request.session().attribute("currentGm");
+      model.put("gm", gm);
       model.put("availableLeagues", League.availableLeagues());
       model.put("template", "templates/create-team.vtl");
       return new ModelAndView(model, layout);
