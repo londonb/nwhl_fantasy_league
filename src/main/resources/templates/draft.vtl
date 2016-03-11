@@ -62,9 +62,9 @@
             #foreach($i in [0..50])
               #if(!$league.allDrafted().contains($players.get($i)))
                 <div class="radio $players.get($i).getPos()">
-                  <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName()</label>
-                    <ul class="list-unstyled">
-                      <li>salary: $ $players.get($i).getSalary()</li>
+                  <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName() - <small>$players.get($i).getPos()</small></label>
+                    <ul class="list-unstyled draftplayer">
+                      <li>Salary: $ $players.get($i).getSalary()</li>
                       <li><a href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
                     </ul>
                 </div>
@@ -75,9 +75,9 @@
             #foreach($i in [51..90])
               #if(!$league.allDrafted().contains($players.get($i)))
                 <div class="radio $players.get($i).getPos()">
-                  <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName()</label>
-                    <ul class="list-unstyled">
-                      <li>salary: $ $players.get($i).getSalary()</li>
+                  <label><input type="radio" name="playerId" value="$players.get($i).getId()">$players.get($i).getName() - <small>$players.get($i).getPos()</small></label>
+                    <ul class="list-unstyled draftplayer">
+                      <li>Salary: $ $players.get($i).getSalary()</li>
                       <li><a href="$players.get($i).getUrl()" target = "none">Player Info</a></li>
                     </ul>
                 </div>
