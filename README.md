@@ -2,7 +2,7 @@
 
 ##### A fantasy league app built with Java
 
-#### By Brad London, Abbigail Rolling, Daren Schaad, Tyler Suderman
+#### By Brad London, Abigail Rolling, Daren Schaad, Tyler Suderman
 
 ##  Description:
 This app was built in four days by Epicodus Java student to simulate a multi-player web app. NWHL fantasy allows a user (General Manager) to create an account, league, and team. Other General Managers can join leagues with teams of their own until the draft starts, at which point the General Managers take turns drafting players from the NWHL 2015/2016 season. After the draft a General Manager can select starters (players whose stats will be taken into consideration for fantasy standings), move through weeks of games (corresponding with weeks of play in the 2015/2016 season), and view player and team standings (created using a formula written by Brad London). This is an Epicodus Java Course final Project.
@@ -51,4 +51,4 @@ Although the functionality exists for this app to run from multiple platforms wi
 
 Licensed under the GPL.
 
-Copyright (c) 2016 **Tyler, Abbigail, Daren, Brad**
+Copyright (c) 2016 **Tyler, Abigail, Daren, Brad**
